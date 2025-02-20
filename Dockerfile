@@ -1,4 +1,6 @@
-FROM node:20 AS builder
+ARG BUILD_PLATFORM=linux/amd64
+
+FROM --platform=${BUILD_PLATFORM} node:20 AS builder
 RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
@@ -7,7 +9,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm run build
 
-FROM node:20-alpine AS runner
+FROM --platform=${BUILD_PLATFORM} node:20-alpine AS runner
 RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
