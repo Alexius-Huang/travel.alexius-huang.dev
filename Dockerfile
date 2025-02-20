@@ -8,7 +8,7 @@ COPY . .
 RUN pnpm run build
 
 FROM node:20-alpine AS runner
-RUN npm install -g corepack@latest
+RUN /bin/ash -c "npm install -g corepack@latest"
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 COPY --from=builder /app/build ./build
