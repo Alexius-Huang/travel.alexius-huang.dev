@@ -1,13 +1,13 @@
-FROM node:20-alpine AS builder
+FROM node:20-slim AS builder
 WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
 RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@latest --activate
-COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm run build
 
-FROM node:20-alpine AS runner
+FROM node:20-slim AS runner
 WORKDIR /app
 RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@latest --activate
