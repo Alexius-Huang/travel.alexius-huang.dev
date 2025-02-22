@@ -1,11 +1,11 @@
 type JSONResponseOptions = {
     status?: number;
     headers?: Record<string, string>;
-}
+};
 
 export function json<T extends Record<string, any>>(
     body: T,
-    options: JSONResponseOptions = {}
+    options: JSONResponseOptions = {},
 ) {
     const { status = 200, headers = {} } = options;
 

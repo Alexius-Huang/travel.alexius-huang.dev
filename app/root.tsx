@@ -5,7 +5,7 @@ import {
     Outlet,
     Scripts,
     ScrollRestoration,
-    useLoaderData
+    useLoaderData,
 } from 'react-router';
 
 import type { Route } from './+types/root';
@@ -38,10 +38,13 @@ type LoaderData = {
 export async function loader(_: Route.LoaderArgs) {
     const [token, cookieHeader] = await csrf.commitToken();
     const honeypotInputProps = await honeypot.getInputProps();
-    return json({
-        token,
-        honeypotInputProps
-    } as LoaderData, { headers: { 'Set-Cookie': cookieHeader as string } });
+    return json(
+        {
+            token,
+            honeypotInputProps,
+        } as LoaderData,
+        { headers: { 'Set-Cookie': cookieHeader as string } },
+    );
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
