@@ -1,5 +1,5 @@
 import { Honeypot, SpamError } from 'remix-utils/honeypot/server';
-import { json } from './response';
+import { json } from './response.server';
 
 export const honeypot = new Honeypot({
     validFromFieldName: process.env.TESTING ? null : 'validForm',

@@ -1,4 +1,4 @@
-import { allowMethods, json } from '~/utils/response';
+import { allowMethods } from '~/utils/response.server';
 import type { Route } from './+types/example-form';
 import { Form, Link, redirect, useActionData, useNavigate } from 'react-router';
 import { AuthenticityTokenInput } from 'remix-utils/csrf/react';
@@ -27,7 +27,6 @@ export async function action({ request }: Route.ActionArgs) {
     await checkHoneypot(formData);
 
     const submission = parseForm(formData);
-    console.log(submission);
     if (submission.status !== 'success') {
         return submission.reply();
     }
@@ -61,8 +60,6 @@ export default function Page() {
         // shouldRevalidate: 'onInput'
         // defaultValue: {}
     });
-
-    console.log(form.errors);
 
     return (
         <div className="w-screen h-screen flex flex-col justify-center items-center">

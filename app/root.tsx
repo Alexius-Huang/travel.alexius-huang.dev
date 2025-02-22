@@ -10,13 +10,13 @@ import {
 
 import type { Route } from './+types/root';
 import { csrf } from './utils/csrf.server';
-import { json } from './utils/response';
+import { json } from './utils/response.server';
 import { AuthenticityTokenProvider } from 'remix-utils/csrf/react';
-
-import './app.css';
 import { honeypot } from './utils/honeypot.server';
 import { HoneypotProvider } from 'remix-utils/honeypot/react';
 import type { HoneypotInputProps } from 'remix-utils/honeypot/server';
+
+import './app.css';
 
 export const links: Route.LinksFunction = () => [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

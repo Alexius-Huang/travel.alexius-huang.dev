@@ -1,4 +1,4 @@
-import { json } from '~/utils/response';
+import { json } from '~/utils/response.server';
 import type { Route } from './+types/_index';
 import { Link, useLoaderData } from 'react-router';
 

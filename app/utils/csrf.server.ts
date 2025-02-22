@@ -1,6 +1,6 @@
 import { createCookie } from 'react-router';
 import { CSRF, CSRFError } from 'remix-utils/csrf/server';
-import { json } from './response';
+import { json } from './response.server';
 
 const cookie = createCookie('csrf', {
     path: '/',
