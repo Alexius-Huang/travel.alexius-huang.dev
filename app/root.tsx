@@ -5,18 +5,18 @@ import {
     Outlet,
     Scripts,
     ScrollRestoration,
-    useLoaderData
+    useLoaderData,
 } from 'react-router';
 
 import type { Route } from './+types/root';
 import { csrf } from './utils/csrf.server';
-import { json } from './utils/response';
+import { json } from './utils/response.server';
 import { AuthenticityTokenProvider } from 'remix-utils/csrf/react';
-
-import './app.css';
 import { honeypot } from './utils/honeypot.server';
 import { HoneypotProvider } from 'remix-utils/honeypot/react';
 import type { HoneypotInputProps } from 'remix-utils/honeypot/server';
+
+import './app.css';
 
 export const links: Route.LinksFunction = () => [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -38,10 +38,13 @@ type LoaderData = {
 export async function loader(_: Route.LoaderArgs) {
     const [token, cookieHeader] = await csrf.commitToken();
     const honeypotInputProps = await honeypot.getInputProps();
-    return json({
-        token,
-        honeypotInputProps
-    } as LoaderData, { headers: { 'Set-Cookie': cookieHeader as string } });
+    return json(
+        {
+            token,
+            honeypotInputProps,
+        } as LoaderData,
+        { headers: { 'Set-Cookie': cookieHeader as string } },
+    );
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

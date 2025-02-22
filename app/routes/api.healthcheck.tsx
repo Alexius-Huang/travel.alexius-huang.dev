@@ -1,4 +1,4 @@
-import { allowMethods, json } from '~/utils/response';
+import { allowMethods, json } from '~/utils/response.server';
 import type { Route } from './+types/api.healthcheck';
 
 export async function loader(_: Route.LoaderArgs) {

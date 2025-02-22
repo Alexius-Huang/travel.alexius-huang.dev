@@ -1,9 +1,9 @@
 import { Honeypot, SpamError } from 'remix-utils/honeypot/server';
-import { json } from './response';
+import { json } from './response.server';
 
 export const honeypot = new Honeypot({
     validFromFieldName: process.env.TESTING ? null : 'validForm',
-    encryptionSeed: process.env.HONEYPOT_SECRET
+    encryptionSeed: process.env.HONEYPOT_SECRET,
 });
 
 export async function checkHoneypot(formData: FormData) {
@@ -12,6 +12,6 @@ export async function checkHoneypot(formData: FormData) {
     } catch (error) {
         if (error instanceof SpamError)
             throw json({ message: 'Access denied' }, { status: 403 });
-        throw json ({ message: 'Bad Request' }, { status: 400 });
+        throw json({ message: 'Bad Request' }, { status: 400 });
     }
 }

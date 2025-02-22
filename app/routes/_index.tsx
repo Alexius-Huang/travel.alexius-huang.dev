@@ -1,4 +1,4 @@
-import { json } from '~/utils/response';
+import { json } from '~/utils/response.server';
 import type { Route } from './+types/_index';
 import { Link, useLoaderData } from 'react-router';
 
@@ -23,12 +23,21 @@ export default function Home() {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className='mb-4 text-2xl'>{name ? `👋 Hello ${name} 👋` : '🚧 Website Currently Planning 🚧'}</h1>
+            <h1 className="mb-4 text-2xl">
+                {name
+                    ? `👋 Hello ${name} 👋`
+                    : '🚧 Website Currently Planning 🚧'}
+            </h1>
 
             <p>
                 Checkout{' '}
-                <Link className='underline text-blue-300' to={{ pathname: '/example-form' }}>Example Form</Link>
-                {' '}in Remix
+                <Link
+                    className="underline text-blue-300"
+                    to={{ pathname: '/example-form' }}
+                >
+                    Example Form
+                </Link>{' '}
+                in Remix
             </p>
         </div>
     );

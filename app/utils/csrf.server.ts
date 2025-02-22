@@ -1,6 +1,6 @@
-import { createCookie } from "react-router";
-import { CSRF, CSRFError } from "remix-utils/csrf/server";
-import { json } from "./response";
+import { createCookie } from 'react-router';
+import { CSRF, CSRFError } from 'remix-utils/csrf/server';
+import { json } from './response.server';
 
 const cookie = createCookie('csrf', {
     path: '/',
@@ -9,7 +9,7 @@ const cookie = createCookie('csrf', {
     sameSite: 'lax',
 
     // TODO: Provide more secure secret
-    secrets: ['secret']
+    secrets: ['secret'],
 });
 
 export const csrf = new CSRF({
@@ -17,7 +17,7 @@ export const csrf = new CSRF({
     formDataKey: 'csrf',
 
     // TODO: Provide more secure secret
-    secret: 'secret'
+    secret: 'secret',
 });
 
 export async function validateCSRFToken(request: Request) {
@@ -25,7 +25,7 @@ export async function validateCSRFToken(request: Request) {
         await csrf.validate(request);
     } catch (err) {
         if (err instanceof CSRFError)
-            throw json({ message: 'CSRF Token Invalid' }, { status: 403 })
+            throw json({ message: 'CSRF Token Invalid' }, { status: 403 });
         throw json({ messgae: 'Bad Request' }, { status: 400 });
     }
 }
