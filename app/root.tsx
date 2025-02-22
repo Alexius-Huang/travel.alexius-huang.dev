@@ -5,9 +5,14 @@ import {
     Outlet,
     Scripts,
     ScrollRestoration,
+    useLoaderData,
 } from 'react-router';
 
 import type { Route } from './+types/root';
+import { csrf } from './utils/csrf.server';
+import { json } from './utils/response';
+import { AuthenticityTokenProvider } from 'remix-utils/csrf/react';
+
 import './app.css';
 
 export const links: Route.LinksFunction = () => [
@@ -22,6 +27,11 @@ export const links: Route.LinksFunction = () => [
         href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
     },
 ];
+
+export async function loader(_: Route.LoaderArgs) {
+    const [token, cookieHeader] = await csrf.commitToken();
+    return json({ token }, { headers: { 'Set-Cookie': cookieHeader as string } });
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -45,7 +55,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-    return <Outlet />;
+    const { token } = useLoaderData<typeof loader>();
+
+    return (
+        <AuthenticityTokenProvider token={token}>
+            <Outlet />
+        </AuthenticityTokenProvider>
+    );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

@@ -1,7 +1,14 @@
-export function json(body: Record<string, unknown>, status = 200) {
+type JSONResponseOptions = {
+    status?: number;
+    headers?: Record<string, string>;
+}
+
+export function json(body: Record<string, unknown>, options: JSONResponseOptions = {}) {
+    const { status = 200, headers = {} } = options;
+
     return new Response(JSON.stringify({ success: status === 200, ...body }), {
         status,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...headers },
     });
 }
 
@@ -17,5 +24,5 @@ export type HTTPMethods = keyof typeof HTTPMethod;
 
 export function allowMethods(request: Request, methods: Array<HTTPMethods>) {
     if (methods.includes(request.method.toUpperCase() as HTTPMethods)) return;
-    throw json({ error: 'Method Not Allowed' }, 405);
+    throw json({ error: 'Method Not Allowed' }, { status: 405 });
 }
