@@ -5,11 +5,10 @@ import {
     Outlet,
     Scripts,
     ScrollRestoration,
-    useLoaderData,
-    type LoaderFunction,
+    useLoaderData
 } from 'react-router';
 
-import type { Info, Route } from './+types/root';
+import type { Route } from './+types/root';
 import { csrf } from './utils/csrf.server';
 import { json } from './utils/response';
 import { AuthenticityTokenProvider } from 'remix-utils/csrf/react';

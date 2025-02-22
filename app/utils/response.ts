@@ -3,7 +3,7 @@ type JSONResponseOptions = {
     headers?: Record<string, string>;
 }
 
-export function json<T extends Record<string, unknown>>(
+export function json<T extends Record<string, any>>(
     body: T,
     options: JSONResponseOptions = {}
 ) {
