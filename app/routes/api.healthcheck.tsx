@@ -1,6 +1,11 @@
-import { json } from "~/utils/response";
-import type { Route } from "./+types/api.healthcheck";
+import { allowMethods, json } from '~/utils/response';
+import type { Route } from './+types/api.healthcheck';
 
-export function loader(_args: Route.LoaderArgs) {
-    return json({ status: 'ok', message: 'App is currently running...' });
+export async function loader(_: Route.LoaderArgs) {
+    return json({ message: 'App is currently running...' });
 }
+
+export const action = async ({ request }: Route.ActionArgs) => {
+    allowMethods(request, ['POST']);
+    return json({ message: `Triggered a ${request.method} successfully...` });
+};
