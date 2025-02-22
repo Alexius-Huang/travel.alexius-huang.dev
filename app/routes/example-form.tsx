@@ -59,6 +59,17 @@ export default function Page() {
 export function ErrorBoundary(error: Route.ErrorBoundaryProps) {
     console.error(error);
     return (
-        <div>Error Processing Form</div>
+        <div className="w-screen h-screen flex flex-col justify-center items-center gap-2 bg-red-900">
+            <h1 className="text-4xl mb-4">
+                😨 Something Went Wrong! 😨
+            </h1>
+            <p>🤔 It seems like form cannot be processed successfully. 🤔</p>
+            <p>🤨 Did you try to do something bad...? 🤨</p>
+
+            <Link
+                to={{ pathname: '/' }}
+                className="bg-white hover:bg-red-300 focus:bg-red-100 text-red-700 px-4 py-2 rounded-md mt-4"
+            >Go Back</Link>
+        </div>
     );
 }
