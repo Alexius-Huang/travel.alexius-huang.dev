@@ -3,7 +3,10 @@ type JSONResponseOptions = {
     headers?: Record<string, string>;
 }
 
-export function json(body: Record<string, unknown>, options: JSONResponseOptions = {}) {
+export function json<T extends Record<string, unknown>>(
+    body: T,
+    options: JSONResponseOptions = {}
+) {
     const { status = 200, headers = {} } = options;
 
     return new Response(JSON.stringify({ success: status === 200, ...body }), {

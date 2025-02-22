@@ -3,12 +3,16 @@ import type { Route } from "./+types/test-form";
 import { Form, redirect } from "react-router";
 import { AuthenticityTokenInput } from "remix-utils/csrf/react";
 import { validateCSRFToken } from "~/utils/csrf.server";
+import { checkHoneypot } from "~/utils/honeypot.server";
+import { HoneypotInputs } from "remix-utils/honeypot/react";
 
 export async function action({ request }: Route.ActionArgs) {
     await validateCSRFToken(request);
     allowMethods(request, ["POST"]);
 
     const formData = await request.formData();
+    await checkHoneypot(formData);
+
     const name = formData.get('name');
 
     console.log(`User name is: ${name}`);
@@ -21,6 +25,7 @@ export default function Page() {
         <div>
             <h1>Test Form</h1>
             <Form method="POST">
+                <HoneypotInputs label="Please leave this field blank" />
                 <AuthenticityTokenInput />
 
                 <label>
