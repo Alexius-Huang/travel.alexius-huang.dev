@@ -1,6 +1,6 @@
 import { json } from '~/utils/response.server';
-import type { Route } from './+types/_index';
-import { Link, useLoaderData } from 'react-router';
+import type { Route } from './+types/index';
+import { Link } from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -9,24 +9,18 @@ export function meta({}: Route.MetaArgs) {
     ];
 }
 
-interface LoaderData {
-    name: string;
-}
+interface LoaderData {}
 export async function loader(_: Route.LoaderArgs) {
-    const name = globalThis.__name;
-    globalThis.__name = '';
-    return json<LoaderData>({ name });
+    return json<LoaderData>({});
 }
 
 export default function Home() {
-    const { name } = useLoaderData<LoaderData>();
+    /* const {} = useLoaderData<LoaderData>(); */
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             <h1 className="mb-4 text-2xl">
-                {name
-                    ? `👋 Hello ${name} 👋`
-                    : '🚧 Website Currently Planning 🚧'}
+                🚧 Website Currently Planning 🚧
             </h1>
 
             <p>
