@@ -14,6 +14,22 @@ export async function loader(_: Route.LoaderArgs) {
     return json<LoaderData>({});
 }
 
+// const imageBaseUrl = 'https://images.alexius-huang.dev';
+// const BannerConfig = [
+//     {
+//         title: 'GREECE',
+//         date: [2024, 5],
+//         desktop: `${imageBaseUrl}/highlight/gr-oia-landscape.webp`,
+//         mobile: `${imageBaseUrl}/highlight/gr-santorini-vert-2.webp`
+//     },
+//     {
+//         title: 'EGYPT',
+//         date: [2024, 9],
+//         desktop: `${imageBaseUrl}/highlight/egp-gize-landscape.webp`,
+//         mobile: `${imageBaseUrl}/highlight/egp-gize-vert.webp`
+//     }
+// ];
+
 export default function Home() {
     /* const {} = useLoaderData<LoaderData>(); */
 
