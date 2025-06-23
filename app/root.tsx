@@ -15,6 +15,7 @@ import { AuthenticityTokenProvider } from 'remix-utils/csrf/react';
 import { honeypot } from './utils/honeypot.server';
 import { HoneypotProvider } from 'remix-utils/honeypot/react';
 import type { HoneypotInputProps } from 'remix-utils/honeypot/server';
+import { ThemeSwitch } from '~/components/theme-switch';
 
 import './app.css';
 
@@ -60,6 +61,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Links />
             </head>
             <body>
+                <ThemeSwitch size='sm' variant='tertiary' className='fixed right-3 top-4' />
+
                 {children}
                 <ScrollRestoration />
                 <Scripts />
