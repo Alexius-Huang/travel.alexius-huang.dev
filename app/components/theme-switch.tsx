@@ -32,11 +32,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = memo((props) => {
     }, []);
 
     return (
-        <Button
-            onClick={handleThemeToggle}
-            {...props}
-            className={`theme-switch__btn ${props.className}`}
-        >
+        <Button onClick={handleThemeToggle} {...props}>
             Toggle Theme
         </Button>
     );
