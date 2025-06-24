@@ -4,7 +4,7 @@ import './button.css';
 
 export interface ButtonProps extends RAButtonProps {
     variant?: 'primary' | 'secondary' | 'tertiary';
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -15,7 +15,7 @@ export const Button: FC<ButtonProps> = ({
     return (
         <RAButton
             {...props}
-            className={`btn btn-${variant} text-${size} ${props.className}`}
+            className={`btn btn-${variant} btn-${size} ${props.className}`}
         >
             {props.children}
         </RAButton>

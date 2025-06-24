@@ -61,7 +61,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Links />
             </head>
             <body>
-                <ThemeSwitch size='sm' variant='tertiary' className='fixed right-3 top-4' />
+                <ThemeSwitch size='xs' variant='tertiary' className='fixed right-3 top-4' />
 
                 {children}
                 <ScrollRestoration />

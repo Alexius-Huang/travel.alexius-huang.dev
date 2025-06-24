@@ -23,3 +23,9 @@
         bg-white dark:bg-gray-900 hover:bg-gray-100 hover:dark:bg-gray-800
         text-gray-900 dark:text-white;
 }
+
+.btn-xs { @apply text-xs }
+.btn-sm { @apply text-sm }
+.btn-md { @apply text-base }
+.btn-lg { @apply text-lg }
+.btn-xl { @apply text-xl }
