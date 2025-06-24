@@ -3,6 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 
 import { Button } from '../app/components/button';
+import { SunOutlineIcon } from '~/icons/outline/sun';
+import { MoonOutlineIcon } from '~/icons/outline/moon';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -50,16 +52,15 @@ export const Tertiary: Story = {
     },
 };
 
-// export const Large: Story = {
-//   args: {
-//     size: 'large',
-//     label: 'Button',
-//   },
-// };
-
-// export const Small: Story = {
-//   args: {
-//     size: 'small',
-//     label: 'Button',
-//   },
-// };
+export const WithStartIcon: Story = {
+    args: {
+        variant: 'primary',
+        startIcon: SunOutlineIcon,
+    },
+};
+export const WithEndIcon: Story = {
+    args: {
+        variant: 'primary',
+        endIcon: MoonOutlineIcon,
+    },
+};

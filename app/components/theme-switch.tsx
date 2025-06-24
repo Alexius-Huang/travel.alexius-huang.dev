@@ -16,7 +16,9 @@ export interface ThemeSwitchProps extends ButtonProps {
 function getThemeMode() {
     return localStorage.theme === 'dark' ||
         (!('theme' in localStorage) &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+            window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ? 'dark'
+        : 'light';
 }
 
 export const ThemeSwitch: FC<ThemeSwitchProps> = memo((props) => {
@@ -26,7 +28,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = memo((props) => {
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         document.documentElement.classList.toggle(
             'dark',
-            getThemeMode() === 'dark'
+            getThemeMode() === 'dark',
         );
     }, []);
 
@@ -49,7 +51,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = memo((props) => {
 
             {/* Background Transition */}
             <span
-                aria-hidden='true'
+                aria-hidden="true"
                 className={`
                     absolute size-6 rounded-full
                     bg-yellow-300 dark:bg-blue-900
