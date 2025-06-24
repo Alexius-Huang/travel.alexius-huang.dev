@@ -11,7 +11,7 @@ const dirname =
         ? __dirname
         : path.dirname(fileURLToPath(import.meta.url));
 
-const isStorybook = process.argv[1]?.includes("storybook");
+const isStorybook = process.argv[1]?.includes('storybook');
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({

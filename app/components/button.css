@@ -24,8 +24,18 @@
         text-gray-900 dark:text-white;
 }
 
-.btn-xs { @apply text-xs }
-.btn-sm { @apply text-sm }
-.btn-md { @apply text-base }
-.btn-lg { @apply text-lg }
-.btn-xl { @apply text-xl }
+.btn-xs {
+    @apply text-xs;
+}
+.btn-sm {
+    @apply text-sm;
+}
+.btn-md {
+    @apply text-base;
+}
+.btn-lg {
+    @apply text-lg;
+}
+.btn-xl {
+    @apply text-xl;
+}

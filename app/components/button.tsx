@@ -1,5 +1,8 @@
 import type { FC } from 'react';
-import { Button as RAButton, type ButtonProps as RAButtonProps } from 'react-aria-components';
+import {
+    Button as RAButton,
+    type ButtonProps as RAButtonProps,
+} from 'react-aria-components';
 import './button.css';
 
 export interface ButtonProps extends RAButtonProps {
