@@ -68,14 +68,21 @@ export default function Home() {
                         <img
                             width={960}
                             height={720}
+                            className="object-cover"
                             src={BannerConfig[index].desktop}
                             alt={BannerConfig[index].desktopAlt}
                         />
 
-                        <h1 className="absolute left-4 bottom-[-1.5rem] text-9xl text-white font-bold">
+                        <h1 className="
+                            absolute left-4
+                            bottom-[-0.75rem] sm:bottom-[-1.5rem]
+                            text-5xl xs:text-7xl sm:text-8xl md:text-9xl
+                            text-white font-bold">
                             {BannerConfig[index].title}
                         </h1>
                     </div>
+
+                    {/* TODO: Layout mobile banner */}
 
                     <div className="px-6 mt-6 w-[500px] flex flex-col gap-3">
                         <p className="flex items-center gap-2 text-sm font-bold">
