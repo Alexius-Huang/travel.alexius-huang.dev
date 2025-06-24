@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '~/components/button';
 import { MapPinOutlineIcon } from '~/icons/outline/map-pin';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
+import { CountryFlagIcon } from '~/icons/country/country';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -22,6 +23,7 @@ const BannerConfig = [
     {
         title: 'SANTORINI',
         location: 'Santorini, Greece',
+        countryCode: 'gr',
         description:
             'Everywhere with whitewashed villages, sapphire domes and one of the most beautiful sunsets in the world.',
         date: { from: '2024-05-04', to: '2024-05-06' },
@@ -33,6 +35,7 @@ const BannerConfig = [
     {
         title: 'GIZA',
         location: 'Giza, Egypt',
+        countryCode: 'eg',
         description:
             'Timeless symbol of ancient Egypt with legendary Pyramids and the Great Sphinx.',
         date: { from: '2024-09-24' },
@@ -78,6 +81,11 @@ export default function Home() {
                         <p className="flex items-center gap-2 text-sm font-bold">
                             <MapPinOutlineIcon size="sm" />{' '}
                             {BannerConfig[index].location}
+                            <CountryFlagIcon
+                                countryCode={BannerConfig[index].countryCode}
+                                size="sm"
+                                className="rounded"
+                            />
                         </p>
                         <p className="flex items-center gap-2 text-sm font-bold">
                             <CalendarDateRangeOutlineIcon size="sm" />{' '}

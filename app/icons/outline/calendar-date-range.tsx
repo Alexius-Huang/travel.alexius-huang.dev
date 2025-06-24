@@ -4,6 +4,7 @@ import { sizeMapping } from '../const';
 
 export const CalendarDateRangeOutlineIcon: FC<IconProps> = ({
     size = 'md',
+    className = '',
 }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -11,7 +12,7 @@ export const CalendarDateRangeOutlineIcon: FC<IconProps> = ({
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={sizeMapping[size]}
+        className={`${sizeMapping[size]} ${className}`}
     >
         <path
             strokeLinecap="round"
