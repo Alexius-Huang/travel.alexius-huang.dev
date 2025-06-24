@@ -18,6 +18,8 @@ import type { HoneypotInputProps } from 'remix-utils/honeypot/server';
 import { ThemeSwitch } from '~/components/theme-switch';
 
 import './app.css';
+import { SunOutlineIcon } from './icons/outline/sun';
+import { MoonOutlineIcon } from './icons/outline/moon';
 
 export const links: Route.LinksFunction = () => [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -61,7 +63,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Links />
             </head>
             <body>
-                <ThemeSwitch size='sm' variant='tertiary' className='fixed right-3 top-4' />
+                <ThemeSwitch
+                    size="xs"
+                    variant="tertiary"
+                    startIcon={SunOutlineIcon}
+                    endIcon={MoonOutlineIcon}
+                    className="fixed right-4.5 bottom-6"
+                />
 
                 {children}
                 <ScrollRestoration />

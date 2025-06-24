@@ -7,7 +7,9 @@
         "dev": "react-router dev",
         "start": "react-router-serve ./build/server/index.js",
         "typecheck": "react-router typegen && tsc",
-        "format": "pnpm exec prettier . --write"
+        "format": "pnpm exec prettier . --write",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build"
     },
     "dependencies": {
         "@conform-to/react": "^1.2.2",
@@ -26,7 +28,12 @@
         "zod": "^3.24.2"
     },
     "devDependencies": {
+        "@chromatic-com/storybook": "^4.0.1",
         "@react-router/dev": "7.1.5",
+        "@storybook/addon-a11y": "^9.0.12",
+        "@storybook/addon-docs": "^9.0.12",
+        "@storybook/addon-vitest": "^9.0.12",
+        "@storybook/react-vite": "^9.0.12",
         "@tailwindcss/vite": "4.0.0",
         "@types/node": "20",
         "@types/react": "19.0.1",
@@ -35,10 +42,15 @@
         "postcss-nesting": "^13.0.2",
         "prettier": "3.5.1",
         "react-router-devtools": "1.1.0",
+        "storybook": "^9.0.12",
         "tailwindcss": "4.0.0",
         "typescript": "5.7.2",
         "vite": "5.4.11",
-        "vite-tsconfig-paths": "5.1.4"
+        "vite-tsconfig-paths": "5.1.4",
+        "vitest": "^3.2.4",
+        "@vitest/browser": "^3.2.4",
+        "playwright": "^1.53.1",
+        "@vitest/coverage-v8": "^3.2.4"
     },
     "packageManager": "pnpm@10.2.1"
 }
