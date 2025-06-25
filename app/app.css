@@ -35,3 +35,17 @@ h5,
 h6 {
     font-family: var(--font-header);
 }
+
+.mobile-only-block {
+    @apply block sm:hidden;
+}
+.mobile-only-inline {
+    @apply inline sm:hidden;
+}
+
+.desktop-only-block {
+    @apply hidden sm:block;
+}
+.desktop-only-inline {
+    @apply hidden sm:inline;
+}
