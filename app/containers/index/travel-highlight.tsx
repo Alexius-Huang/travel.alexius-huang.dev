@@ -68,8 +68,6 @@ export const TravelHighlight: FC<{ className?: string }> = ({ className }) => {
                     </h1>
                 </div>
 
-                {/* TODO: Layout mobile banner */}
-
                 <div className="px-6 mt-6 w-[500px] flex flex-col gap-3">
                     <p className="flex items-center gap-2 text-sm font-bold">
                         <MapPinOutlineIcon size="sm" />{' '}
