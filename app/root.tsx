@@ -16,10 +16,10 @@ import { honeypot } from './utils/honeypot.server';
 import { HoneypotProvider } from 'remix-utils/honeypot/react';
 import type { HoneypotInputProps } from 'remix-utils/honeypot/server';
 import { ThemeSwitch } from '~/components/theme-switch';
-
-import './app.css';
 import { SunOutlineIcon } from './icons/outline/sun';
 import { MoonOutlineIcon } from './icons/outline/moon';
+
+import './app.css';
 
 export const links: Route.LinksFunction = () => [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -68,7 +68,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     variant="tertiary"
                     startIcon={SunOutlineIcon}
                     endIcon={MoonOutlineIcon}
-                    className="fixed right-4.5 bottom-6"
+                    className="fixed right-4.5 bottom-6 z-[100]"
                 />
 
                 {children}

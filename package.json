@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "build": "react-router build",
-        "dev": "react-router dev",
+        "dev": "TAILWIND_MODE=watch react-router dev",
         "start": "react-router-serve ./build/server/index.js",
         "typecheck": "react-router typegen && tsc",
         "format": "pnpm exec prettier . --write",
@@ -38,6 +38,10 @@
         "@types/node": "20",
         "@types/react": "19.0.1",
         "@types/react-dom": "19.0.1",
+        "@vitest/browser": "^3.2.4",
+        "@vitest/coverage-v8": "^3.2.4",
+        "autoprefixer": "^10.4.21",
+        "playwright": "^1.53.1",
         "postcss": "^8.5.6",
         "postcss-nesting": "^13.0.2",
         "prettier": "3.5.1",
@@ -47,10 +51,7 @@
         "typescript": "5.7.2",
         "vite": "5.4.11",
         "vite-tsconfig-paths": "5.1.4",
-        "vitest": "^3.2.4",
-        "@vitest/browser": "^3.2.4",
-        "playwright": "^1.53.1",
-        "@vitest/coverage-v8": "^3.2.4"
+        "vitest": "^3.2.4"
     },
     "packageManager": "pnpm@10.2.1"
 }
