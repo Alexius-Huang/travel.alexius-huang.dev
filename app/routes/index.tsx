@@ -63,7 +63,7 @@ export default function Home() {
     return (
         <div className="h-screen overflow-y-scroll pb-[300px]">
             <div className="my-0 mx-auto max-w-[960px]">
-                <section className='desktop-only-block'>
+                <section className="desktop-only-block">
                     <div className="relative w-100%">
                         <img
                             width={960}
@@ -73,11 +73,13 @@ export default function Home() {
                             alt={BannerConfig[index].desktopAlt}
                         />
 
-                        <h1 className="
+                        <h1
+                            className="
                             absolute left-4
                             bottom-[-0.75rem] sm:bottom-[-1.5rem]
                             sm:text-8xl md:text-9xl
-                            text-white font-bold">
+                            text-white font-bold"
+                        >
                             {BannerConfig[index].title}
                         </h1>
                     </div>
@@ -112,33 +114,37 @@ export default function Home() {
                 </section>
 
                 <section
-                    className='
-                        mobile-only-block relative
+                    className="
+                        mobile-only-block relative z-0
                         w-screen h-screen bg-cover bg-center bg-no-repeat
-                        z-0
-                    '
-                    style={{ backgroundImage: `url(${BannerConfig[index].mobile})` }}
+                    "
+                    style={{
+                        backgroundImage: `url(${BannerConfig[index].mobile})`,
+                    }}
                 >
-
-                    <div className='
-                         absolute top-10 left-0 right-0 my-0 mx-auto'
+                    <div
+                        className="
+                         absolute top-10 left-0 right-0 my-0 mx-auto"
                     >
-                        <h1 className='
+                        <h1
+                            className="
                             text-5xl xs:text-6xl font-bold text-white text-center
-                        '>
+                        "
+                        >
                             {BannerConfig[index].title}
                         </h1>
 
-                        <p className='mt-1.5 text-xs xs:text-sm px-4 text-balance text-center text-white'>
+                        <p className="mt-1.5 text-xs xs:text-sm px-4 text-balance text-center text-white">
                             {BannerConfig[index].description}
                         </p>
                     </div>
 
-
-                    <div className="
+                    <div
+                        className="
                         px-1.5 py-2.5 flex flex-col gap-2
                         absolute bottom-1 left-1 rounded text-white dark:text-white
-                    ">
+                    "
+                    >
                         <p className="flex items-center gap-2 text-xs font-bold">
                             <MapPinOutlineIcon size="sm" />{' '}
                             {BannerConfig[index].location}

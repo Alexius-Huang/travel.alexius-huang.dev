@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 type ScreenType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export const BREAKPOINTS: Record<ScreenType, number> = {
-  xs: 480,
-  sm: 640,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-  '2xl': 1536,
+    xs: 480,
+    sm: 640,
+    md: 768,
+    lg: 1024,
+    xl: 1280,
+    '2xl': 1536,
 };
 
 function getScreenType(width: number): ScreenType {
@@ -21,19 +21,23 @@ function getScreenType(width: number): ScreenType {
 }
 
 export function useScreenInfo() {
-  const [width, setWidth] = useState<number>(() => typeof window === 'undefined' ? 0 : window.innerWidth);
-  const [screenType, setScreenType] = useState<ScreenType>(() => getScreenType(typeof window === 'undefined' ? 0 : window.innerWidth));
+    const [width, setWidth] = useState<number>(() =>
+        typeof window === 'undefined' ? 0 : window.innerWidth,
+    );
+    const [screenType, setScreenType] = useState<ScreenType>(() =>
+        getScreenType(typeof window === 'undefined' ? 0 : window.innerWidth),
+    );
 
-  useEffect(() => {
-    const handleResize = () => {
-      const newWidth = window.innerWidth;
-      setWidth(newWidth);
-      setScreenType(getScreenType(newWidth));
-    };
+    useEffect(() => {
+        const handleResize = () => {
+            const newWidth = window.innerWidth;
+            setWidth(newWidth);
+            setScreenType(getScreenType(newWidth));
+        };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
-  return { type: screenType, width };
+    return { type: screenType, width };
 }

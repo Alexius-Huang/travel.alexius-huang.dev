@@ -1,6 +1,6 @@
 export default {
     plugins: {
         'postcss-nesting': {},
-        autoprefixer: {}
+        autoprefixer: {},
     },
 };
