@@ -1,72 +1,49 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 import type { IconProps } from '../type';
-import { USFlagIcon } from './_us';
-import { GermanyFlagIcon } from './_de';
-import { FranceFlagIcon } from './_fr';
-import { SpainFlagIcon } from './_es';
-import { ItalyFlagIcon } from './_it';
-import { VaticanFlagIcon } from './_va';
-import { UKFlagIcon } from './_gb';
-import { SwedenFlagIcon } from './_se';
-import { DenmarkFlagIcon } from './_dk';
-import { FinlandFlagIcon } from './_fi';
-import { LatviaFlagIcon } from './_lv';
-import { LithuaniaFlagIcon } from './_lt';
-import { AustriaFlagIcon } from './_at';
-import { SlovakiaFlagIcon } from './_sk';
-import { HungaryFlagIcon } from './_hu';
-import { GreeceFlagIcon } from './_gr';
-import { TurkeyFlagIcon } from './_tr';
-import { CroatiaFlagIcon } from './_hr';
-import { MontenegroFlagIcon } from './_me';
-import { AlbaniaFlagIcon } from './_al';
-import { BosniaAndHerzegovinaFlagIcon } from './_ba';
-import { IndiaFlagIcon } from './_in';
-import { EgyptFlagIcon } from './_eg';
+import loadable, { type LoadableComponent } from '@loadable/component';
 
-export const flagIconMapping: Record<string, FC<IconProps>> = {
-    us: USFlagIcon,
-    de: GermanyFlagIcon,
-    fr: FranceFlagIcon,
-    es: SpainFlagIcon,
-    it: ItalyFlagIcon,
-    va: VaticanFlagIcon,
-    gb: UKFlagIcon,
-    se: SwedenFlagIcon,
-    dk: DenmarkFlagIcon,
-    fi: FinlandFlagIcon,
-    lv: LatviaFlagIcon,
-    lt: LithuaniaFlagIcon,
-    at: AustriaFlagIcon,
-    sk: SlovakiaFlagIcon,
-    hu: HungaryFlagIcon,
-    gr: GreeceFlagIcon,
-    tr: TurkeyFlagIcon,
-    hr: CroatiaFlagIcon,
-    me: MontenegroFlagIcon,
-    al: AlbaniaFlagIcon,
-    ba: BosniaAndHerzegovinaFlagIcon,
-    in: IndiaFlagIcon,
-    eg: EgyptFlagIcon,
-};
-const mapping: Record<string, FC<IconProps>> = {
-    eg: EgyptFlagIcon,
-    gr: GreeceFlagIcon,
+export const COUNTRY_FLAG_ICON_MAPPING: Record<string, LoadableComponent<IconProps>> = {
+    us: loadable(() => import('./_us').then(m => m.USFlagIcon)),
+    de: loadable(() => import('./_de').then(m => m.GermanyFlagIcon)),
+    fr: loadable(() => import('./_fr').then(m => m.FranceFlagIcon)),
+    es: loadable(() => import('./_es').then(m => m.SpainFlagIcon)),
+    it: loadable(() => import('./_it').then(m => m.ItalyFlagIcon)),
+    va: loadable(() => import('./_va').then(m => m.VaticanFlagIcon)),
+    gb: loadable(() => import('./_gb').then(m => m.UKFlagIcon)),
+    se: loadable(() => import('./_se').then(m => m.SwedenFlagIcon)),
+    dk: loadable(() => import('./_dk').then(m => m.DenmarkFlagIcon)),
+    fi: loadable(() => import('./_fi').then(m => m.FinlandFlagIcon)),
+    lv: loadable(() => import('./_lv').then(m => m.LatviaFlagIcon)),
+    lt: loadable(() => import('./_lt').then(m => m.LithuaniaFlagIcon)),
+    at: loadable(() => import('./_at').then(m => m.AustriaFlagIcon)),
+    sk: loadable(() => import('./_sk').then(m => m.SlovakiaFlagIcon)),
+    hu: loadable(() => import('./_hu').then(m => m.HungaryFlagIcon)),
+    gr: loadable(() => import('./_gr').then(m => m.GreeceFlagIcon)),
+    tr: loadable(() => import('./_tr').then(m => m.TurkeyFlagIcon)),
+    hr: loadable(() => import('./_hr').then(m => m.CroatiaFlagIcon)),
+    me: loadable(() => import('./_me').then(m => m.MontenegroFlagIcon)),
+    al: loadable(() => import('./_al').then(m => m.AlbaniaFlagIcon)),
+    ba: loadable(() => import('./_ba').then(m => m.BosniaAndHerzegovinaFlagIcon)),
+    in: loadable(() => import('./_in').then(m => m.IndiaFlagIcon)),
+    eg: loadable(() => import('./_eg').then(m => m.EgyptFlagIcon)),
 };
 
-export interface CountryFlagIconProps extends IconProps {
+type LoadableProps = ComponentProps<LoadableComponent<IconProps>>;
+export interface CountryFlagIconProps extends IconProps, LoadableProps {
     countryCode: string;
 }
 
 export const CountryFlagIcon: FC<CountryFlagIconProps> = ({
     countryCode,
-    ...iconProps
+    /* TODO: Provide proper flag fallback icon! */
+    fallback = <span>Loading!</span>,
+    ...iconAndLoadableProps
 }) => {
-    const CountryFlag = mapping[countryCode];
+    const CountryFlag = COUNTRY_FLAG_ICON_MAPPING[countryCode];
 
     if (!CountryFlag) {
         throw new Error(`Country flag icon for "${countryCode}" not found.`);
     }
 
-    return <CountryFlag {...iconProps} />;
+    return <CountryFlag fallback={fallback} {...iconAndLoadableProps} />;
 };
