@@ -42,11 +42,11 @@ function formatDate(date: string) {
     return formatter.format(new Date(date));
 }
 
-export const TravelHighlight: FC = () => {
+export const TravelHighlight: FC<{ className?: string }> = ({ className }) => {
     const [index, setIndex] = useState(0);
 
     return (
-        <div className="my-0 mx-auto max-w-[960px]">
+        <div className={className}>
             <section className="desktop-only-block">
                 <div className="relative w-100%">
                     <img
