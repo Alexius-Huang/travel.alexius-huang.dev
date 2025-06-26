@@ -3,34 +3,7 @@ import { Button } from '~/components/button';
 import { MapPinOutlineIcon } from '~/icons/outline/map-pin';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { CountryFlagIcon } from '~/icons/country/country';
-
-const imageBaseUrl = 'https://images.alexius-huang.dev';
-const BannerConfig = [
-    {
-        title: 'SANTORINI',
-        location: 'Santorini, Greece',
-        countryCode: 'gr',
-        description:
-            'Everywhere with whitewashed villages, sapphire domes and one of the most beautiful sunsets in the world.',
-        date: { from: '2024-05-04', to: '2024-05-06' },
-        desktop: `${imageBaseUrl}/highlight/gr-oia-landscape.webp`,
-        desktopAlt: 'Sunset at Oia, Santorini at May of 2024',
-        mobile: `${imageBaseUrl}/highlight/gr-santorini-vert-2.webp`,
-        mobileAlt: 'Santorini trip at May of 2024',
-    },
-    {
-        title: 'GIZA',
-        location: 'Giza, Egypt',
-        countryCode: 'eg',
-        description:
-            'Timeless symbol of ancient Egypt with legendary Pyramids and the Great Sphinx.',
-        date: { from: '2024-09-24' },
-        desktop: `${imageBaseUrl}/highlight/egp-gize-landscape.webp`,
-        desktopAlt: 'Giza Pyramids at September of 2024',
-        mobile: `${imageBaseUrl}/highlight/egp-gize-vert.webp`,
-        mobileAlt: 'The Great Sphinx of Giza at September of 2024',
-    },
-];
+import { BannerConfig } from './consts';
 
 const formatter = new Intl.DateTimeFormat('en-US', {
     month: 'long',
