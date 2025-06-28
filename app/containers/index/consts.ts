@@ -1,4 +1,5 @@
-const imageBaseUrl = 'https://images.alexius-huang.dev';
+import { IMG_BASE_URL } from "~/data-access/image-service";
+
 export const BannerConfig = [
     {
         title: 'SANTORINI',
@@ -7,9 +8,9 @@ export const BannerConfig = [
         description:
             'Everywhere with whitewashed villages, sapphire domes and one of the most beautiful sunsets in the world.',
         date: { from: '2024-05-04', to: '2024-05-06' },
-        desktop: `${imageBaseUrl}/highlight/gr-oia-landscape.webp`,
+        desktop: `${IMG_BASE_URL}/highlight/gr-oia-landscape.webp`,
         desktopAlt: 'Sunset at Oia, Santorini at May of 2024',
-        mobile: `${imageBaseUrl}/highlight/gr-santorini-vert-2.webp`,
+        mobile: `${IMG_BASE_URL}/highlight/gr-santorini-vert-2.webp`,
         mobileAlt: 'Santorini trip at May of 2024',
     },
     {
@@ -19,9 +20,9 @@ export const BannerConfig = [
         description:
             'Timeless symbol of ancient Egypt with legendary Pyramids and the Great Sphinx.',
         date: { from: '2024-09-24' },
-        desktop: `${imageBaseUrl}/highlight/egp-gize-landscape.webp`,
+        desktop: `${IMG_BASE_URL}/highlight/egp-gize-landscape.webp`,
         desktopAlt: 'Giza Pyramids at September of 2024',
-        mobile: `${imageBaseUrl}/highlight/egp-gize-vert.webp`,
+        mobile: `${IMG_BASE_URL}/highlight/egp-gize-vert.webp`,
         mobileAlt: 'The Great Sphinx of Giza at September of 2024',
     },
 ];

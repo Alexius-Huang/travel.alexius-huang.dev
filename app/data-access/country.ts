@@ -154,7 +154,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Turkey',
         aliases: ['Türkiye'],
         countryCode: 'tr',
-        region: 'Europe',
+        region: 'Asia',
     },
     hr: {
         fullname: 'Republika Hrvatska',
@@ -181,7 +181,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
     },
     ba: {
         fullname: 'Босна и Херцеговина',
-        name: 'Bosnia and Herzegovina',
+        name: 'Bosnia & Herzegovina',
         aliases: [
             'BiH',
             'Bosna i Hercegovina',
@@ -208,3 +208,26 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         region: 'Africa',
     },
 };
+
+export const TRAVELLED_COUNTRY_COUNT = Object.keys(COUNTRY_INFO_MAP).length;
+
+interface TravelledCountryByRegion {
+    total: number;
+    countries: Array<CountryInfo>;
+}
+
+export const TRAVELLED_COUNTRY_COUNT_BY_REGION: { [K in WorldRegion]: TravelledCountryByRegion } = {
+    'North America': { total: 0, countries: [] },
+    'South America': { total: 0, countries: [] },
+    'Central America': { total: 0, countries: [] },
+    'Caribbean': { total: 0, countries: [] },
+    'Asia': { total: 0, countries: [] },
+    'Africa': { total: 0, countries: [] },
+    'Europe': { total: 0, countries: [] },
+    'Oceania': { total: 0, countries: [] },
+};
+
+Object.values(COUNTRY_INFO_MAP).map(info => {
+    TRAVELLED_COUNTRY_COUNT_BY_REGION[info.region].total++;
+    TRAVELLED_COUNTRY_COUNT_BY_REGION[info.region].countries.push(info);
+});

@@ -6,7 +6,7 @@ export const VaticanFlagIcon: FC<IconProps> = ({ className, size = 'md' }) => (
 <svg className={`${sizeMapping[size]} ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" id="flag-icons-va" viewBox="0 0 512 512">
   <path fill="#fff" d="M256 0h256v512H256z"/>
   <path fill="#ffe000" d="M0 0h256v512H0z"/>
-  <g stroke="#000" stroke-linejoin="round" stroke-width="3.2">
+  <g stroke="#000" stroke-linejoin="round" strokeWidth="3.2">
     <g fill="#ce9d09" stroke-linecap="round" transform="scale(.2048)">
       <g id="va-a">
         <path fill="#fff" d="m1781 990.3 16.2 3.8 25.6 4.2 11.8 1.3-2 50s-2.9 33-7.8 48.9c-3.6 11.7-15.7 33.2-15.7 33.2l-7.7 11.7-45.4-39.3s7.8-11 10.6-17c3.5-7.5 7.7-23.8 7.7-23.8l4.4-26 2.4-32.7zm-57 151.5 41.4 36s-8.4 7.4-13.4 9.7a74 74 0 0 1-31.6 7.3 58 58 0 0 1-22.3-6.2c-15.7-7.2-33-14.7-43.2-28.7-3.6-5-5-11.6-4.9-17.7.2-7 6.3-19.9 6.3-19.9s2.4 8.7 5.1 12a49 49 0 0 0 17.6 12.4 43 43 0 0 0 36.2 1.1c3.3-1.3 8.9-6 8.9-6z"/>
