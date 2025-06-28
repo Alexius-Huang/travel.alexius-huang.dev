@@ -15,11 +15,11 @@ export interface CountryInfo {
     aliases?: Array<string>;
     countryCode: string;
     region: WorldRegion;
-};
+}
 
 /**
  *  Info of the countries which I've been travelled to.
- * 
+ *
  *  TODO:  introducing more on how much percentage of country
  *         being explored, this could be calculated by "attractions
  *         I've gone to" divided by "all attractions I wanted to go"
@@ -30,7 +30,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'United States',
         aliases: ['US', 'USA'],
         countryCode: 'us',
-        region: 'North America'
+        region: 'North America',
     },
     de: {
         fullname: 'Bundesrepublik Deutschland',
@@ -38,14 +38,14 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Germany',
         aliases: ['Deutschland'],
         countryCode: 'de',
-        region: 'Europe'
+        region: 'Europe',
     },
     fr: {
         fullname: 'République Française',
         fullnameTranslation: 'French Republic',
         name: 'France',
         countryCode: 'fr',
-        region: 'Europe'
+        region: 'Europe',
     },
     es: {
         fullname: 'Reino de España',
@@ -53,7 +53,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Spain',
         aliases: ['España'],
         countryCode: 'es',
-        region: 'Europe'
+        region: 'Europe',
     },
     it: {
         fullname: 'Repubblica Italiana',
@@ -61,7 +61,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Italy',
         aliases: ['Italia'],
         countryCode: 'it',
-        region: 'Europe'
+        region: 'Europe',
     },
     va: {
         fullname: 'Stato della Città del Vaticano',
@@ -69,14 +69,14 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Vatican City',
         aliases: ['Vatican', 'Holy See', 'Città del Vaticano'],
         countryCode: 'va',
-        region: 'Europe'
+        region: 'Europe',
     },
     gb: {
         fullname: 'United Kingdom of Great Britain and Northern Ireland',
         name: 'United Kingdom',
         aliases: ['UK', 'Great Britain', 'Britain'],
         countryCode: 'gb',
-        region: 'Europe'
+        region: 'Europe',
     },
     se: {
         fullname: 'Konungariket Sverige',
@@ -84,7 +84,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Sweden',
         aliases: ['Sverige'],
         countryCode: 'se',
-        region: 'Europe'
+        region: 'Europe',
     },
     dk: {
         fullname: 'Kongeriget Danmark',
@@ -92,7 +92,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Denmark',
         aliases: ['Danmark'],
         countryCode: 'dk',
-        region: 'Europe'
+        region: 'Europe',
     },
     fi: {
         fullname: 'Suomen Tasavalta',
@@ -100,14 +100,14 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Finland',
         aliases: ['Suomi'],
         countryCode: 'fi',
-        region: 'Europe'
+        region: 'Europe',
     },
     lv: {
         fullname: 'Latvijas Republika',
         fullnameTranslation: 'Republic of Latvia',
         name: 'Latvia',
         countryCode: 'lv',
-        region: 'Europe'
+        region: 'Europe',
     },
     lt: {
         fullname: 'Lietuvos Respublika',
@@ -115,7 +115,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Lithuania',
         aliases: ['Lietuva'],
         countryCode: 'lt',
-        region: 'Europe'
+        region: 'Europe',
     },
     at: {
         fullname: 'Republik Österreich',
@@ -123,7 +123,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Austria',
         aliases: ['Österreich'],
         countryCode: 'at',
-        region: 'Europe'
+        region: 'Europe',
     },
     sk: {
         fullname: 'Slovenská Republika',
@@ -131,14 +131,14 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Slovakia',
         aliases: ['Slovakia', 'Slovensko'],
         countryCode: 'sk',
-        region: 'Europe'
+        region: 'Europe',
     },
     hu: {
         fullname: 'Magyarország',
         fullnameTranslation: 'Hungarian Republic',
         name: 'Hungary',
         countryCode: 'hu',
-        region: 'Europe'
+        region: 'Europe',
     },
     gr: {
         fullname: 'Ελληνική Δημοκρατία',
@@ -146,7 +146,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Greece',
         aliases: ['Ελλάδα', 'Ellinikí Dimokratía'],
         countryCode: 'gr',
-        region: 'Europe'
+        region: 'Europe',
     },
     tr: {
         fullname: 'Türkiye Cumhuriyeti',
@@ -154,7 +154,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Turkey',
         aliases: ['Türkiye'],
         countryCode: 'tr',
-        region: 'Europe'
+        region: 'Europe',
     },
     hr: {
         fullname: 'Republika Hrvatska',
@@ -162,14 +162,14 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Croatia',
         aliases: ['Hrvatska'],
         countryCode: 'hr',
-        region: 'Europe'
+        region: 'Europe',
     },
     me: {
         fullname: 'Црна Гора (Crna Gora)',
         fullnameTranslation: 'Republic of Montenegro',
         name: 'Montenegro',
         countryCode: 'me',
-        region: 'Europe'
+        region: 'Europe',
     },
     al: {
         fullname: 'Republika e Shqipërisë',
@@ -177,14 +177,19 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Albania',
         aliases: ['Shqipëri', 'Shqipëria'],
         countryCode: 'al',
-        region: 'Europe'
+        region: 'Europe',
     },
     ba: {
         fullname: 'Босна и Херцеговина',
         name: 'Bosnia and Herzegovina',
-        aliases: ['BiH', 'Bosna i Hercegovina', 'Bosnia & Herzegovina', 'Bosnia-Herzegovina'],
+        aliases: [
+            'BiH',
+            'Bosna i Hercegovina',
+            'Bosnia & Herzegovina',
+            'Bosnia-Herzegovina',
+        ],
         countryCode: 'ba',
-        region: 'Europe'
+        region: 'Europe',
     },
     in: {
         fullname: 'भारत गणराज्य',
@@ -192,7 +197,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'India',
         aliases: ['Bhārat', 'Bharat', 'Bhārat Gaṇarājya'],
         countryCode: 'in',
-        region: 'Asia'
+        region: 'Asia',
     },
     eg: {
         fullname: 'جمهورية مصر العربية',
@@ -200,6 +205,6 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Egypt',
         aliases: ['Misr', 'مصر'],
         countryCode: 'eg',
-        region: 'Africa'
-    }
+        region: 'Africa',
+    },
 };

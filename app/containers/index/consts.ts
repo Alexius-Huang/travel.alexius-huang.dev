@@ -30,7 +30,7 @@ export const BannerConfig = [
 
 /**
  *  Settlement is a word to encapsulate any area where people live,
- *  including city, town and villages ... regardless of size or formality 
+ *  including city, town and villages ... regardless of size or formality
  */
 // interface Settlement {
 //     countryCode: string;

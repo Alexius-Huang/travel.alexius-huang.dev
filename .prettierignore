@@ -1,3 +1,6 @@
 .github
 *.yml
 *.yaml
+
+# Country Flag Icon doesn't need formatting as most of them are SVG
+app/icons/country/*.tsx
