@@ -1,6 +1,7 @@
 import type { ComponentProps, FC } from 'react';
 import type { IconProps } from '../type';
 import loadable, { type LoadableComponent } from '@loadable/component';
+import { FallbackCountryIcon } from './_fallback';
 
 export const COUNTRY_FLAG_ICON_MAPPING: Record<string, LoadableComponent<IconProps>> = {
     us: loadable(() => import('./_us').then(m => m.USFlagIcon)),
@@ -35,9 +36,11 @@ export interface CountryFlagIconProps extends IconProps, LoadableProps {
 
 export const CountryFlagIcon: FC<CountryFlagIconProps> = ({
     countryCode,
+    className,
+    size,
     /* TODO: Provide proper flag fallback icon! */
-    fallback = <span>Loading!</span>,
-    ...iconAndLoadableProps
+    fallback = <FallbackCountryIcon className={className} size={size} />,
+    ...loadableProps
 }) => {
     const CountryFlag = COUNTRY_FLAG_ICON_MAPPING[countryCode];
 
@@ -45,5 +48,5 @@ export const CountryFlagIcon: FC<CountryFlagIconProps> = ({
         throw new Error(`Country flag icon for "${countryCode}" not found.`);
     }
 
-    return <CountryFlag fallback={fallback} {...iconAndLoadableProps} />;
+    return <CountryFlag fallback={fallback} className={className} size={size} {...loadableProps} />;
 };
