@@ -6,6 +6,7 @@ import {
     type CSSProperties,
     type FC,
 } from 'react';
+import { Theme, useTheme } from 'remix-themes';
 import { Button, type ButtonProps } from '~/components/button';
 
 export interface ThemeSwitchProps extends ButtonProps {
@@ -13,38 +14,15 @@ export interface ThemeSwitchProps extends ButtonProps {
     style?: CSSProperties;
 }
 
-function getThemeMode() {
-    if (typeof window === 'undefined') return globalThis.theme;
-    return localStorage.theme === 'dark' ||
-        (!('theme' in localStorage) &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches)
-        ? 'dark'
-        : 'light';
-}
-
 export const ThemeSwitch: FC<ThemeSwitchProps> = memo((props) => {
-    const [isDarkMode, setIsDarkMode] = useState(getThemeMode() === 'dark');
-
-    useEffect(() => {
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        document.documentElement.classList.toggle(
-            'dark',
-            getThemeMode() === 'dark',
-        );
-    }, []);
-
-    const handleThemeToggle = useCallback(() => {
-        // Toggle the theme and save it to localStorage
-        const currentTheme = localStorage.getItem('theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('theme', newTheme);
-        document.documentElement.classList.toggle('dark', newTheme === 'dark');
-        setIsDarkMode(newTheme === 'dark');
-    }, []);
+    const [theme, setTheme] = useTheme();
+    const isDarkMode = theme === Theme.DARK;
 
     return (
         <Button
-            onClick={handleThemeToggle}
+            onClick={() => {
+                setTheme(theme === Theme.DARK ? Theme.LIGHT : Theme.DARK);
+            }}
             {...props}
             className={`${props.className} gap-2.5 rounded-full`}
         >
