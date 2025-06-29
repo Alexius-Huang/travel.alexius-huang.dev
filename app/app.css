@@ -47,3 +47,7 @@ h6 {
 .desktop-only-inline {
     @apply hidden sm:inline;
 }
+
+.direction-rtl {
+    direction: rtl;
+}
