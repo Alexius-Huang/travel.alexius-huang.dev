@@ -19,7 +19,12 @@ import { ThemeSwitch } from '~/components/theme-switch';
 import { SunOutlineIcon } from './icons/outline/sun';
 import { MoonOutlineIcon } from './icons/outline/moon';
 import { themeSessionResolver } from './utils/theme.server';
-import { PreventFlashOnWrongTheme, ThemeProvider, useTheme, type Theme } from 'remix-themes';
+import {
+    PreventFlashOnWrongTheme,
+    ThemeProvider,
+    useTheme,
+    type Theme,
+} from 'remix-themes';
 
 import './app.css';
 
@@ -49,7 +54,7 @@ export async function loader({ request }: Route.LoaderArgs) {
         {
             token,
             honeypotInputProps,
-            theme: getTheme()
+            theme: getTheme(),
         } as LoaderData,
         { headers: { 'Set-Cookie': cookieHeader as string } },
     );
@@ -60,7 +65,7 @@ export function App() {
     const [theme] = useTheme();
 
     return (
-        <html lang="en" data-theme={theme ?? ""}>
+        <html lang="en" data-theme={theme ?? ''}>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -94,7 +99,10 @@ export default function AppWithProviders() {
     return (
         <HoneypotProvider {...honeypotInputProps}>
             <AuthenticityTokenProvider token={token}>
-                <ThemeProvider specifiedTheme={theme} themeAction='/action/set-theme'>
+                <ThemeProvider
+                    specifiedTheme={theme}
+                    themeAction="/action/set-theme"
+                >
                     <App />
                 </ThemeProvider>
             </AuthenticityTokenProvider>

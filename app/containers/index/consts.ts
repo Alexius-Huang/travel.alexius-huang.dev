@@ -1,4 +1,4 @@
-import { IMG_BASE_URL } from "~/data-access/image-service";
+import { IMG_BASE_URL } from '~/data-access/image-service';
 
 export const BannerConfig = [
     {

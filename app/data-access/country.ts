@@ -220,22 +220,24 @@ interface TravelledCountryByRegion {
     countries: Array<CountryInfo>;
 }
 
-export const TRAVELLED_COUNTRY_COUNT_BY_REGION: { [K in WorldRegion]: TravelledCountryByRegion } = {
+export const TRAVELLED_COUNTRY_COUNT_BY_REGION: {
+    [K in WorldRegion]: TravelledCountryByRegion;
+} = {
     'North America': { total: 0, countries: [] },
     'South America': { total: 0, countries: [] },
     'Central America': { total: 0, countries: [] },
-    'Caribbean': { total: 0, countries: [] },
+    Caribbean: { total: 0, countries: [] },
     'East Asia': { total: 0, countries: [] },
     'West Asia': { total: 0, countries: [] },
     'South Asia': { total: 0, countries: [] },
     'Southeast Asia': { total: 0, countries: [] },
     'Central Asia': { total: 0, countries: [] },
-    'Africa': { total: 0, countries: [] },
-    'Europe': { total: 0, countries: [] },
-    'Oceania': { total: 0, countries: [] },
+    Africa: { total: 0, countries: [] },
+    Europe: { total: 0, countries: [] },
+    Oceania: { total: 0, countries: [] },
 };
 
-Object.values(COUNTRY_INFO_MAP).map(info => {
+Object.values(COUNTRY_INFO_MAP).map((info) => {
     TRAVELLED_COUNTRY_COUNT_BY_REGION[info.region].total++;
     TRAVELLED_COUNTRY_COUNT_BY_REGION[info.region].countries.push(info);
 });
