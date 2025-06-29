@@ -73,15 +73,6 @@ export const TravelStats: FC<TravelStatsProps> = ({
                             COUNTRIES
                         </>}
                     />
-                    {/* <h3 className={trim`
-                        font-header text-xl xs:text-2xl sm:text-xl leading-tight
-                    `}>
-                        <span className='text-6xl xs:text-7xl sm:text-8xl font-bold text-blue-500'>
-                            
-                        </span>
-
-                    </h3> */}
-
                     {/**
                       *  We show the country flags with tooltip on desktop version
                       *  only since there's enough space
@@ -182,7 +173,6 @@ export const TravelStats: FC<TravelStatsProps> = ({
                             COUNTRIES
                         </>}
                     />
-
                     <ul className={trim`
                         hidden sm:inline-grid direction-rtl gap-x-3.5 gap-y-2.5 mt-4
                         w-[45%] md:w-[35%]
