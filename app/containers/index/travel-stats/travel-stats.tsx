@@ -1,6 +1,11 @@
 import { /* useState, */ type FC } from 'react';
 // import clsx from 'classnames';
-import { TRAVELLED_COUNTRY_COUNT, TRAVELLED_COUNTRY_COUNT_BY_REGION, type CountryInfo, type WorldRegion } from '~/data-access/country';
+import {
+    TRAVELLED_COUNTRY_COUNT,
+    TRAVELLED_COUNTRY_COUNT_BY_REGION,
+    type CountryInfo,
+    type WorldRegion,
+} from '~/data-access/country';
 import { IMG_BASE_URL } from '~/data-access/image-service';
 import { CountryFlagIcon } from '~/icons/country/country';
 // import { Button } from '~/components/button';
@@ -16,33 +21,47 @@ export interface TravelStatsProps {
     className?: string;
 }
 
-const asianRegions: Array<WorldRegion> = ['East Asia', 'Southeast Asia', 'South Asia', 'Central Asia', 'West Asia'];
+const asianRegions: Array<WorldRegion> = [
+    'East Asia',
+    'Southeast Asia',
+    'South Asia',
+    'Central Asia',
+    'West Asia',
+];
 
 function gatherRegions(regions: Array<WorldRegion>) {
-    return regions.reduce((acc, region) => ({
-        total: acc.total + TRAVELLED_COUNTRY_COUNT_BY_REGION[region].total,
-        countries: [...acc.countries, ...TRAVELLED_COUNTRY_COUNT_BY_REGION[region].countries]
-    }), { total: 0, countries: [] as Array<CountryInfo> });
+    return regions.reduce(
+        (acc, region) => ({
+            total: acc.total + TRAVELLED_COUNTRY_COUNT_BY_REGION[region].total,
+            countries: [
+                ...acc.countries,
+                ...TRAVELLED_COUNTRY_COUNT_BY_REGION[region].countries,
+            ],
+        }),
+        { total: 0, countries: [] as Array<CountryInfo> },
+    );
 }
 
 const travelledAsianCountries = gatherRegions(asianRegions);
-const travelledNorthCentralAmericanCountries = gatherRegions(['North America', 'Central America']);
+const travelledNorthCentralAmericanCountries = gatherRegions([
+    'North America',
+    'Central America',
+]);
 
-export const TravelStats: FC<TravelStatsProps> = ({
-    className
-}) => {
+export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
     // const [expandedSections, setExpandedSections] = useState<Set<WorldRegion>>(new Set());
-
 
     return (
         <section className={className}>
-            <h2 className={trim`
+            <h2
+                className={trim`
                 text-2xl md:text-3xl text-center
                 py-12 mb-6
-            `}>
-                <span
-                    className='block font-bold text-9xl md:text-[10rem] text-blue-500'
-                >{TRAVELLED_COUNTRY_COUNT}</span>{' '}
+            `}
+            >
+                <span className="block font-bold text-9xl md:text-[10rem] text-blue-500">
+                    {TRAVELLED_COUNTRY_COUNT}
+                </span>{' '}
                 COUNTRIES TRAVELLED
             </h2>
 
@@ -58,44 +77,56 @@ export const TravelStats: FC<TravelStatsProps> = ({
                 style={{
                     backgroundImage: `
                         url('${IMG_BASE_URL}/region/europe.v3.svg'
-                    `
+                    `,
                 }}
             >
-                <div className={trim`
+                <div
+                    className={trim`
                     absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
                     left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
-                `}>
+                `}
+                >
                     <TravelledCountriesCounter
-                        count={TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total}
-                        unitNode={<>
-                            EUROPEAN
-                            <br className='sm:hidden' />{' '}
-                            COUNTRIES
-                        </>}
+                        count={
+                            TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total
+                        }
+                        unitNode={
+                            <>
+                                EUROPEAN
+                                <br className="sm:hidden" /> COUNTRIES
+                            </>
+                        }
                     />
                     {/**
-                      *  We show the country flags with tooltip on desktop version
-                      *  only since there's enough space
-                      */}
-                    <ul className={trim`
+                     *  We show the country flags with tooltip on desktop version
+                     *  only since there's enough space
+                     */}
+                    <ul
+                        className={trim`
                         hidden sm:inline-grid gap-x-3.5 gap-y-2.5 mt-4
                         w-[45%] md:w-[35%]
                         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
                         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
-                    `}>
-                        {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries.map(
-                            info => <CountryFlagListItem key={info.countryCode} {...info} />
-                        )}
+                    `}
+                    >
+                        {TRAVELLED_COUNTRY_COUNT_BY_REGION[
+                            'Europe'
+                        ].countries.map((info) => (
+                            <CountryFlagListItem
+                                key={info.countryCode}
+                                {...info}
+                            />
+                        ))}
                     </ul>
                 </div>
             </div>
 
             {/* TODO: Redesign Mobile View */}
             {/**
-              *  For mobile view, since it is impossible to fit country flag list with the
-              *  visited country banner section, the following populates a collapsable list
-              *  of visited country info
-              */}
+             *  For mobile view, since it is impossible to fit country flag list with the
+             *  visited country banner section, the following populates a collapsable list
+             *  of visited country info
+             */}
             {/* <div className='px-4 pt-8 text-center bg-blue-500 text-white sm:hidden'>
                 <ul className={clsx(
                     'travel-stats__country-list',
@@ -157,31 +188,39 @@ export const TravelStats: FC<TravelStatsProps> = ({
                 style={{
                     backgroundImage: `
                         url('${IMG_BASE_URL}/region/asia.svg'
-                    `
+                    `,
                 }}
             >
-                <div className={trim`
+                <div
+                    className={trim`
                     absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
                     right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%]
                     text-right
-                `}>
+                `}
+                >
                     <TravelledCountriesCounter
                         count={travelledAsianCountries.total}
-                        unitNode={<>
-                            ASIAN
-                            <br className='sm:hidden' />{' '}
-                            COUNTRIES
-                        </>}
+                        unitNode={
+                            <>
+                                ASIAN
+                                <br className="sm:hidden" /> COUNTRIES
+                            </>
+                        }
                     />
-                    <ul className={trim`
+                    <ul
+                        className={trim`
                         hidden sm:inline-grid direction-rtl gap-x-3.5 gap-y-2.5 mt-4
                         w-[45%] md:w-[35%]
                         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
                         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
-                    `}>
-                        {travelledAsianCountries.countries.map(
-                            info => <CountryFlagListItem key={info.countryCode} {...info} />
-                        )}
+                    `}
+                    >
+                        {travelledAsianCountries.countries.map((info) => (
+                            <CountryFlagListItem
+                                key={info.countryCode}
+                                {...info}
+                            />
+                        ))}
                     </ul>
                 </div>
             </div>
@@ -197,35 +236,44 @@ export const TravelStats: FC<TravelStatsProps> = ({
                 style={{
                     backgroundImage: `
                         url('${IMG_BASE_URL}/region/central-north-america.v3.svg'
-                    `
+                    `,
                 }}
             >
-                <div className={trim`
+                <div
+                    className={trim`
                     absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
                     left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
-                `}>
+                `}
+                >
                     <TravelledCountriesCounter
                         count={travelledNorthCentralAmericanCountries.total}
-                        unitNode={<>
-                            CENTRAL NORTH
-                            <br />{' '}
-                            AMERICAN
-                            <br className='xs:hidden' />{' '}
-                            COUNTRIES
-                        </>}
+                        unitNode={
+                            <>
+                                CENTRAL NORTH
+                                <br /> AMERICAN
+                                <br className="xs:hidden" /> COUNTRIES
+                            </>
+                        }
                     />
                     {/**
-                      *  We show the country flags with tooltip on desktop version
-                      *  only since there's enough space
-                      */}
-                    <ul className={trim`
+                     *  We show the country flags with tooltip on desktop version
+                     *  only since there's enough space
+                     */}
+                    <ul
+                        className={trim`
                         hidden sm:inline-grid gap-x-3.5 gap-y-2.5 mt-4
                         w-[45%] md:w-[35%]
                         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
                         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
-                    `}>
+                    `}
+                    >
                         {travelledNorthCentralAmericanCountries.countries.map(
-                            info => <CountryFlagListItem key={info.countryCode} {...info} />
+                            (info) => (
+                                <CountryFlagListItem
+                                    key={info.countryCode}
+                                    {...info}
+                                />
+                            ),
                         )}
                     </ul>
                 </div>
@@ -242,31 +290,43 @@ export const TravelStats: FC<TravelStatsProps> = ({
                 style={{
                     backgroundImage: `
                         url('${IMG_BASE_URL}/region/africa.svg'
-                    `
+                    `,
                 }}
             >
-                <div className={trim`
+                <div
+                    className={trim`
                     absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
                     right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%]
                     text-right
-                `}>
+                `}
+                >
                     <TravelledCountriesCounter
-                        count={TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].total}
-                        unitNode={<>
-                            AFRICAN
-                            <br className='sm:hidden' />{' '}
-                            COUNTRIES
-                        </>}
+                        count={
+                            TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].total
+                        }
+                        unitNode={
+                            <>
+                                AFRICAN
+                                <br className="sm:hidden" /> COUNTRIES
+                            </>
+                        }
                     />
-                    <ul className={trim`
+                    <ul
+                        className={trim`
                         hidden sm:inline-grid direction-rtl gap-x-3.5 gap-y-2.5 mt-4
                         w-[45%] md:w-[35%]
                         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
                         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
-                    `}>
-                        {TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries.map(
-                            info => <CountryFlagListItem key={info.countryCode} {...info} />
-                        )}
+                    `}
+                    >
+                        {TRAVELLED_COUNTRY_COUNT_BY_REGION[
+                            'Africa'
+                        ].countries.map((info) => (
+                            <CountryFlagListItem
+                                key={info.countryCode}
+                                {...info}
+                            />
+                        ))}
                     </ul>
                 </div>
             </div>
