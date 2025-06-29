@@ -37,16 +37,27 @@
     }
 }
 
-@media (min-width: 640px) {
-    .travel-stats__eu-bg {
-        mask-image: radial-gradient(
-            circle at left,
-            rgba(255, 255, 255, 1) 62.5%,
-            rgba(255, 255, 255, 0) 95%
-        );
-        mask-size: 100%;
-        mask-repeat: no-repeat;
-        mask-position: right;
-    }
+.travel-stats__eu-bg,
+.travel-stats__central-north-america-bg {
+    mask-image: radial-gradient(
+        circle at left,
+        rgba(255, 255, 255, 1) 62.5%,
+        rgba(255, 255, 255, 0) 95%
+    );
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: left;
+}
+
+.travel-stats__asia-bg,
+.travel-stats__africa-bg {
+    mask-image: radial-gradient(
+        circle at right,
+        rgba(255, 255, 255, 1) 62.5%,
+        rgba(255, 255, 255, 0) 95%
+    );
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: right;
 }
 

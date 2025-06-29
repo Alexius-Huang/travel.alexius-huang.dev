@@ -3,7 +3,11 @@ export type WorldRegion =
     | 'South America'
     | 'Central America'
     | 'Caribbean'
-    | 'Asia'
+    | 'Southeast Asia'
+    | 'Central Asia'
+    | 'West Asia'
+    | 'East Asia'
+    | 'South Asia'
     | 'Africa'
     | 'Europe'
     | 'Oceania';
@@ -154,7 +158,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'Turkey',
         aliases: ['Türkiye'],
         countryCode: 'tr',
-        region: 'Asia',
+        region: 'West Asia',
     },
     hr: {
         fullname: 'Republika Hrvatska',
@@ -197,7 +201,7 @@ export const COUNTRY_INFO_MAP: Record<string, CountryInfo> = {
         name: 'India',
         aliases: ['Bhārat', 'Bharat', 'Bhārat Gaṇarājya'],
         countryCode: 'in',
-        region: 'Asia',
+        region: 'South Asia',
     },
     eg: {
         fullname: 'جمهورية مصر العربية',
@@ -221,7 +225,11 @@ export const TRAVELLED_COUNTRY_COUNT_BY_REGION: { [K in WorldRegion]: TravelledC
     'South America': { total: 0, countries: [] },
     'Central America': { total: 0, countries: [] },
     'Caribbean': { total: 0, countries: [] },
-    'Asia': { total: 0, countries: [] },
+    'East Asia': { total: 0, countries: [] },
+    'West Asia': { total: 0, countries: [] },
+    'South Asia': { total: 0, countries: [] },
+    'Southeast Asia': { total: 0, countries: [] },
+    'Central Asia': { total: 0, countries: [] },
     'Africa': { total: 0, countries: [] },
     'Europe': { total: 0, countries: [] },
     'Oceania': { total: 0, countries: [] },
