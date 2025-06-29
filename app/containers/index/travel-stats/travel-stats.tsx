@@ -9,6 +9,7 @@ import { Tooltip } from '~/components/tooltip';
 // import { ChevronDoubleUpOutlineIcon } from '~/icons/outline/chevron-double-up';
 import { trim } from '~/utils/trim';
 import './travel-stats.css';
+import { TravelledCountriesCounter } from './travelled-countries-counter';
 
 export interface TravelStatsProps {
     className?: string;
@@ -63,18 +64,22 @@ export const TravelStats: FC<TravelStatsProps> = ({
                     absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
                     left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
                 `}>
-                    <h3 className={trim`
+                    <TravelledCountriesCounter
+                        count={TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total}
+                        unitNode={<>
+                            EUROPEAN
+                            <br className='sm:hidden' />{' '}
+                            COUNTRIES
+                        </>}
+                    />
+                    {/* <h3 className={trim`
                         font-header text-xl xs:text-2xl sm:text-xl leading-tight
                     `}>
                         <span className='text-6xl xs:text-7xl sm:text-8xl font-bold text-blue-500'>
-                            {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total}
+                            
                         </span>
 
-                        <br />
-                        EUROPEAN
-                        <br className='sm:hidden' />{' '}
-                        COUNTRIES
-                    </h3>
+                    </h3> */}
 
                     {/**
                       *  We show the country flags with tooltip on desktop version
@@ -202,18 +207,14 @@ export const TravelStats: FC<TravelStatsProps> = ({
                     right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%]
                     text-right
                 `}>
-                    <h3 className={trim`
-                        font-header text-xl xs:text-2xl sm:text-xl leading-tight
-                    `}>
-                        <span className='text-6xl xs:text-7xl sm:text-8xl font-bold text-blue-500'>
-                            {travelledAsianCountries.total}
-                        </span>
-
-                        <br />
-                        ASIAN
-                        <br className='sm:hidden' />{' '}
-                        COUNTRIES
-                    </h3>
+                    <TravelledCountriesCounter
+                        count={travelledAsianCountries.total}
+                        unitNode={<>
+                            ASIAN
+                            <br className='sm:hidden' />{' '}
+                            COUNTRIES
+                        </>}
+                    />
 
                     <ul className={trim`
                         hidden sm:inline-grid direction-rtl gap-x-3.5 gap-y-2.5 mt-4
@@ -280,21 +281,16 @@ export const TravelStats: FC<TravelStatsProps> = ({
                     absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
                     left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
                 `}>
-                    <h3 className={trim`
-                        font-header text-xl xs:text-2xl sm:text-xl leading-tight
-                    `}>
-                        <span className='text-6xl xs:text-7xl sm:text-8xl font-bold text-blue-500'>
-                            {travelledNorthCentralAmericanCountries.total}
-                        </span>
-
-                        <br />
-                        CENTRAL NORTH
-                        <br />{' '}
-                        AMERICAN
-                        <br className='xs:hidden' />{' '}
-                        COUNTRIES
-                    </h3>
-
+                    <TravelledCountriesCounter
+                        count={travelledNorthCentralAmericanCountries.total}
+                        unitNode={<>
+                            CENTRAL NORTH
+                            <br />{' '}
+                            AMERICAN
+                            <br className='xs:hidden' />{' '}
+                            COUNTRIES
+                        </>}
+                    />
                     {/**
                       *  We show the country flags with tooltip on desktop version
                       *  only since there's enough space
@@ -364,19 +360,14 @@ export const TravelStats: FC<TravelStatsProps> = ({
                     right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%]
                     text-right
                 `}>
-                    <h3 className={trim`
-                        font-header text-xl xs:text-2xl sm:text-xl leading-tight
-                    `}>
-                        <span className='text-6xl xs:text-7xl sm:text-8xl font-bold text-blue-500'>
-                            {TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].total}
-                        </span>
-
-                        <br />
-                        AFRICAN
-                        <br className='sm:hidden' />{' '}
-                        COUNTRIES
-                    </h3>
-
+                    <TravelledCountriesCounter
+                        count={TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].total}
+                        unitNode={<>
+                            AFRICAN
+                            <br className='sm:hidden' />{' '}
+                            COUNTRIES
+                        </>}
+                    />
                     <ul className={trim`
                         hidden sm:inline-grid direction-rtl gap-x-3.5 gap-y-2.5 mt-4
                         w-[45%] md:w-[35%]

@@ -1,7 +1,7 @@
 import { json } from '~/utils/response.server';
 import type { Route } from './+types/index';
 import { TravelHighlight } from '~/containers/index/travel-highlight';
-import { TravelStats } from '~/containers/index/travel-stats';
+import { TravelStats } from '~/containers/index/travel-stats/travel-stats';
 
 export function meta({}: Route.MetaArgs) {
     return [
