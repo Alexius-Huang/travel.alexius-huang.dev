@@ -7,6 +7,7 @@ import { Button } from '~/components/button';
 import { ChevronDoubleDownOutlineIcon } from '~/icons/outline/chevron-double-down';
 import { ChevronDoubleUpOutlineIcon } from '~/icons/outline/chevron-double-up';
 import './travel-stats.css';
+import { trim } from '~/utils/trim';
 
 export interface TravelStatsProps {
     className?: string;
@@ -19,42 +20,81 @@ export const TravelStats: FC<TravelStatsProps> = ({
 
     return (
         <section className={className}>
-            <h2 className='
-                font-bold text-2xl text-center
+            <h2 className={trim`
+                text-2xl md:text-3xl text-center
                 py-12 mb-6
-            '>
+            `}>
                 <span
-                    className='block text-9xl text-blue-500'
+                    className='block font-bold text-9xl md:text-[10rem] text-blue-500'
                 >{TRAVELLED_COUNTRY_COUNT}</span>{' '}
                 COUNTRIES TRAVELLED
             </h2>
 
             <div
-                className='
+                className={trim`
                     relative w-full
                     h-[225px] xs:h-[325px] md:h-[500px]
-                    bg-cover bg-[right_-2rem_center] bg-no-repeat xs:bg-contain xs:bg-right'
+                    bg-cover bg-[right_-2rem_center] bg-no-repeat
+                    xs:bg-contain xs:bg-[right_-4rem_center]
+                `}
                 style={{
                     backgroundImage: `url('${IMG_BASE_URL}/region/europe.v2.svg')`
                 }}
             >
-                <p className='
-                    absolute top-[25%]
-                    left-[5%] xs:left-[12%]
-                    my-auto font-header text-xl leading-tight
-                '>
-                    <span className='text-6xl font-bold text-blue-500'>
-                        {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total}
-                    </span>
+                <div className={trim`
+                    absolute top-[25%] md:top-[12.5%] w-full
+                    left-[5%] xs:left-[12%] md:left-[5%]
+                `}>
+                    <h3 className={trim`
+                        font-header text-xl md:text-2xl leading-tight
+                    `}>
+                        <span className='text-6xl md:text-8xl font-bold text-blue-500'>
+                            {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total}
+                        </span>
 
-                    <br />
-                    EUROPEAN
-                    <br />
-                    COUNTRIES
-                </p>
+                        <br />
+                        EUROPEAN
+                        <br />
+                        COUNTRIES
+                    </h3>
+
+                    <ul className={trim`
+                        hidden md:grid gap-x-3.5 gap-y-2.5 mt-4
+                        w-[30%]
+                        grid-cols-[repeat(auto-fit,minmax(32px,1fr))]
+                    `}>
+                        {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries.map(({
+                            countryCode,
+                        }) => (
+                            <li
+                                key={countryCode}
+                                // todo: convert using CSS class!
+                                className={trim`
+                                    text-gray-400 hover:text-gray-900 cursor-[pointer] 
+                                `}
+                            >
+                                <CountryFlagIcon
+                                    countryCode={countryCode}
+                                    size='xl'
+                                    className='rounded'
+                                />
+                                <p className={trim`
+                                    text-xs text-center uppercase font-header mt-0.5
+                                `}>
+                                    {countryCode}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
 
-            <div className='px-4 pt-8 text-center bg-blue-500 text-white'>
+            {/**
+              *  For mobile view, since it is impossible to fit country flag list with the
+              *  visited country banner section, the following populates a collapsable list
+              *  of visited country info
+              */}
+            <div className='px-4 pt-8 text-center bg-blue-500 text-white md:hidden'>
                 <ul className={clsx(
                     'travel-stats__country-list',
                     { 'travel-stats__country-list--expanded': expandedSections.has('Europe') }
