@@ -10,6 +10,7 @@ import { Tooltip } from '~/components/tooltip';
 import { trim } from '~/utils/trim';
 import './travel-stats.css';
 import { TravelledCountriesCounter } from './travelled-countries-counter';
+import { CountryFlagListItem } from './travelled-countries-flag-list.desktop';
 
 export interface TravelStatsProps {
     className?: string;
@@ -91,43 +92,9 @@ export const TravelStats: FC<TravelStatsProps> = ({
                         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
                         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
                     `}>
-                        {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries.map(({
-                            countryCode,
-                            name
-                        }) => (
-                            <li
-                                key={countryCode}
-                                // todo: convert using CSS class!
-                                className={trim`
-                                    text-gray-400 hover:text-gray-900
-                                `}
-                            >
-                                <Tooltip
-                                    key={countryCode}
-                                    triggerButtonProps={{
-                                        className: '!px-0.5 !py-0.5',
-                                        variant: 'tertiary'
-                                    }}
-                                    tooltip={
-                                        <p className='text-sm text-balance text-center'>
-                                            {name}
-                                        </p>
-                                    }
-                                >
-                                    <div className='flex flex-col'>
-                                        <CountryFlagIcon
-                                            countryCode={countryCode}
-                                            className='rounded size-5 md:size-7'
-                                        />
-                                        <p className={trim`
-                                            text-xs text-center uppercase font-header mt-0.5
-                                        `}>
-                                            {countryCode}
-                                        </p>
-                                    </div>
-                                </Tooltip>
-                            </li>
-                        ))}
+                        {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries.map(
+                            info => <CountryFlagListItem key={info.countryCode} {...info} />
+                        )}
                     </ul>
                 </div>
             </div>
@@ -222,43 +189,9 @@ export const TravelStats: FC<TravelStatsProps> = ({
                         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
                         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
                     `}>
-                        {travelledAsianCountries.countries.map(({
-                            countryCode,
-                            name
-                        }) => (
-                            <li
-                                key={countryCode}
-                                // todo: convert using CSS class!
-                                className={trim`
-                                    text-gray-400 hover:text-gray-900
-                                `}
-                            >
-                                <Tooltip
-                                    key={countryCode}
-                                    triggerButtonProps={{
-                                        className: '!px-0.5 !py-0.5',
-                                        variant: 'tertiary'
-                                    }}
-                                    tooltip={
-                                        <p className='text-sm text-balance text-center'>
-                                            {name}
-                                        </p>
-                                    }
-                                >
-                                    <div className='flex flex-col'>
-                                        <CountryFlagIcon
-                                            countryCode={countryCode}
-                                            className='rounded size-5 md:size-7'
-                                        />
-                                        <p className={trim`
-                                            text-xs text-center uppercase font-header mt-0.5
-                                        `}>
-                                            {countryCode}
-                                        </p>
-                                    </div>
-                                </Tooltip>
-                            </li>
-                        ))}
+                        {travelledAsianCountries.countries.map(
+                            info => <CountryFlagListItem key={info.countryCode} {...info} />
+                        )}
                     </ul>
                 </div>
             </div>
@@ -301,42 +234,9 @@ export const TravelStats: FC<TravelStatsProps> = ({
                         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
                         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
                     `}>
-                        {travelledNorthCentralAmericanCountries.countries.map(({
-                            countryCode,
-                            name
-                        }) => (
-                            <li
-                                key={countryCode}
-                                className={trim`
-                                    text-gray-400 hover:text-gray-900
-                                `}
-                            >
-                                <Tooltip
-                                    key={countryCode}
-                                    triggerButtonProps={{
-                                        className: '!px-0.5 !py-0.5',
-                                        variant: 'tertiary'
-                                    }}
-                                    tooltip={
-                                        <p className='text-sm text-balance text-center'>
-                                            {name}
-                                        </p>
-                                    }
-                                >
-                                    <div className='flex flex-col'>
-                                        <CountryFlagIcon
-                                            countryCode={countryCode}
-                                            className='rounded size-5 md:size-7'
-                                        />
-                                        <p className={trim`
-                                            text-xs text-center uppercase font-header mt-0.5
-                                        `}>
-                                            {countryCode}
-                                        </p>
-                                    </div>
-                                </Tooltip>
-                            </li>
-                        ))}
+                        {travelledNorthCentralAmericanCountries.countries.map(
+                            info => <CountryFlagListItem key={info.countryCode} {...info} />
+                        )}
                     </ul>
                 </div>
             </div>
@@ -374,43 +274,9 @@ export const TravelStats: FC<TravelStatsProps> = ({
                         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
                         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
                     `}>
-                        {TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries.map(({
-                            countryCode,
-                            name
-                        }) => (
-                            <li
-                                key={countryCode}
-                                // todo: convert using CSS class!
-                                className={trim`
-                                    text-gray-400 hover:text-gray-900
-                                `}
-                            >
-                                <Tooltip
-                                    key={countryCode}
-                                    triggerButtonProps={{
-                                        className: '!px-0.5 !py-0.5',
-                                        variant: 'tertiary'
-                                    }}
-                                    tooltip={
-                                        <p className='text-sm text-balance text-center'>
-                                            {name}
-                                        </p>
-                                    }
-                                >
-                                    <div className='flex flex-col'>
-                                        <CountryFlagIcon
-                                            countryCode={countryCode}
-                                            className='rounded size-5 md:size-7'
-                                        />
-                                        <p className={trim`
-                                            text-xs text-center uppercase font-header mt-0.5
-                                        `}>
-                                            {countryCode}
-                                        </p>
-                                    </div>
-                                </Tooltip>
-                            </li>
-                        ))}
+                        {TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries.map(
+                            info => <CountryFlagListItem key={info.countryCode} {...info} />
+                        )}
                     </ul>
                 </div>
             </div>
