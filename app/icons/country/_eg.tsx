@@ -19,7 +19,7 @@ export const EgyptFlagIcon: FC<IconProps> = ({ className, size = 'md' }) => (
             transform="translate(-128)scale(.85333)"
         >
             <path
-                stroke-linejoin="round"
+                strokeLinejoin="round"
                 strokeWidth="1.3"
                 d="m450.8 302.4 68.5 63.6-4.9-115.5c-.7-17.5-15.9-13.5-27-7.2-11.1 7.2-24 7.2-37.4 2.5-13.5 4.7-26.3 4.7-37.4-2.5-11-6.3-26.3-10.3-27 7.2L380.7 366z"
             />
@@ -40,7 +40,7 @@ export const EgyptFlagIcon: FC<IconProps> = ({ className, size = 'md' }) => (
                 strokeWidth="1.1"
                 d="m453.2 315 9.6 43.8-3.2 3.2-3.3-2.5-5.4-39 2.3 39-3.2 4-3.1-4 2.3-39-5.5 39-3.3 2.5-3.2-3.2 9.6-43.7h6.4z"
             />
-            <g id="eg-b" fill="none" stroke-linejoin="round" strokeWidth="1.3">
+            <g id="eg-b" fill="none" strokeLinejoin="round" strokeWidth="1.3">
                 <path
                     fill="#fff"
                     strokeWidth="1.2"
@@ -57,8 +57,8 @@ export const EgyptFlagIcon: FC<IconProps> = ({ className, size = 'md' }) => (
                 transform="matrix(-1 0 0 1 900 0)"
             />
             <g
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="1.3"
             >
                 <path

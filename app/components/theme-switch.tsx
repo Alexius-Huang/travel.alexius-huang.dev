@@ -14,7 +14,7 @@ export interface ThemeSwitchProps extends ButtonProps {
 }
 
 function getThemeMode() {
-    if (typeof window === 'undefined') return 'light';
+    if (typeof window === 'undefined') return globalThis.theme;
     return localStorage.theme === 'dark' ||
         (!('theme' in localStorage) &&
             window.matchMedia('(prefers-color-scheme: dark)').matches)

@@ -4,10 +4,12 @@ import { TRAVELLED_COUNTRY_COUNT, TRAVELLED_COUNTRY_COUNT_BY_REGION, type WorldR
 import { IMG_BASE_URL } from '~/data-access/image-service';
 import { CountryFlagIcon } from '~/icons/country/country';
 import { Button } from '~/components/button';
+import { Tooltip } from '~/components/tooltip';
 import { ChevronDoubleDownOutlineIcon } from '~/icons/outline/chevron-double-down';
 import { ChevronDoubleUpOutlineIcon } from '~/icons/outline/chevron-double-up';
 import './travel-stats.css';
 import { trim } from '~/utils/trim';
+import { TooltipTrigger } from 'react-aria-components';
 
 export interface TravelStatsProps {
     className?: string;
@@ -35,7 +37,7 @@ export const TravelStats: FC<TravelStatsProps> = ({
                     relative w-full
                     h-[225px] xs:h-[325px] md:h-[500px]
                     bg-cover bg-[right_-2rem_center] bg-no-repeat
-                    xs:bg-contain xs:bg-[right_-4rem_center]
+                    xs:bg-contain xs:bg-[right_-5rem_center]
                 `}
                 style={{
                     backgroundImage: `url('${IMG_BASE_URL}/region/europe.v2.svg')`
@@ -58,31 +60,50 @@ export const TravelStats: FC<TravelStatsProps> = ({
                         COUNTRIES
                     </h3>
 
+                    {/**
+                      *  We show the country flags tooltip on desktop version only
+                      *  since there's enough space
+                      */}
                     <ul className={trim`
-                        hidden md:grid gap-x-3.5 gap-y-2.5 mt-4
-                        w-[30%]
+                        hidden md:grid gap-x-3.5 gap-y-2.5 mt-4 w-[35%]
                         grid-cols-[repeat(auto-fit,minmax(32px,1fr))]
                     `}>
                         {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries.map(({
                             countryCode,
+                            name
                         }) => (
                             <li
                                 key={countryCode}
                                 // todo: convert using CSS class!
                                 className={trim`
-                                    text-gray-400 hover:text-gray-900 cursor-[pointer] 
+                                    text-gray-400 hover:text-gray-900
                                 `}
                             >
-                                <CountryFlagIcon
-                                    countryCode={countryCode}
-                                    size='xl'
-                                    className='rounded'
-                                />
-                                <p className={trim`
-                                    text-xs text-center uppercase font-header mt-0.5
-                                `}>
-                                    {countryCode}
-                                </p>
+                                <Tooltip
+                                    key={countryCode}
+                                    triggerButtonProps={{
+                                        className: '!px-0.5 !py-0.5',
+                                        variant: 'tertiary'
+                                    }}
+                                    tooltip={
+                                        <p className='text-sm text-balance text-center'>
+                                            {name}
+                                        </p>
+                                    }
+                                >
+                                    <div className='flex flex-col'>
+                                        <CountryFlagIcon
+                                            countryCode={countryCode}
+                                            size='xl'
+                                            className='rounded'
+                                        />
+                                        <p className={trim`
+                                            text-xs text-center uppercase font-header mt-0.5
+                                        `}>
+                                            {countryCode}
+                                        </p>
+                                    </div>
+                                </Tooltip>
                             </li>
                         ))}
                     </ul>
