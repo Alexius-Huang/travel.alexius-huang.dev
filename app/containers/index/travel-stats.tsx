@@ -7,9 +7,8 @@ import { Button } from '~/components/button';
 import { Tooltip } from '~/components/tooltip';
 import { ChevronDoubleDownOutlineIcon } from '~/icons/outline/chevron-double-down';
 import { ChevronDoubleUpOutlineIcon } from '~/icons/outline/chevron-double-up';
-import './travel-stats.css';
 import { trim } from '~/utils/trim';
-import { TooltipTrigger } from 'react-aria-components';
+import './travel-stats.css';
 
 export interface TravelStatsProps {
     className?: string;
@@ -34,39 +33,44 @@ export const TravelStats: FC<TravelStatsProps> = ({
 
             <div
                 className={trim`
+                    travel-stats__eu-bg
                     relative w-full
                     h-[225px] xs:h-[325px] md:h-[500px]
                     bg-cover bg-[right_-2rem_center] bg-no-repeat
-                    xs:bg-contain xs:bg-[right_-5rem_center]
+                    xs:bg-contain xs:bg-[right_-4.5rem_center]
                 `}
                 style={{
-                    backgroundImage: `url('${IMG_BASE_URL}/region/europe.v2.svg')`
+                    backgroundImage: `
+                        url('${IMG_BASE_URL}/region/europe.v2.svg'
+                    `
                 }}
             >
                 <div className={trim`
-                    absolute top-[25%] md:top-[12.5%] w-full
-                    left-[5%] xs:left-[12%] md:left-[5%]
+                    absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
+                    left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
                 `}>
                     <h3 className={trim`
-                        font-header text-xl md:text-2xl leading-tight
+                        font-header text-xl xs:text-2xl sm:text-xl leading-tight
                     `}>
-                        <span className='text-6xl md:text-8xl font-bold text-blue-500'>
+                        <span className='text-6xl xs:text-7xl sm:text-8xl font-bold text-blue-500'>
                             {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total}
                         </span>
 
                         <br />
                         EUROPEAN
-                        <br />
+                        <br className='sm:hidden' />{' '}
                         COUNTRIES
                     </h3>
 
                     {/**
-                      *  We show the country flags tooltip on desktop version only
-                      *  since there's enough space
+                      *  We show the country flags with tooltip on desktop version
+                      *  only since there's enough space
                       */}
                     <ul className={trim`
-                        hidden md:grid gap-x-3.5 gap-y-2.5 mt-4 w-[35%]
-                        grid-cols-[repeat(auto-fit,minmax(32px,1fr))]
+                        hidden sm:grid gap-x-3.5 gap-y-2.5 mt-4
+                        w-[45%] md:w-[35%]
+                        grid-cols-[repeat(auto-fit,minmax(24px,1fr))]
+                        md:grid-cols-[repeat(auto-fit,minmax(32px,1fr))]
                     `}>
                         {TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries.map(({
                             countryCode,
@@ -94,8 +98,7 @@ export const TravelStats: FC<TravelStatsProps> = ({
                                     <div className='flex flex-col'>
                                         <CountryFlagIcon
                                             countryCode={countryCode}
-                                            size='xl'
-                                            className='rounded'
+                                            className='rounded size-5 md:size-7'
                                         />
                                         <p className={trim`
                                             text-xs text-center uppercase font-header mt-0.5
@@ -115,7 +118,7 @@ export const TravelStats: FC<TravelStatsProps> = ({
               *  visited country banner section, the following populates a collapsable list
               *  of visited country info
               */}
-            <div className='px-4 pt-8 text-center bg-blue-500 text-white md:hidden'>
+            <div className='px-4 pt-8 text-center bg-blue-500 text-white sm:hidden'>
                 <ul className={clsx(
                     'travel-stats__country-list',
                     { 'travel-stats__country-list--expanded': expandedSections.has('Europe') }

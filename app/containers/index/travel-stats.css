@@ -36,3 +36,17 @@
         @apply inline-block;
     }
 }
+
+@media (min-width: 640px) {
+    .travel-stats__eu-bg {
+        mask-image: radial-gradient(
+            circle at left,
+            rgba(255, 255, 255, 1) 62.5%,
+            rgba(255, 255, 255, 0) 95%
+        );
+        mask-size: 100%;
+        mask-repeat: no-repeat;
+        mask-position: right;
+    }
+}
+

@@ -16,7 +16,7 @@ export const Tooltip: FC<TooltipProps> = ({
     ...props
 }: TooltipProps) => {
   return (
-    <TooltipTrigger delay={0} closeDelay={100000}>
+    <TooltipTrigger delay={0} closeDelay={250}>
         <Button {...triggerButtonProps}>
             {children}
         </Button>
