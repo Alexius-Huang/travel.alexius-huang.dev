@@ -3,8 +3,8 @@ import {
     Button as RAButton,
     type ButtonProps as RAButtonProps,
 } from 'react-aria-components';
-import './button.css';
 import type { IconProps } from '~/icons/type';
+import './button.css';
 
 export interface ButtonProps extends RAButtonProps {
     variant?: 'primary' | 'secondary' | 'tertiary';

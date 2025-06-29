@@ -1,9 +1,10 @@
 @import 'tailwindcss';
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 .btn {
     @apply px-3.5 py-2
-        focus:outline-none focus:ring-2 focus:ring-blue-400;
+        focus:outline-none focus:ring-2 focus:ring-blue-400
+        cursor-pointer;
 }
 
 .btn-primary {
@@ -14,13 +15,13 @@
 
 .btn-secondary {
     @apply border-2 border-gray-900 dark:border-white
-        bg-white dark:bg-gray-900 hover:bg-gray-100 hover:dark:bg-gray-800
+        bg-transparent hover:bg-gray-100 hover:dark:bg-gray-800
         text-gray-900 dark:text-white;
 }
 
 .btn-tertiary {
-    @apply border-2 border-white dark:border-gray-900
-        bg-white dark:bg-gray-900 hover:bg-gray-100 hover:dark:bg-gray-800
+    @apply border-2 border-transparent
+        bg-transparent hover:bg-gray-900/5 hover:dark:bg-white/10
         text-gray-900 dark:text-white;
 }
 

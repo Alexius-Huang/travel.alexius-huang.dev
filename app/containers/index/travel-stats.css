@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@theme {
+    --breakpoint-xs: 480px;
+    --text-10xl: '10rem';
+    --text-11xl: '12rem';
+    --text-12xl: '14rem';
+}
+
+.travel-stats__country-list {
+    @apply grid gap-x-4 gap-y-8;
+
+    @apply grid-cols-[repeat(auto-fit,minmax(100px,1fr))];
+    @apply md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))];
+    @apply pb-6;
+
+    & > li:nth-child(n + 7) {
+        @apply hidden xs:inline-block;
+    }
+
+    & > li:nth-child(n + 9) {
+        @apply hidden sm:inline-block;
+    }
+
+    & > li:nth-child(n + 11) {
+        @apply hidden md:inline-block;
+    }
+
+    & + button {
+        @apply md:hidden;
+    }
+}
+.travel-stats__country-list--expanded {
+    & > li:nth-child(n + 7) {
+        @apply inline-block;
+    }
+}
+
+@media (min-width: 640px) {
+    .travel-stats__eu-bg {
+        mask-image: radial-gradient(
+            circle at left,
+            rgba(255, 255, 255, 1) 62.5%,
+            rgba(255, 255, 255, 0) 95%
+        );
+        mask-size: 100%;
+        mask-repeat: no-repeat;
+        mask-position: right;
+    }
+}
+

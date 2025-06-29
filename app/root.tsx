@@ -18,6 +18,8 @@ import type { HoneypotInputProps } from 'remix-utils/honeypot/server';
 import { ThemeSwitch } from '~/components/theme-switch';
 import { SunOutlineIcon } from './icons/outline/sun';
 import { MoonOutlineIcon } from './icons/outline/moon';
+import { themeSessionResolver } from './utils/theme.server';
+import { PreventFlashOnWrongTheme, ThemeProvider, useTheme, type Theme } from 'remix-themes';
 
 import './app.css';
 
@@ -37,22 +39,28 @@ export const links: Route.LinksFunction = () => [
 type LoaderData = {
     token: string;
     honeypotInputProps: HoneypotInputProps;
+    theme: Theme;
 };
-export async function loader(_: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
     const [token, cookieHeader] = await csrf.commitToken();
     const honeypotInputProps = await honeypot.getInputProps();
+    const { getTheme } = await themeSessionResolver(request);
     return json(
         {
             token,
             honeypotInputProps,
+            theme: getTheme()
         } as LoaderData,
         { headers: { 'Set-Cookie': cookieHeader as string } },
     );
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function App() {
+    const data = useLoaderData();
+    const [theme] = useTheme();
+
     return (
-        <html lang="en">
+        <html lang="en" data-theme={theme ?? ""}>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -60,6 +68,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     content="width=device-width, initial-scale=1"
                 />
                 <Meta />
+                <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
                 <Links />
             </head>
             <body>
@@ -71,7 +80,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     className="fixed right-4.5 bottom-6 z-[100]"
                 />
 
-                {children}
+                <Outlet />
                 <ScrollRestoration />
                 <Scripts />
             </body>
@@ -79,13 +88,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
     );
 }
 
-export default function App() {
-    const { token, honeypotInputProps } = useLoaderData<LoaderData>();
+export default function AppWithProviders() {
+    const { token, honeypotInputProps, theme } = useLoaderData<LoaderData>();
 
     return (
         <HoneypotProvider {...honeypotInputProps}>
             <AuthenticityTokenProvider token={token}>
-                <Outlet />
+                <ThemeProvider specifiedTheme={theme} themeAction='/action/set-theme'>
+                    <App />
+                </ThemeProvider>
             </AuthenticityTokenProvider>
         </HoneypotProvider>
     );
