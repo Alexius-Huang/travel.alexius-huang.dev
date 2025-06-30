@@ -5,12 +5,12 @@ export const themeSessionResolver = createThemeSessionResolver(
     createCookieSessionStorage({
         cookie: {
             name: '__remix-themes',
-            // domain: 'remix.run',
+            domain: process.env.NODE_ENV === 'production' ? 'alexius-huang.dev' : undefined,
             path: '/',
             httpOnly: true,
             sameSite: 'lax',
             secrets: ['s3cr3t'],
-            // secure: true,
+            secure: process.env.NODE_ENV === 'production',
         },
     }),
 );
