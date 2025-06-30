@@ -6,15 +6,14 @@ import {
     type CountryInfo,
     type WorldRegion,
 } from '~/data-access/country';
-import { IMG_BASE_URL } from '~/data-access/image-service';
 // import { Button } from '~/components/button';
 // import { ChevronDoubleDownOutlineIcon } from '~/icons/outline/chevron-double-down';
 // import { ChevronDoubleUpOutlineIcon } from '~/icons/outline/chevron-double-up';
 import { trim } from '~/utils/trim';
 import { TravelledCountriesCounter } from './travelled-countries-counter';
-import { CountryFlagList, CountryFlagListItem } from './travelled-countries-flag-list.desktop';
-import './travel-stats.css';
+import { CountryFlagList } from './travelled-countries-flag-list.desktop';
 import { RegionBackgroundWrapper } from './region-background-wrapper';
+import './travel-stats.css';
 
 export interface TravelStatsProps {
     className?: string;
@@ -54,9 +53,9 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
         <section className={className}>
             <h2
                 className={trim`
-                text-2xl md:text-3xl text-center
-                py-12 mb-6
-            `}
+                    text-2xl md:text-3xl text-center
+                    py-12 mb-6
+                `}
             >
                 <span className="block font-bold text-9xl md:text-[10rem] text-blue-500">
                     {TRAVELLED_COUNTRY_COUNT}
@@ -65,21 +64,11 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
             </h2>
 
             <RegionBackgroundWrapper
-                className={trim`
-                    travel-stats__eu-bg
-                    h-[300px] xs:h-[350px] md:h-[500px]
-                    bg-[right_-3.5rem_center] xs:bg-[right_0rem_center]
-                `}
-                absoluteWrapperClassName={trim`
-                    top-[30%] sm:top-[2.5%] md:top-[12.5%]
-                    left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
-                `}
-                backgroundImageURL='region/europe.v3.svg'
+                className="travel-stats__eu-bg"
+                backgroundImageURL="region/europe.v3.svg"
             >
                 <TravelledCountriesCounter
-                    count={
-                        TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total
-                    }
+                    count={TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total}
                     unitNode={
                         <>
                             EUROPEAN
@@ -156,17 +145,8 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
             </div> */}
 
             <RegionBackgroundWrapper
-                className={trim`
-                    travel-stats__asia-bg mt-16
-                    h-[325px] xs:h-[325px] md:h-[500px]
-                    bg-[left_-9rem_center] xs:bg-[left_-4.5rem_center]
-                `}
-                absoluteWrapperClassName={trim`
-                    top-[30%] sm:top-[2.5%] md:top-[12.5%]
-                    right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%]
-                    text-right
-                `}
-                backgroundImageURL='region/asia.svg'
+                className="travel-stats__asia-bg"
+                backgroundImageURL="region/asia.svg"
             >
                 <TravelledCountriesCounter
                     count={travelledAsianCountries.total}
@@ -179,21 +159,13 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                 />
                 <CountryFlagList
                     countries={travelledAsianCountries.countries}
-                    className='direction-rtl'
+                    className="direction-rtl"
                 />
             </RegionBackgroundWrapper>
 
             <RegionBackgroundWrapper
-                className={trim`
-                    travel-stats__central-north-america-bg mt-4
-                    h-[300px] xs:h-[350px] md:h-[500px]
-                    bg-[right_-14rem_center] xs:bg-[right_-8rem_center]
-                `}
-                absoluteWrapperClassName={trim`
-                    top-[30%] sm:top-[2.5%] md:top-[12.5%]
-                    left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
-                `}
-                backgroundImageURL='region/central-north-america.v3.svg'
+                className="travel-stats__central-north-america-bg"
+                backgroundImageURL="region/central-north-america.v3.svg"
             >
                 <TravelledCountriesCounter
                     count={travelledNorthCentralAmericanCountries.total}
@@ -201,7 +173,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                         <>
                             CENTRAL NORTH
                             <br /> AMERICAN
-                            <br className="xs:hidden" /> COUNTRIES
+                            <br className="sm:hidden" /> COUNTRIES
                         </>
                     }
                 />
@@ -211,22 +183,11 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
             </RegionBackgroundWrapper>
 
             <RegionBackgroundWrapper
-                className={trim`
-                    travel-stats__africa-bg mt-10
-                    h-[375px] xs:h-[425px] md:h-[500px]
-                    bg-[left_-6rem_center] xs:bg-[left_-2rem_center]
-                `}
-                absoluteWrapperClassName={trim`
-                    top-[30%] sm:top-[2.5%] md:top-[12.5%]
-                    right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%]
-                    text-right
-                `}
-                backgroundImageURL='region/africa.svg'
+                className="travel-stats__africa-bg"
+                backgroundImageURL="region/africa.svg"
             >
                 <TravelledCountriesCounter
-                    count={
-                        TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].total
-                    }
+                    count={TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].total}
                     unitNode={
                         <>
                             AFRICAN
@@ -235,8 +196,10 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                     }
                 />
                 <CountryFlagList
-                    countries={TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries}
-                    className='direction-rtl'
+                    countries={
+                        TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries
+                    }
+                    className="direction-rtl"
                 />
             </RegionBackgroundWrapper>
         </section>

@@ -1,6 +1,6 @@
-import type { FC, PropsWithChildren } from "react";
-import { IMG_BASE_URL } from "~/data-access/image-service";
-import { trim } from "~/utils/trim";
+import type { FC, PropsWithChildren } from 'react';
+import { IMG_BASE_URL } from '~/data-access/image-service';
+import { trim } from '~/utils/trim';
 
 export interface RegionBackgroundWrapperProps {
     className?: string;
@@ -8,12 +8,9 @@ export interface RegionBackgroundWrapperProps {
     backgroundImageURL: string;
 }
 
-export const RegionBackgroundWrapper: FC<PropsWithChildren<RegionBackgroundWrapperProps>> = ({
-    className,
-    absoluteWrapperClassName,
-    backgroundImageURL,
-    children
-}) => {
+export const RegionBackgroundWrapper: FC<
+    PropsWithChildren<RegionBackgroundWrapperProps>
+> = ({ className, absoluteWrapperClassName, backgroundImageURL, children }) => {
     return (
         <div
             className={trim`
@@ -22,7 +19,7 @@ export const RegionBackgroundWrapper: FC<PropsWithChildren<RegionBackgroundWrapp
                 ${className}
             `}
             style={{
-                backgroundImage: `url('${IMG_BASE_URL}/${backgroundImageURL}')`
+                backgroundImage: `url('${IMG_BASE_URL}/${backgroundImageURL}')`,
             }}
         >
             <div className={`absolute w-full ${absoluteWrapperClassName}`}>

@@ -40,20 +40,19 @@ interface CountryFlagListProps {
 
 export const CountryFlagList: FC<CountryFlagListProps> = ({
     countries,
-    className
+    className,
 }) => (
-    <ul className={trim`
+    <ul
+        className={trim`
         hidden sm:inline-grid gap-x-3.5 gap-y-2.5 mt-4
         w-[45%] md:w-[35%]
         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
         ${className}
-    `}>
+    `}
+    >
         {countries.map((info) => (
-            <CountryFlagListItem
-                key={info.countryCode}
-                {...info}
-            />
+            <CountryFlagListItem key={info.countryCode} {...info} />
         ))}
     </ul>
 );
