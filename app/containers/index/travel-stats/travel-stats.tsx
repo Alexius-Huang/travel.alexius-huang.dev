@@ -11,9 +11,10 @@ import { IMG_BASE_URL } from '~/data-access/image-service';
 // import { ChevronDoubleDownOutlineIcon } from '~/icons/outline/chevron-double-down';
 // import { ChevronDoubleUpOutlineIcon } from '~/icons/outline/chevron-double-up';
 import { trim } from '~/utils/trim';
-import './travel-stats.css';
 import { TravelledCountriesCounter } from './travelled-countries-counter';
 import { CountryFlagList, CountryFlagListItem } from './travelled-countries-flag-list.desktop';
+import './travel-stats.css';
+import { RegionBackgroundWrapper } from './region-background-wrapper';
 
 export interface TravelStatsProps {
     className?: string;
@@ -63,50 +64,40 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                 COUNTRIES TRAVELLED
             </h2>
 
-            <div
+            <RegionBackgroundWrapper
                 className={trim`
                     travel-stats__eu-bg
-                    overflow-x-hidden
-                    relative w-full
                     h-[300px] xs:h-[350px] md:h-[500px]
-                    bg-cover bg-[right_-3.5rem_center] bg-no-repeat
-                    xs:bg-contain xs:bg-[right_0rem_center]
+                    bg-[right_-3.5rem_center] xs:bg-[right_0rem_center]
                 `}
-                style={{
-                    backgroundImage: `
-                        url('${IMG_BASE_URL}/region/europe.v3.svg'
-                    `,
-                }}
-            >
-                <div
-                    className={trim`
-                    absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
+                absoluteWrapperClassName={trim`
+                    top-[30%] sm:top-[2.5%] md:top-[12.5%]
                     left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
                 `}
-                >
-                    <TravelledCountriesCounter
-                        count={
-                            TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total
-                        }
-                        unitNode={
-                            <>
-                                EUROPEAN
-                                <br className="sm:hidden" /> COUNTRIES
-                            </>
-                        }
-                    />
-                    {/**
-                     *  We show the country flags with tooltip on desktop version
-                     *  only since there's enough space
-                     */}
+                backgroundImageURL='region/europe.v3.svg'
+            >
+                <TravelledCountriesCounter
+                    count={
+                        TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].total
+                    }
+                    unitNode={
+                        <>
+                            EUROPEAN
+                            <br className="sm:hidden" /> COUNTRIES
+                        </>
+                    }
+                />
+                {/**
+                 *  We show the country flags with tooltip on desktop version
+                 *  only since there's enough space
+                 */}
 
-                     <CountryFlagList
-                        countries={
-                            TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries
-                        }
-                     />
-                </div>
-            </div>
+                <CountryFlagList
+                    countries={
+                        TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries
+                    }
+                />
+            </RegionBackgroundWrapper>
 
             {/* TODO: Redesign Mobile View */}
             {/**
@@ -164,159 +155,90 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                 </Button>
             </div> */}
 
-            <div
+            <RegionBackgroundWrapper
                 className={trim`
-                    travel-stats__asia-bg
-                    relative w-full mt-16
+                    travel-stats__asia-bg mt-16
                     h-[325px] xs:h-[325px] md:h-[500px]
-                    bg-cover bg-[left_-9rem_center] bg-no-repeat
-                    xs:bg-contain xs:bg-[left_-4.5rem_center]
+                    bg-[left_-9rem_center] xs:bg-[left_-4.5rem_center]
                 `}
-                style={{
-                    backgroundImage: `
-                        url('${IMG_BASE_URL}/region/asia.svg'
-                    `,
-                }}
-            >
-                <div
-                    className={trim`
-                    absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
+                absoluteWrapperClassName={trim`
+                    top-[30%] sm:top-[2.5%] md:top-[12.5%]
                     right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%]
                     text-right
                 `}
-                >
-                    <TravelledCountriesCounter
-                        count={travelledAsianCountries.total}
-                        unitNode={
-                            <>
-                                ASIAN
-                                <br className="sm:hidden" /> COUNTRIES
-                            </>
-                        }
-                    />
-                    <ul
-                        className={trim`
-                        hidden sm:inline-grid direction-rtl gap-x-3.5 gap-y-2.5 mt-4
-                        w-[45%] md:w-[35%]
-                        grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
-                        md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
-                    `}
-                    >
-                        {travelledAsianCountries.countries.map((info) => (
-                            <CountryFlagListItem
-                                key={info.countryCode}
-                                {...info}
-                            />
-                        ))}
-                    </ul>
-                </div>
-            </div>
-
-            <div
-                className={trim`
-                    travel-stats__central-north-america-bg overflow-x-hidden
-                    relative w-full mt-4
-                    h-[300px] xs:h-[350px] md:h-[500px]
-                    bg-cover bg-[right_-14rem_center] bg-no-repeat
-                    xs:bg-contain xs:bg-[right_-8rem_center]
-                `}
-                style={{
-                    backgroundImage: `
-                        url('${IMG_BASE_URL}/region/central-north-america.v3.svg'
-                    `,
-                }}
+                backgroundImageURL='region/asia.svg'
             >
-                <div
-                    className={trim`
-                    absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
+                <TravelledCountriesCounter
+                    count={travelledAsianCountries.total}
+                    unitNode={
+                        <>
+                            ASIAN
+                            <br className="sm:hidden" /> COUNTRIES
+                        </>
+                    }
+                />
+                <CountryFlagList
+                    countries={travelledAsianCountries.countries}
+                    className='direction-rtl'
+                />
+            </RegionBackgroundWrapper>
+
+            <RegionBackgroundWrapper
+                className={trim`
+                    travel-stats__central-north-america-bg mt-4
+                    h-[300px] xs:h-[350px] md:h-[500px]
+                    bg-[right_-14rem_center] xs:bg-[right_-8rem_center]
+                `}
+                absoluteWrapperClassName={trim`
+                    top-[30%] sm:top-[2.5%] md:top-[12.5%]
                     left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%]
                 `}
-                >
-                    <TravelledCountriesCounter
-                        count={travelledNorthCentralAmericanCountries.total}
-                        unitNode={
-                            <>
-                                CENTRAL NORTH
-                                <br /> AMERICAN
-                                <br className="xs:hidden" /> COUNTRIES
-                            </>
-                        }
-                    />
-                    {/**
-                     *  We show the country flags with tooltip on desktop version
-                     *  only since there's enough space
-                     */}
-                    <ul
-                        className={trim`
-                        hidden sm:inline-grid gap-x-3.5 gap-y-2.5 mt-4
-                        w-[45%] md:w-[35%]
-                        grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
-                        md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
-                    `}
-                    >
-                        {travelledNorthCentralAmericanCountries.countries.map(
-                            (info) => (
-                                <CountryFlagListItem
-                                    key={info.countryCode}
-                                    {...info}
-                                />
-                            ),
-                        )}
-                    </ul>
-                </div>
-            </div>
-
-            <div
-                className={trim`
-                    travel-stats__africa-bg
-                    relative w-full mt-10
-                    h-[375px] xs:h-[425px] md:h-[500px]
-                    bg-cover bg-[left_-6rem_center] bg-no-repeat
-                    xs:bg-contain xs:bg-[left_-2rem_center]
-                `}
-                style={{
-                    backgroundImage: `
-                        url('${IMG_BASE_URL}/region/africa.svg'
-                    `,
-                }}
+                backgroundImageURL='region/central-north-america.v3.svg'
             >
-                <div
-                    className={trim`
-                    absolute top-[30%] sm:top-[2.5%] md:top-[12.5%] w-full
+                <TravelledCountriesCounter
+                    count={travelledNorthCentralAmericanCountries.total}
+                    unitNode={
+                        <>
+                            CENTRAL NORTH
+                            <br /> AMERICAN
+                            <br className="xs:hidden" /> COUNTRIES
+                        </>
+                    }
+                />
+                <CountryFlagList
+                    countries={travelledNorthCentralAmericanCountries.countries}
+                />
+            </RegionBackgroundWrapper>
+
+            <RegionBackgroundWrapper
+                className={trim`
+                    travel-stats__africa-bg mt-10
+                    h-[375px] xs:h-[425px] md:h-[500px]
+                    bg-[left_-6rem_center] xs:bg-[left_-2rem_center]
+                `}
+                absoluteWrapperClassName={trim`
+                    top-[30%] sm:top-[2.5%] md:top-[12.5%]
                     right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%]
                     text-right
                 `}
-                >
-                    <TravelledCountriesCounter
-                        count={
-                            TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].total
-                        }
-                        unitNode={
-                            <>
-                                AFRICAN
-                                <br className="sm:hidden" /> COUNTRIES
-                            </>
-                        }
-                    />
-                    <ul
-                        className={trim`
-                        hidden sm:inline-grid direction-rtl gap-x-3.5 gap-y-2.5 mt-4
-                        w-[45%] md:w-[35%]
-                        grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
-                        md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
-                    `}
-                    >
-                        {TRAVELLED_COUNTRY_COUNT_BY_REGION[
-                            'Africa'
-                        ].countries.map((info) => (
-                            <CountryFlagListItem
-                                key={info.countryCode}
-                                {...info}
-                            />
-                        ))}
-                    </ul>
-                </div>
-            </div>
+                backgroundImageURL='region/africa.svg'
+            >
+                <TravelledCountriesCounter
+                    count={
+                        TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].total
+                    }
+                    unitNode={
+                        <>
+                            AFRICAN
+                            <br className="sm:hidden" /> COUNTRIES
+                        </>
+                    }
+                />
+                <CountryFlagList
+                    countries={TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries}
+                    className='direction-rtl'
+                />
+            </RegionBackgroundWrapper>
         </section>
     );
 };
