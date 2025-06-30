@@ -1,13 +1,11 @@
 import {
     memo,
-    useCallback,
-    useEffect,
-    useState,
     type CSSProperties,
     type FC,
 } from 'react';
 import { Theme, useTheme } from 'remix-themes';
 import { Button, type ButtonProps } from '~/components/button';
+import './button.css';
 
 export interface ThemeSwitchProps extends ButtonProps {
     className?: string;
