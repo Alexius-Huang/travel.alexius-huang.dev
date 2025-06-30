@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
     --breakpoint-xs: 480px;
     --text-10xl: '10rem';
@@ -37,6 +37,51 @@
     }
 }
 
+/* Region Background Image Position */
+.travel-stats__eu-bg {
+    @apply h-[350px] md:h-[500px]
+        bg-[right_-3.5rem_top_-3rem]
+        xs:bg-[right_0rem_center];
+
+    & > div {
+        @apply top-[20%] sm:top-[2.5%] md:top-[12.5%]
+            left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%];
+    }
+}
+
+.travel-stats__asia-bg {
+    @apply mt-16
+        h-[325px] xs:h-[325px] md:h-[500px]
+        bg-[left_-9rem_center] xs:bg-[left_-4.5rem_center];
+    & > div {
+        @apply text-right
+            top-[30%] sm:top-[2.5%] md:top-[12.5%]
+            right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%];
+    }
+}
+
+.travel-stats__central-north-america-bg {
+    @apply mt-4
+        h-[300px] xs:h-[350px] md:h-[500px]
+        bg-[right_-14rem_center] xs:bg-[right_-8rem_center];
+    & > div {
+        @apply top-[30%] sm:top-[20%] md:top-[30%]
+            left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%];
+    }
+}
+
+.travel-stats__africa-bg {
+    @apply mt-10
+        h-[375px] xs:h-[425px] md:h-[500px]
+        bg-[left_-6rem_center] xs:bg-[left_-2rem_center];
+    & > div {
+        @apply text-right
+            top-[30%] sm:top-[2.5%] md:top-[12.5%]
+            right-[5%] xs:right-[12%] sm:right-[7.5%] md:right-[5%];
+    }
+}
+
+/* Mask Image with Transparent Radial Gradiant */
 .travel-stats__eu-bg,
 .travel-stats__central-north-america-bg {
     mask-image: radial-gradient(
@@ -60,4 +105,3 @@
     mask-repeat: no-repeat;
     mask-position: right;
 }
-
