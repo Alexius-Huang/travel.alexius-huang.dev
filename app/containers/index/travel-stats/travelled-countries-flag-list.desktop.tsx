@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { Tooltip } from '~/components/tooltip';
 import type { CountryInfo } from '~/data-access/country';
 import { CountryFlagIcon } from '~/icons/country/country';
+import { trim } from '~/utils/trim';
 
 interface CountryFlagListItemProps
     extends Pick<CountryInfo, 'countryCode' | 'name'> {}
@@ -30,4 +31,29 @@ export const CountryFlagListItem: FC<CountryFlagListItemProps> = ({
             </div>
         </Tooltip>
     </li>
+);
+
+interface CountryFlagListProps {
+    countries: Array<Pick<CountryInfo, 'countryCode' | 'name'>>;
+    className?: string;
+}
+
+export const CountryFlagList: FC<CountryFlagListProps> = ({
+    countries,
+    className
+}) => (
+    <ul className={trim`
+        hidden sm:inline-grid gap-x-3.5 gap-y-2.5 mt-4
+        w-[45%] md:w-[35%]
+        grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
+        md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
+        ${className}
+    `}>
+        {countries.map((info) => (
+            <CountryFlagListItem
+                key={info.countryCode}
+                {...info}
+            />
+        ))}
+    </ul>
 );

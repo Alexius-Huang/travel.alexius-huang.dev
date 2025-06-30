@@ -7,15 +7,13 @@ import {
     type WorldRegion,
 } from '~/data-access/country';
 import { IMG_BASE_URL } from '~/data-access/image-service';
-import { CountryFlagIcon } from '~/icons/country/country';
 // import { Button } from '~/components/button';
-import { Tooltip } from '~/components/tooltip';
 // import { ChevronDoubleDownOutlineIcon } from '~/icons/outline/chevron-double-down';
 // import { ChevronDoubleUpOutlineIcon } from '~/icons/outline/chevron-double-up';
 import { trim } from '~/utils/trim';
 import './travel-stats.css';
 import { TravelledCountriesCounter } from './travelled-countries-counter';
-import { CountryFlagListItem } from './travelled-countries-flag-list.desktop';
+import { CountryFlagList, CountryFlagListItem } from './travelled-countries-flag-list.desktop';
 
 export interface TravelStatsProps {
     className?: string;
@@ -101,23 +99,12 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                      *  We show the country flags with tooltip on desktop version
                      *  only since there's enough space
                      */}
-                    <ul
-                        className={trim`
-                        hidden sm:inline-grid gap-x-3.5 gap-y-2.5 mt-4
-                        w-[45%] md:w-[35%]
-                        grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
-                        md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
-                    `}
-                    >
-                        {TRAVELLED_COUNTRY_COUNT_BY_REGION[
-                            'Europe'
-                        ].countries.map((info) => (
-                            <CountryFlagListItem
-                                key={info.countryCode}
-                                {...info}
-                            />
-                        ))}
-                    </ul>
+
+                     <CountryFlagList
+                        countries={
+                            TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries
+                        }
+                     />
                 </div>
             </div>
 
