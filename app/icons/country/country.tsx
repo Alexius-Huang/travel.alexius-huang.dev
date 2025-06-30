@@ -48,5 +48,10 @@ export const CountryFlagIcon: FC<CountryFlagIconProps> = ({
         throw new Error(`Country flag icon for "${countryCode}" not found.`);
     }
 
-    return <CountryFlag fallback={fallback} className={className} size={size} {...loadableProps} />;
+    return <CountryFlag
+        fallback={fallback}
+        className={`shadow-sm shadow-gray-400 dark:shadow-emerald-500 ${className}`}
+        size={size}
+        {...loadableProps}
+    />;
 };
