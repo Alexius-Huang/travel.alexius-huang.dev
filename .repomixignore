@@ -1,3 +1,9 @@
+# Add patterns to ignore here, one per line
+# Example:
+# *.log
+# tmp/
+
+# from .gitignore
 .DS_Store
 /node_modules/
 
@@ -5,9 +11,7 @@
 /.react-router/
 /build/
 
-.env*
-
 *storybook.log
 storybook-static
 
-repomix-output.xml
+**/_*.*
