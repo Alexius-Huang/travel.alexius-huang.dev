@@ -1,7 +1,7 @@
 import { json } from '~/utils/response.server';
 import type { Route } from './+types/index';
 import { TravelHighlight } from '~/containers/index/travel-highlight';
-import { TravelStats } from '~/containers/index/travel-stats';
+import { TravelStats } from '~/containers/index/travel-stats/travel-stats';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -20,7 +20,7 @@ export default function Home() {
     return (
         <div className="h-screen overflow-y-scroll pb-[300px]">
             <TravelHighlight className="my-0 mx-auto max-w-[960px]" />
-            <TravelStats className='my-0 mx-auto max-w-[960px] pt-12' />
+            <TravelStats className="my-0 mx-auto max-w-[960px] pt-12" />
         </div>
     );
 }

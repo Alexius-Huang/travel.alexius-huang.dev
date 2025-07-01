@@ -4,7 +4,6 @@ import {
     type ButtonProps as RAButtonProps,
 } from 'react-aria-components';
 import type { IconProps } from '~/icons/type';
-import './button.css';
 
 export interface ButtonProps extends RAButtonProps {
     variant?: 'primary' | 'secondary' | 'tertiary';
