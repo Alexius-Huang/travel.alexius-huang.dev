@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { trim } from '~/utils/trim';
-import { Link } from './link';
+import { Link } from '~/components/link';
 
 export const Footer: FC<{ className?: string}> = ({
     className
