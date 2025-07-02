@@ -1,8 +1,4 @@
-import {
-    memo,
-    type CSSProperties,
-    type FC,
-} from 'react';
+import { memo, type CSSProperties, type FC } from 'react';
 import { Theme, useTheme } from 'remix-themes';
 import { Button, type ButtonProps } from '~/components/button';
 import './button.css';

@@ -1,5 +1,8 @@
 import type { FC } from 'react';
-import { Link as RALink, type LinkProps as RALinkProps } from 'react-aria-components';
+import {
+    Link as RALink,
+    type LinkProps as RALinkProps,
+} from 'react-aria-components';
 import { trim } from '~/utils/trim';
 import './link.css';
 

@@ -88,7 +88,7 @@ export function App() {
 
                 <div className="h-screen overflow-y-scroll">
                     <Outlet />
-                    <Footer className='mt-[120px] text-center mb-[5rem] py-[2rem]' />
+                    <Footer className="mt-[120px] text-center mb-[5rem] py-[2rem]" />
                 </div>
                 <ScrollRestoration />
                 <Scripts />
