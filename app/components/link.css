@@ -1,0 +1,18 @@
+@reference 'tailwindcss';
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+.link {
+    @apply cursor-pointer underline;
+}
+
+.link-primary {
+    @apply text-blue-500 dark:text-blue-300 font-semibold
+    hover:text-blue-800 dark:hover:text-blue-200
+    visited:text-purple-400 dark:visited:text-purple-300;
+}
+
+.link-secondary {
+    @apply text-gray-600 dark:text-gray-400 font-semibold
+    hover:text-gray-800 dark:hover:text-gray-200
+    visited:text-purple-400 dark:visited:text-purple-300;
+}

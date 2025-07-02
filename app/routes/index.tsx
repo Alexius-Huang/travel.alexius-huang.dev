@@ -18,9 +18,9 @@ export async function loader(_: Route.LoaderArgs) {
 export default function Home() {
     /* const {} = useLoaderData<LoaderData>(); */
     return (
-        <div className="h-screen overflow-y-scroll pb-[300px]">
+        <>
             <TravelHighlight className="my-0 mx-auto max-w-[960px]" />
             <TravelStats className="my-0 mx-auto max-w-[960px] pt-12" />
-        </div>
+        </>
     );
 }

@@ -16,6 +16,7 @@ import { honeypot } from './utils/honeypot.server';
 import { HoneypotProvider } from 'remix-utils/honeypot/react';
 import type { HoneypotInputProps } from 'remix-utils/honeypot/server';
 import { ThemeSwitch } from '~/components/theme-switch';
+import { Footer } from '~/containers/footer';
 import { SunOutlineIcon } from './icons/outline/sun';
 import { MoonOutlineIcon } from './icons/outline/moon';
 import { themeSessionResolver } from './utils/theme.server';
@@ -85,7 +86,10 @@ export function App() {
                     className="fixed right-4.5 bottom-6 z-[100]"
                 />
 
-                <Outlet />
+                <div className="h-screen overflow-y-scroll">
+                    <Outlet />
+                    <Footer className="mt-[120px] text-center mb-[5rem] py-[2rem]" />
+                </div>
                 <ScrollRestoration />
                 <Scripts />
             </body>
