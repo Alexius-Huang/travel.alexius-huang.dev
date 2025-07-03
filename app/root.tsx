@@ -28,6 +28,7 @@ import {
 } from 'remix-themes';
 
 import './app.css';
+import { trim } from './utils/trim';
 
 export const links: Route.LinksFunction = () => [];
 
@@ -55,7 +56,17 @@ export function App() {
     const [theme] = useTheme();
 
     return (
-        <html lang="en" data-theme={theme ?? ''}>
+        <html
+            lang="en"
+            data-theme={theme ?? ''}
+            className={trim`
+                scrollbar-thumb-rounded
+                scrollbar-thumb-yellow-300
+                scrollbar-track-yellow-300/30
+                dark:scrollbar-thumb-blue-500/70
+                dark:scrollbar-track-blue-500/30
+            `}
+        >
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -75,7 +86,7 @@ export function App() {
                     className="fixed right-4.5 bottom-6 z-[100]"
                 />
 
-                <div className="h-screen overflow-y-scroll">
+                <div className="h-screen overflow-y-scroll scrollbar scrollbar-w-1.5">
                     <Outlet />
                     <Footer className="mt-[120px] text-center mb-[5rem] py-[2rem]" />
                 </div>

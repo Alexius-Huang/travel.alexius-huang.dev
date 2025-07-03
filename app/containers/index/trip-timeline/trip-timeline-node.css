@@ -4,7 +4,7 @@
 .trip-timeline-node {
     @apply grid relative py-8;
     grid-template-columns: 1fr 1fr;
-    column-gap: 2rem;
+    column-gap: 3rem;
 
     & > div:nth-child(1) {
         grid-area: random-highlights;
@@ -18,13 +18,13 @@
         grid-area: trip-detail;
 
         & > span.timeline-dot::before {
-            @apply absolute left-[-1.75rem] top-0
+            @apply absolute left-[-2.25rem] top-0
                 inline-block w-6 h-6 bg-blue-500 rounded-full;
             content: '';
         }
 
         & > span.timeline-dot::after {
-            @apply absolute left-[-1.5rem] top-[.25rem]
+            @apply absolute left-[-2rem] top-[.25rem]
                 inline-block w-4 h-4 bg-white dark:bg-gray-900 rounded-full z-1;
             content: '';
         }
@@ -53,11 +53,11 @@
 
     & > div:nth-child(3) {
         & > span.timeline-dot::before {
-            @apply right-[-1.75rem] 
+            @apply right-[-2.25rem] 
         }
 
         & > span.timeline-dot::after {
-            @apply right-[-1.5rem];
+            @apply right-[-2rem];
         }
     }
 }

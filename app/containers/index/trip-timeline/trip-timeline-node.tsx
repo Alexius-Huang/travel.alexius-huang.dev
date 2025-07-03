@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { ImageCarousel } from "./image-carousel";
 import './trip-timeline-node.css';
 
 export const TripTimelineNode: FC = () => {
@@ -10,9 +11,7 @@ export const TripTimelineNode: FC = () => {
                 Random Highlights
             </div>
 
-            <div>
-                Image Carousel
-            </div>
+            <ImageCarousel className="my-6 pb-2" />
 
             <div>
                 Title / Description
