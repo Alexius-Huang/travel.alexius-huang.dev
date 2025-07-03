@@ -46,7 +46,7 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                 </div>
 
                 <div
-                    className='trip-timeline__trip-detail-grid reversed'
+                    className='trip-timeline__trip-detail-grid'
                 >
                     <div>
                         Random Highlights
@@ -58,7 +58,7 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
 
                     <div>
                         Title / Description
-                        <span aria-hidden='true' className='timeline-dot-reversed' />
+                        <span aria-hidden='true' className='timeline-dot' />
                     </div>
 
                     <div className='timeline-bar' />
@@ -92,7 +92,7 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                         `}
                     />
 
-                    <Button variant='primary'>Checkout More!</Button>
+                    <Button variant='primary'>Checkour More (Under Construction 🚧)</Button>
                 </div>
             </div>
         </section>

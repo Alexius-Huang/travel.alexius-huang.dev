@@ -3,10 +3,6 @@
 
 .trip-timeline__trip-detail-grid {
     @apply grid relative py-8;
-
-    grid-template-areas:
-        'random-highlights image-carousel'
-        'random-highlights trip-detail';
     grid-template-columns: 1fr 1fr;
     column-gap: 2rem;
 
@@ -40,7 +36,13 @@
     }
 }
 
-.trip-timeline__trip-detail-grid.reversed {
+.trip-timeline__trip-detail-grid:nth-child(even) {
+    grid-template-areas:
+        'random-highlights image-carousel'
+        'random-highlights trip-detail';
+}
+
+.trip-timeline__trip-detail-grid:nth-child(odd) {
     grid-template-areas:
         'image-carousel random-highlights'
         'trip-detail random-highlights';
@@ -50,16 +52,12 @@
     }
 
     & > div:nth-child(3) {
-        & > span.timeline-dot-reversed::before {
-            @apply absolute right-[-1.75rem] top-0
-                inline-block w-6 h-6 bg-blue-500 rounded-full;
-            content: '';
+        & > span.timeline-dot::before {
+            @apply right-[-1.75rem] 
         }
 
-        & > span.timeline-dot-reversed::after {
-            @apply absolute right-[-1.5rem] top-[.25rem]
-                inline-block w-4 h-4 bg-white dark:bg-gray-900 rounded-full z-1;
-            content: '';
+        & > span.timeline-dot::after {
+            @apply right-[-1.5rem];
         }
     }
 }
