@@ -2,6 +2,8 @@ import { json } from '~/utils/response.server';
 import type { Route } from './+types/index';
 import { TravelHighlight } from '~/containers/index/travel-highlight';
 import { TravelStats } from '~/containers/index/travel-stats/travel-stats';
+import { TripTimeline } from '~/containers/index/trip-timeline';
+import { trim } from '~/utils/trim';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -21,6 +23,10 @@ export default function Home() {
         <>
             <TravelHighlight className="my-0 mx-auto max-w-[960px]" />
             <TravelStats className="my-0 mx-auto max-w-[960px] pt-12" />
+            <TripTimeline className={trim`
+                hidden md:block
+                my-0 mx-auto pt-24 px-[2rem] max-w-[960px]
+            `} />
         </>
     );
 }

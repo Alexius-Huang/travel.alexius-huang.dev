@@ -1,0 +1,65 @@
+@reference 'tailwindcss';
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+.trip-timeline__trip-detail-grid {
+    @apply grid relative py-8;
+
+    grid-template-areas:
+        'random-highlights image-carousel'
+        'random-highlights trip-detail';
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
+
+    & > div:nth-child(1) {
+        grid-area: random-highlights;
+    }
+    & > div:nth-child(2) {
+        grid-area: image-carousel;
+    }
+
+    & > div:nth-child(3) {
+        @apply relative;
+        grid-area: trip-detail;
+
+        & > span.timeline-dot::before {
+            @apply absolute left-[-1.75rem] top-0
+                inline-block w-6 h-6 bg-blue-500 rounded-full;
+            content: '';
+        }
+
+        & > span.timeline-dot::after {
+            @apply absolute left-[-1.5rem] top-[.25rem]
+                inline-block w-4 h-4 bg-white dark:bg-gray-900 rounded-full z-1;
+            content: '';
+        }
+    }
+
+    & > .timeline-bar {
+        @apply absolute left-0 right-0 top-0 mx-auto
+            h-full w-1.25 bg-blue-500;
+    }
+}
+
+.trip-timeline__trip-detail-grid.reversed {
+    grid-template-areas:
+        'image-carousel random-highlights'
+        'trip-detail random-highlights';
+
+    & > div {
+        direction: rtl;
+    }
+
+    & > div:nth-child(3) {
+        & > span.timeline-dot-reversed::before {
+            @apply absolute right-[-1.75rem] top-0
+                inline-block w-6 h-6 bg-blue-500 rounded-full;
+            content: '';
+        }
+
+        & > span.timeline-dot-reversed::after {
+            @apply absolute right-[-1.5rem] top-[.25rem]
+                inline-block w-4 h-4 bg-white dark:bg-gray-900 rounded-full z-1;
+            content: '';
+        }
+    }
+}
