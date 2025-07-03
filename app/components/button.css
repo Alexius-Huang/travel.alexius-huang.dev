@@ -16,13 +16,13 @@
 }
 
 .btn-primary {
-    @apply border-2 border-gray-900 dark:border-white
-        bg-gray-900 dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-100
+    @apply border-2 border-blue-500 dark:border-white
+        bg-blue-500 dark:bg-white hover:bg-blue-600 hover:dark:bg-gray-100
         text-white dark:text-gray-900;
 }
 
 .btn-secondary {
-    @apply border-2 border-gray-900 dark:border-white
+    @apply border-2 border-blue-500 dark:border-white
         bg-transparent hover:bg-gray-100 hover:dark:bg-gray-800
         text-gray-900 dark:text-white;
 }
