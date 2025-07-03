@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { trim } from "~/utils/trim";
-import './trip-timeline.css';
 import { Button } from "~/components/button";
+import { TripTimelineNode } from "./trip-timeline-node";
 
 interface TripTimelineProps {
     className?: string;
@@ -26,62 +26,9 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
             <div className='relative pt-8'>
                 <span className='absolute rounded inline-block w-8 h-8 left-0 right-0 top-0 mx-auto bg-blue-500' aria-hidden='true' />
 
-                <div
-                    className='trip-timeline__trip-detail-grid'
-                >
-                    <div>
-                        Random Highlights
-                    </div>
-
-                    <div>
-                        Image Carousel
-                    </div>
-
-                    <div>
-                        Title / Description
-                        <span aria-hidden='true' className='timeline-dot' />
-                    </div>
-
-                    <div className='timeline-bar' />
-                </div>
-
-                <div
-                    className='trip-timeline__trip-detail-grid'
-                >
-                    <div>
-                        Random Highlights
-                    </div>
-
-                    <div>
-                        Image Carousel
-                    </div>
-
-                    <div>
-                        Title / Description
-                        <span aria-hidden='true' className='timeline-dot' />
-                    </div>
-
-                    <div className='timeline-bar' />
-                </div>
-
-                <div
-                    className='trip-timeline__trip-detail-grid'
-                >
-                    <div>
-                        Random Highlights
-                    </div>
-
-                    <div>
-                        Image Carousel
-                    </div>
-
-                    <div>
-                        Title / Description
-                        <span aria-hidden='true' className='timeline-dot' />
-                    </div>
-
-                    <div className='timeline-bar' />
-                </div>
+                <TripTimelineNode />
+                <TripTimelineNode />
+                <TripTimelineNode />
 
                 <div className='flex flex-col items-center relative pt-15'>
                     <span

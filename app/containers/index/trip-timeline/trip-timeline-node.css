@@ -1,7 +1,7 @@
 @reference 'tailwindcss';
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-.trip-timeline__trip-detail-grid {
+.trip-timeline-node {
     @apply grid relative py-8;
     grid-template-columns: 1fr 1fr;
     column-gap: 2rem;
@@ -36,13 +36,13 @@
     }
 }
 
-.trip-timeline__trip-detail-grid:nth-child(even) {
+.trip-timeline-node:nth-child(even) {
     grid-template-areas:
         'random-highlights image-carousel'
         'random-highlights trip-detail';
 }
 
-.trip-timeline__trip-detail-grid:nth-child(odd) {
+.trip-timeline-node:nth-child(odd) {
     grid-template-areas:
         'image-carousel random-highlights'
         'trip-detail random-highlights';
