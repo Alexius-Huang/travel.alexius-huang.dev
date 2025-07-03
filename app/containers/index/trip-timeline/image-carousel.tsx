@@ -29,7 +29,8 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({ className }) => {
                         <div
                             className={trim`
                                 w-[150px] h-[150px]
-                                rounded bg-cover bg-center bg-no-repeat   
+                                rounded bg-cover bg-center bg-no-repeat
+                                shadow-md shadow-gray-500 dark:shadow-yellow-300
                             `}
                             style={{ backgroundImage: `url(${src})` }}
                             role="img"
