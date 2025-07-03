@@ -11,7 +11,7 @@ export const TripTimelineNode: FC = () => {
                 Random Highlights
             </div>
 
-            <ImageCarousel className="my-6 pb-2" />
+            <ImageCarousel className="my-6" />
 
             <div>
                 Title / Description
