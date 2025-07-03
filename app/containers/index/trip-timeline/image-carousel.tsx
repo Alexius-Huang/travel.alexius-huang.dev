@@ -32,48 +32,53 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({ className }) => {
 
     return (
         <div className={`${className} relative w-full overflow-x-auto`}>
-        <div
-            ref={carouselRef}
-            className={trim`
-            w-full overflow-x-auto whitespace-nowrap
-            scrollbar scrollbar-h-1 pb-2
-        `}>
-            <ul className='inline-flex gap-[1rem]'>
-                {images.map((src, index) => (
-                    /**
-                     *  flex: 0 0 auto means:
-                     *  - flex-shrink: 0
-                     *  - flex-grow: 0
-                     *  - flex-basis: auto
-                     *  Don’t grow or shrink -- stay exactly the size based on content or set dimensions
-                     **/
-                    <li key={index} className='flex-[0_0_auto]'>
-                        <div
-                            className={trim`
-                                w-[150px] h-[150px]
-                                rounded bg-cover bg-center bg-no-repeat
-                                shadow-md shadow-gray-500 dark:shadow-blue-500
-                            `}
-                            style={{ backgroundImage: `url(${src})` }}
-                            role="img"
-                            aria-label={`Placeholder Image ${index + 1}`}
-                        />
-                    </li>
-                ))}
-            </ul>
-        </div>
+            <div
+                ref={carouselRef}
+                className={trim`
+                    w-full overflow-x-auto whitespace-nowrap
+                    scrollbar scrollbar-h-1 pb-2
+                `}
+            >
+                <ul className="inline-flex gap-[1rem]">
+                    {images.map((src, index) => (
+                        /**
+                         *  flex: 0 0 auto means:
+                         *  - flex-shrink: 0
+                         *  - flex-grow: 0
+                         *  - flex-basis: auto
+                         *  Don’t grow or shrink -- stay exactly the size based on content or set dimensions
+                         **/
+                        <li key={index} className="flex-[0_0_auto]">
+                            <div
+                                className={trim`
+                                    w-[150px] h-[150px]
+                                    rounded bg-cover bg-center bg-no-repeat
+                                    shadow-md shadow-gray-500 dark:shadow-blue-500
+                                `}
+                                style={{ backgroundImage: `url(${src})` }}
+                                role="img"
+                                aria-label={`Placeholder Image ${index + 1}`}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
-        <div className={trim`
-            absolute top-0 left-0 pointer-events-none h-full w-6
-            ${showLeftGradient ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 ease-in-out
-            bg-gradient-to-r from-white dark:from-gray-900 to-transparent
-        `} />
+            <div
+                className={trim`
+                    absolute top-0 left-0 pointer-events-none h-full w-6
+                    ${showLeftGradient ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 ease-in-out
+                    bg-gradient-to-r from-white dark:from-gray-900 to-transparent
+                `}
+            />
 
-        <div className={trim`
-            absolute top-0 right-0 pointer-events-none h-full w-6
-            ${showRightGradient ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 ease-in-out
-            bg-gradient-to-l from-white dark:from-gray-900 to-transparent
-        `} />
+            <div
+                className={trim`
+                    absolute top-0 right-0 pointer-events-none h-full w-6
+                    ${showRightGradient ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 ease-in-out
+                    bg-gradient-to-l from-white dark:from-gray-900 to-transparent
+                `}
+            />
         </div>
     );
 };

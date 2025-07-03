@@ -9,7 +9,8 @@
     --breakpoint-xl: 1280px;
     --breakpoint-2xl: 1536px;
 
-    --font-header: 'Chakra Petch', 'Roboto', 'Inter', ui-sans-serif, system-ui, sans-serif,
+    --font-header:
+        'Chakra Petch', 'Roboto', 'Inter', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
     --font-main: 'Roboto', var(--font-sans);
@@ -17,7 +18,7 @@
 
 @plugin 'tailwind-scrollbar' {
     nocompatible: true;
-    preferredStrategy: 'pseudoelements';
+    preferredstrategy: 'pseudoelements';
 }
 
 @import './font.css';

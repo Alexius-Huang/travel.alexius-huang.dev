@@ -53,7 +53,7 @@
 
     & > div:nth-child(3) {
         & > span.timeline-dot::before {
-            @apply right-[-2.25rem] 
+            @apply right-[-2.25rem];
         }
 
         & > span.timeline-dot::after {
