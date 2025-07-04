@@ -29,6 +29,7 @@ import {
 
 import './app.css';
 import { trim } from './utils/trim';
+import { useEffect } from 'react';
 
 export const links: Route.LinksFunction = () => [];
 
@@ -54,6 +55,12 @@ export async function loader({ request }: Route.LoaderArgs) {
 export function App() {
     const data = useLoaderData();
     const [theme] = useTheme();
+
+    useEffect(() => {
+        document.addEventListener('copy', e => {
+            e.preventDefault();
+        });
+    }, []);
 
     return (
         <html

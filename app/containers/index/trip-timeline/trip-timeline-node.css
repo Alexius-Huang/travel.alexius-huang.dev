@@ -13,19 +13,13 @@
         grid-area: image-carousel;
     }
 
-    & > div:nth-child(3) {
+    & > article {
         @apply relative;
         grid-area: trip-detail;
 
         & > span.timeline-dot::before {
-            @apply absolute left-[-2.25rem] top-0
+            @apply absolute left-[-2.25rem] top-0.5
                 inline-block w-6 h-6 bg-blue-500 rounded-full;
-            content: '';
-        }
-
-        & > span.timeline-dot::after {
-            @apply absolute left-[-2rem] top-[.25rem]
-                inline-block w-4 h-4 bg-white dark:bg-gray-900 rounded-full z-1;
             content: '';
         }
     }
@@ -47,11 +41,12 @@
         'image-carousel random-highlights'
         'trip-detail random-highlights';
 
-    & > div {
+    & > div,
+    & > article {
         direction: rtl;
     }
 
-    & > div:nth-child(3) {
+    & > article {
         & > span.timeline-dot::before {
             @apply right-[-2.25rem];
         }
