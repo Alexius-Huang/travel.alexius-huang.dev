@@ -36,7 +36,7 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                 />
 
                 <TripTimelineNode />
-                <TripTimelineNode />
+                <TripTimelineNode debug />
                 <TripTimelineNode />
 
                 <div className="flex flex-col items-center relative pt-15">

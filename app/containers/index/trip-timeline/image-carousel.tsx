@@ -12,28 +12,46 @@ interface ImageCarouselProps {
 }
 
 export const ImageCarousel: FC<ImageCarouselProps> = ({ className }) => {
-    const [showLeftGradient, setShowLeftGradient] = useState(false);
-    const [showRightGradient, setShowRightGradient] = useState(true);
+    const [scrollPercentage, setScrollPercentage] = useState(0);
     const carouselRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const carousel = carouselRef.current;
         if (!carousel) return;
 
+        const direction = window.getComputedStyle(carousel).direction as 'rtl' | 'ltr';
+
         const handleScroll = throttle(() => {
-            const { scrollLeft, scrollWidth, clientWidth } = carousel;
-            setShowLeftGradient(scrollLeft > 0);
-            setShowRightGradient(scrollLeft < scrollWidth - clientWidth);
+            const { scrollWidth, clientWidth } = carousel;
+
+            /**
+             *  The reason why we apply absolute value is because if
+             *  the image carousel is in writing mode "rtl", the scrollLeft
+             *  will become negative value 
+             */
+            const scrollLeft = Math.abs(carousel.scrollLeft);
+            const scrollableWidth = scrollWidth - clientWidth;
+            const percentage = scrollLeft / scrollableWidth;
+
+            setScrollPercentage(direction === 'ltr' ? percentage : 1 - percentage);
         }, 100);
 
         carousel.addEventListener('scroll', handleScroll);
-        return () => carousel.removeEventListener('scroll', handleScroll);
+        return () => {
+            carousel.removeEventListener('scroll', handleScroll);
+        }
     }, []);
+
+    const leftGradientOpacity = scrollPercentage > .2 ? 1 : 1 - ((.2 - scrollPercentage) * 5);
+    const rightGradientOpacity = scrollPercentage < .8 ? 1 : 1 - ((scrollPercentage - .8) * 5);
 
     return (
         <div className={`${className} relative w-full overflow-x-auto`}>
             <div
-                ref={carouselRef}
+                ref={el => {
+                    if (!el) return;
+                    carouselRef.current = el;
+                }}
                 className={trim`
                     w-full overflow-x-auto whitespace-nowrap
                     scrollbar scrollbar-h-1 pb-2
@@ -67,17 +85,17 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({ className }) => {
             <div
                 className={trim`
                     absolute top-0 left-0 pointer-events-none h-full w-6
-                    ${showLeftGradient ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 ease-in-out
                     bg-gradient-to-r from-white dark:from-gray-900 to-transparent
                 `}
+                style={{ opacity: leftGradientOpacity }}
             />
 
             <div
                 className={trim`
                     absolute top-0 right-0 pointer-events-none h-full w-6
-                    ${showRightGradient ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 ease-in-out
                     bg-gradient-to-l from-white dark:from-gray-900 to-transparent
                 `}
+                style={{ opacity: rightGradientOpacity }}
             />
         </div>
     );
