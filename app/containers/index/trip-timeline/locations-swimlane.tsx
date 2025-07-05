@@ -10,38 +10,45 @@ interface LocationsSwimlaneProps {
         url: string;
         name: string;
         countryCode: string;
-    }>
+    }>;
 }
 
 export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
     className,
     width,
     height,
-    locations
+    locations,
 }) => {
     const [scrollPercentage, setScrollPercentage] = useState(0);
     const carouselRef = useRef<HTMLDivElement>(null);
 
     const [hydrated, setHydrated] = useState(false);
 
-    const handleScroll = useCallback(throttle(() => {
-        const carousel = carouselRef.current;
-        if (!carousel) return;
+    const handleScroll = useCallback(
+        throttle(() => {
+            const carousel = carouselRef.current;
+            if (!carousel) return;
 
-        const direction = window.getComputedStyle(carousel).direction as 'rtl' | 'ltr';
-        const { scrollWidth, clientWidth } = carousel;
+            const direction = window.getComputedStyle(carousel).direction as
+                | 'rtl'
+                | 'ltr';
+            const { scrollWidth, clientWidth } = carousel;
 
-        /**
-         *  The reason why we apply absolute value is because if
-         *  the image carousel is in writing mode "rtl", the scrollLeft
-         *  will become negative value 
-         */
-        const scrollLeft = Math.abs(carousel.scrollLeft);
-        const scrollableWidth = scrollWidth - clientWidth;
-        const percentage = scrollLeft / scrollableWidth;
+            /**
+             *  The reason why we apply absolute value is because if
+             *  the image carousel is in writing mode "rtl", the scrollLeft
+             *  will become negative value
+             */
+            const scrollLeft = Math.abs(carousel.scrollLeft);
+            const scrollableWidth = scrollWidth - clientWidth;
+            const percentage = scrollLeft / scrollableWidth;
 
-        setScrollPercentage(direction === 'ltr' ? percentage : 1 - percentage);
-    }, 100), []);
+            setScrollPercentage(
+                direction === 'ltr' ? percentage : 1 - percentage,
+            );
+        }, 100),
+        [],
+    );
 
     useEffect(() => {
         const carousel = carouselRef.current;
@@ -55,11 +62,13 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
         carousel.addEventListener('scroll', handleScroll);
         return () => {
             carousel.removeEventListener('scroll', handleScroll);
-        }
+        };
     }, [handleScroll, hydrated]);
 
-    const leftGradientOpacity = scrollPercentage > .2 ? 1 : 1 - ((.2 - scrollPercentage) * 5);
-    const rightGradientOpacity = scrollPercentage < .8 ? 1 : 1 - ((scrollPercentage - .8) * 5);
+    const leftGradientOpacity =
+        scrollPercentage > 0.2 ? 1 : 1 - (0.2 - scrollPercentage) * 5;
+    const rightGradientOpacity =
+        scrollPercentage < 0.8 ? 1 : 1 - (scrollPercentage - 0.8) * 5;
 
     width = typeof width === 'number' ? `${width}px` : width;
     height = typeof height === 'number' ? `${height}px` : height;
@@ -67,7 +76,7 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
     return (
         <div className={`${className} relative w-full overflow-x-auto`}>
             <div
-                ref={el => {
+                ref={(el) => {
                     if (!el) return;
                     carouselRef.current = el;
                 }}
@@ -95,16 +104,22 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
                                     hover:shadow-md hover:shadow-gray-300 hover:dark:shadow-blue-500/50
                                     cursor-pointer
                                 `}
-                                style={{ backgroundImage: `url(${url})`, width, height }}
+                                style={{
+                                    backgroundImage: `url(${url})`,
+                                    width,
+                                    height,
+                                }}
                                 role="img"
                                 aria-label={`Image of ${name}`}
                             >
-                                <p className={trim`
+                                <p
+                                    className={trim`
                                     absolute bottom-0 left-0 px-2 pt-6 pb-1 w-full
                                     text-sm whitespace-normal line-clamp-2
                                     text-gray-700 dark:text-white tracking-wide font-light
                                     bg-gradient-to-t from-yellow-300 dark:from-blue-500 to-transparent
-                                `}>
+                                `}
+                                >
                                     {name}
                                 </p>
                             </div>

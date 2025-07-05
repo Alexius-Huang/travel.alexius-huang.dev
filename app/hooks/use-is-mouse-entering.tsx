@@ -1,11 +1,13 @@
-import { useEffect, useState, type RefObject } from "react";
-import { useHydration } from "./use-hydration";
+import { useEffect, useState, type RefObject } from 'react';
+import { useHydration } from './use-hydration';
 
 /**
  *  This hook detects whether the mouse is entering some specific
- *  ref UI 
+ *  ref UI
  */
-export function useIsMouseEntering<T extends HTMLElement>(ref: RefObject<T | null>) {
+export function useIsMouseEntering<T extends HTMLElement>(
+    ref: RefObject<T | null>,
+) {
     const [isMouseEntered, setIsMouseEntered] = useState(false);
     const isHydrated = useHydration();
 
@@ -15,10 +17,10 @@ export function useIsMouseEntering<T extends HTMLElement>(ref: RefObject<T | nul
 
         function mouseEnterHandler() {
             setIsMouseEntered(true);
-        };
+        }
         function mouseLeaveHandler() {
             setIsMouseEntered(false);
-        };
+        }
         el.addEventListener('mouseenter', mouseEnterHandler);
         el.addEventListener('mouseleave', mouseLeaveHandler);
 

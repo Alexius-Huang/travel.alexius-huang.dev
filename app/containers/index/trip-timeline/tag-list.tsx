@@ -1,5 +1,5 @@
-import type { FC } from "react";
-import { trim } from "~/utils/trim";
+import type { FC } from 'react';
+import { trim } from '~/utils/trim';
 
 export interface TagListProps {
     tags: Array<string>;
@@ -9,9 +9,11 @@ export interface TagListProps {
 export const TagList: FC<TagListProps> = ({ tags, className }) => {
     return (
         <>
-            <h4 className='sr-only'>Tags About This Trip</h4>
-            <ul className={`flex flex-row gap-x-2.5 gap-y-2 flex-wrap ${className}`}>
-                {tags.map(tag => (
+            <h4 className="sr-only">Tags About This Trip</h4>
+            <ul
+                className={`flex flex-row gap-x-2.5 gap-y-2 flex-wrap ${className}`}
+            >
+                {tags.map((tag) => (
                     <li
                         key={tag}
                         className={trim`
@@ -32,7 +34,10 @@ export const TagList: FC<TagListProps> = ({ tags, className }) => {
                          */
                         // role='button'
                     >
-                        <span aria-hidden='true' className='font-bold text-blue-300 dark:text-yellow-200'>
+                        <span
+                            aria-hidden="true"
+                            className="font-bold text-blue-300 dark:text-yellow-200"
+                        >
                             #
                         </span>{' '}
                         {tag}
@@ -41,4 +46,4 @@ export const TagList: FC<TagListProps> = ({ tags, className }) => {
             </ul>
         </>
     );
-}
+};

@@ -43,7 +43,8 @@ h6 {
     @apply text-balance;
 }
 
-p, span {
+p,
+span {
     @apply text-balance;
 }
 

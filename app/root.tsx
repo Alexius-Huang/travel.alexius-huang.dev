@@ -57,7 +57,7 @@ export function App() {
     const [theme] = useTheme();
 
     useEffect(() => {
-        document.addEventListener('copy', e => {
+        document.addEventListener('copy', (e) => {
             e.preventDefault();
         });
     }, []);

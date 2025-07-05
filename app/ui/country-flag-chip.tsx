@@ -1,7 +1,10 @@
-import type { FC } from "react"
-import { Tooltip } from "~/components/tooltip"
-import { CountryFlagIcon, type CountryFlagIconProps } from "~/icons/country/country";
-import { trim } from "~/utils/trim";
+import type { FC } from 'react';
+import { Tooltip } from '~/components/tooltip';
+import {
+    CountryFlagIcon,
+    type CountryFlagIconProps,
+} from '~/icons/country/country';
+import { trim } from '~/utils/trim';
 
 interface CountryFlagChip {
     className?: string;
@@ -20,7 +23,7 @@ export const CountryFlagChip: FC<CountryFlagChip> = ({
     name,
     onClick,
     size = 'md',
-    variant = 'vertical'
+    variant = 'vertical',
 }) => {
     return (
         <Tooltip
@@ -50,4 +53,4 @@ export const CountryFlagChip: FC<CountryFlagChip> = ({
             </div>
         </Tooltip>
     );
-}
+};

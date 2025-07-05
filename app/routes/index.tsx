@@ -24,8 +24,8 @@ export default function Home() {
             <TravelHighlight className="my-0 mx-auto max-w-[960px]" />
             <TravelStats className="my-0 mx-auto max-w-[960px] pt-12" />
 
-            <p className='hidden mx-auto mt-[4rem] md:block text-center max-w-[960px] opacity-50'>
-                🚧 My Journey Timeline is Currently Under Construction 🚧 <br/>
+            <p className="hidden mx-auto mt-[4rem] md:block text-center max-w-[960px] opacity-50">
+                🚧 My Journey Timeline is Currently Under Construction 🚧 <br />
                 😊 Following is a Preview Version 😊
             </p>
             <TripTimeline
