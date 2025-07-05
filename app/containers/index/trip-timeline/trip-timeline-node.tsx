@@ -1,9 +1,9 @@
 import { useRef, type FC } from 'react';
-import { ImageSwimlane } from './image-swimlane';
+import { LocationsSwimlane } from './locations-swimlane';
 import { Button } from '~/components/button';
 import { TagList } from './tag-list';
 import { CountryFlagChip } from '~/ui/country-flag-chip';
-import { ImageCarousel } from './image-carousel';
+import { AttractionsCarousel } from './attractions-carousel';
 import { useIsMouseEntering } from '~/hooks/use-is-mouse-entering';
 import './trip-timeline-node.css';
 
@@ -14,9 +14,9 @@ export const TripTimelineNode: FC = () => {
     return (
         <div className="trip-timeline-node" ref={timelineNodeRef}>
             {/* Attraction Highlights */}
-            <ImageCarousel
+            <AttractionsCarousel
                 autoplay={isMouseEnteringTimelineNode}
-                images={[
+                attractions={[
                     {
                         url: 'https://placehold.co/200x200?text=Photo+1',
                         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -43,10 +43,27 @@ export const TripTimelineNode: FC = () => {
             />
 
             {/* Travelled Cities Gallery Swimlane */}
-            <ImageSwimlane
-                className='my-6'
+            <LocationsSwimlane
+                className='mb-8'
                 width={150}
-                height={150}
+                height={200}
+                locations={[
+                    {
+                        url: 'https://placehold.co/200x200?text=City+1',
+                        name: 'New York City',
+                        countryCode: 'us'
+                    },
+                    {
+                        url: 'https://placehold.co/200x200?text=City+2',
+                        name: 'Philadelphia',
+                        countryCode: 'us'
+                    },
+                    {
+                        url: 'https://placehold.co/200x200?text=City+3',
+                        name: 'Washington D.C.',
+                        countryCode: 'us'
+                    }
+                ]}
             />
 
             <article className='relative flex flex-col gap-y-2'>

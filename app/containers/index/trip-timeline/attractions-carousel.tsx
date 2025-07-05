@@ -5,11 +5,11 @@ import { ChevronRightOutlineIcon } from "~/icons/outline/chevron-right";
 import { MapPinOutlineIcon } from "~/icons/outline/map-pin";
 import { trim } from "~/utils/trim";
 import { useIsMouseEntering } from "~/hooks/use-is-mouse-entering";
-import './image-carousel.css';
+import './attractions-carousel.css';
 
-export interface ImageCarouselProps {
+export interface AttractionsCarouselProps {
     className?: string;
-    images: Array<{
+    attractions: Array<{
         url: string;
         description?: string;
         location?: {
@@ -23,41 +23,41 @@ export interface ImageCarouselProps {
 
 let timeoutSignature: ReturnType<typeof setTimeout> | undefined;
 
-export const ImageCarousel: FC<ImageCarouselProps> = ({
+export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
     className,
-    images,
+    attractions,
     autoplay,
     autoplayDuration = 5000
 }) => {
-    const [focusImgIndex, setFocusImgIndex] = useState(0);
+    const [focusAttractionIndex, setFocusAttractionIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const isEnteringImageCarousel = useIsMouseEntering(containerRef);
 
     const {
         description,
         location
-    } = images[focusImgIndex];
+    } = attractions[focusAttractionIndex];
 
-    const translation = `translateX(calc(-${100 * focusImgIndex}%))`;
+    const translation = `translateX(calc(-${100 * focusAttractionIndex}%))`;
 
     const switchImageTo = (direction: 'prev' | 'next') => {
-        if (direction === 'prev' && focusImgIndex !== 0) {
-            setFocusImgIndex(state => state - 1);
-        } else if (direction === 'next' && focusImgIndex !== images.length - 1) {
-            setFocusImgIndex(state => state + 1);
+        if (direction === 'prev' && focusAttractionIndex !== 0) {
+            setFocusAttractionIndex(state => state - 1);
+        } else if (direction === 'next' && focusAttractionIndex !== attractions.length - 1) {
+            setFocusAttractionIndex(state => state + 1);
         } else {
             console.warn(`Unable to switch to "${direction}" image`);
         }
     };
 
-    const disablePrevBtn = focusImgIndex === 0;
-    const disableNextBtn = focusImgIndex === images.length - 1;
+    const disablePrevBtn = focusAttractionIndex === 0;
+    const disableNextBtn = focusAttractionIndex === attractions.length - 1;
 
     const scheduleAutoplay = () => setTimeout(() => {
-        if (focusImgIndex === images.length - 1) {
-            setFocusImgIndex(0);
+        if (focusAttractionIndex === attractions.length - 1) {
+            setFocusAttractionIndex(0);
         } else {
-            setFocusImgIndex(i => i + 1);
+            setFocusAttractionIndex(i => i + 1);
         }
     }, autoplayDuration);
 
@@ -86,7 +86,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({
                 <div className='inline-flex flex-nowrap w-full h-full direction-ltr transition-transform duration-300 ease-in-out'
                     style={{ transform: translation }}
                 >
-                    {images.map(({ url }, i) => (
+                    {attractions.map(({ url }, i) => (
                         <div
                             key={i}
                             style={{ backgroundImage: `url(${url})` }}
@@ -108,11 +108,11 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({
                     flex items-center justify-center gap-x-1.5
                     direction-ltr
                 `}>
-                    {images.map((_, i) => (
+                    {attractions.map((_, i) => (
                         <span key={i} className={trim`
                             inline-block rounded-md
                             transition-all duration-250 ease-in-out
-                            ${i === focusImgIndex
+                            ${i === focusAttractionIndex
                                 ? 'bg-blue-500 dark:bg-yellow-300 w-2.5 h-2.5'
                                 : 'bg-blue-500/60 dark:bg-yellow-300/60 w-1.5 h-1.5'
                             }
@@ -146,7 +146,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({
                 role='button'
                 aria-hidden='true'
                 className={trim`
-                    image-carousel__hidden-btn
+                    attractions-carousel__hidden-btn
                     direction-ltr left-0
                 `}
                 onClick={() => !disablePrevBtn && switchImageTo('prev')}
@@ -167,7 +167,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({
                 role='button'
                 aria-hidden='true'
                 className={trim`
-                    image-carousel__hidden-btn
+                    attractions-carousel__hidden-btn
                     direction-ltr right-0
                 `}
                 onClick={() => !disableNextBtn && switchImageTo('next')}

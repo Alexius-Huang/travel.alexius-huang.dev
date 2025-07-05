@@ -1,7 +1,7 @@
 @reference 'tailwindcss';
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-.image-carousel__hidden-btn {
+.attractions-carousel__hidden-btn {
     @apply absolute w-[50%] h-[75%] z-3 top-0;
 
     & + button {
@@ -18,9 +18,9 @@
     }
 }
 
-.image-carousel__hidden-btn:hover + button,
-.image-carousel__hidden-btn + button:focus,
-.image-carousel__hidden-btn + button:hover, {
+.attractions-carousel__hidden-btn:hover + button,
+.attractions-carousel__hidden-btn + button:focus,
+.attractions-carousel__hidden-btn + button:hover, {
     & > span {
         @apply
             bg-blue-500 dark:bg-yellow-300
@@ -28,7 +28,7 @@
     }
 }
 
-.image-carousel__hidden-btn + button:disabled > span {
+.attractions-carousel__hidden-btn + button:disabled > span {
     @apply text-gray-400 bg-gray-200 
         dark:text-gray-400 dark:bg-gray-700;
 }

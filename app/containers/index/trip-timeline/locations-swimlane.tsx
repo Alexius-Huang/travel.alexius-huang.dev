@@ -2,18 +2,23 @@ import { useCallback, useEffect, useRef, useState, type FC } from 'react';
 import { trim } from '~/utils/trim';
 import { throttle } from '~/utils/throttle';
 
-const images = Array.from(
-    { length: 5 },
-    (_, i) => `https://placehold.co/200x200?text=Image+${i + 1}`,
-);
-
-interface ImageSwimlaneProps {
+interface LocationsSwimlaneProps {
     className?: string;
     width: string | number;
     height: string | number;
+    locations: Array<{
+        url: string;
+        name: string;
+        countryCode: string;
+    }>
 }
 
-export const ImageSwimlane: FC<ImageSwimlaneProps> = ({ className, width, height }) => {
+export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
+    className,
+    width,
+    height,
+    locations
+}) => {
     const [scrollPercentage, setScrollPercentage] = useState(0);
     const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -71,8 +76,8 @@ export const ImageSwimlane: FC<ImageSwimlaneProps> = ({ className, width, height
                     scrollbar scrollbar-h-1 pb-2
                 `}
             >
-                <ul className="inline-flex gap-[1rem] px-1.5">
-                    {images.map((src, index) => (
+                <ul className="inline-flex gap-[1rem] px-3 py-4">
+                    {locations.map(({ url, name, countryCode }) => (
                         /**
                          *  flex: 0 0 auto means:
                          *  - flex-shrink: 0
@@ -80,16 +85,29 @@ export const ImageSwimlane: FC<ImageSwimlaneProps> = ({ className, width, height
                          *  - flex-basis: auto
                          *  Don’t grow or shrink -- stay exactly the size based on content or set dimensions
                          **/
-                        <li key={index} className="flex-[0_0_auto]">
+                        <li key={name} className="flex-[0_0_auto]">
                             <div
                                 className={trim`
-                                    rounded bg-cover bg-center bg-no-repeat
-                                    shadow-md shadow-gray-500 dark:shadow-blue-500
+                                    relative rounded overflow-hidden
+                                    bg-cover bg-center bg-no-repeat
+                                    shadow-sm shadow-gray-400 dark:shadow-blue-500
+                                    transition-all duration-200 hover:scale-105
+                                    hover:shadow-md hover:shadow-gray-300 hover:dark:shadow-blue-500/50
+                                    cursor-pointer
                                 `}
-                                style={{ backgroundImage: `url(${src})`, width, height }}
+                                style={{ backgroundImage: `url(${url})`, width, height }}
                                 role="img"
-                                aria-label={`Placeholder Image ${index + 1}`}
-                            />
+                                aria-label={`Image of ${name}`}
+                            >
+                                <p className={trim`
+                                    absolute bottom-0 left-0 px-2 pt-6 pb-1 w-full
+                                    text-sm whitespace-normal text-balance line-clamp-2
+                                    text-gray-700 dark:text-white tracking-wide font-light
+                                    bg-gradient-to-t from-yellow-300 dark:from-blue-500 to-transparent
+                                `}>
+                                    {name}
+                                </p>
+                            </div>
                         </li>
                     ))}
                 </ul>
