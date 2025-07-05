@@ -1,16 +1,48 @@
 import type { FC } from 'react';
-import { ImageCarousel } from './image-carousel';
+import { ImageSwimlane } from './image-swimlane';
 import { Button } from '~/components/button';
 import { TagList } from './tag-list';
 import { CountryFlagChip } from '~/ui/country-flag-chip';
+import { ImageCarousel } from './image-carousel';
 import './trip-timeline-node.css';
 
 export const TripTimelineNode: FC = () => {
     return (
         <div className="trip-timeline-node">
-            <div>Random Highlights</div>
+            {/* Attraction Highlights */}
+            <ImageCarousel
+                images={[
+                    {
+                        url: 'https://placehold.co/200x200?text=Photo+1',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                        location: {
+                            name: 'New York City, New York, USA',
+                            countryCode: 'us',
+                        }
+                    },
+                    {
+                        url: 'https://placehold.co/200x200?text=Photo+2',
+                        location: {
+                            name: 'New York City, New York, USA',
+                            countryCode: 'us',
+                        }
+                    },
+                    {
+                        url: 'https://placehold.co/200x200?text=Photo+3',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                    },
+                    {
+                        url: 'https://placehold.co/200x200?text=Photo+4',
+                    }
+                ]}
+            />
 
-            <ImageCarousel className="my-6" />
+            {/* Travelled Cities Gallery Swimlane */}
+            <ImageSwimlane
+                className='my-6'
+                width={150}
+                height={150}
+            />
 
             <article className='relative flex flex-col gap-y-2'>
                 <h3 className='text-2xl font-bold uppercase text-blue-500 dark:text-blue-400'>

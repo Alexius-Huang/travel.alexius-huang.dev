@@ -1,111 +1,131 @@
-import { useCallback, useEffect, useRef, useState, type FC } from 'react';
-import { trim } from '~/utils/trim';
-import { throttle } from '~/utils/throttle';
+import { useEffect, useState, type FC } from "react";
+import { CountryFlagIcon } from "~/icons/country/country";
+import { ChevronLeftOutlineIcon } from "~/icons/outline/chevron-left";
+import { ChevronRightOutlineIcon } from "~/icons/outline/chevron-right";
+import { MapPinOutlineIcon } from "~/icons/outline/map-pin";
+import { trim } from "~/utils/trim";
 
-const images = Array.from(
-    { length: 5 },
-    (_, i) => `https://placehold.co/200x200?text=Image+${i + 1}`,
-);
-
-interface ImageCarouselProps {
+export interface ImageCarouselProps {
     className?: string;
+    images: Array<{
+        url: string;
+        description?: string;
+        location?: {
+            name: string;
+            countryCode: string;
+        };
+    }>;
 }
 
-export const ImageCarousel: FC<ImageCarouselProps> = ({ className }) => {
-    const [scrollPercentage, setScrollPercentage] = useState(0);
-    const carouselRef = useRef<HTMLDivElement>(null);
+export const ImageCarousel: FC<ImageCarouselProps> = ({
+    className,
+    images
+}) => {
+    const [focusImgIndex, setFocusImgIndex] = useState(0);
 
-    const [hydrated, setHydrated] = useState(false);
+    const {
+        description,
+        location
+    } = images[focusImgIndex];
 
-    const handleScroll = useCallback(throttle(() => {
-        const carousel = carouselRef.current;
-        if (!carousel) return;
+    const translation = `translateX(calc(-${100 * focusImgIndex}%))`;
 
-        const direction = window.getComputedStyle(carousel).direction as 'rtl' | 'ltr';
-        const { scrollWidth, clientWidth } = carousel;
-
-        /**
-         *  The reason why we apply absolute value is because if
-         *  the image carousel is in writing mode "rtl", the scrollLeft
-         *  will become negative value 
-         */
-        const scrollLeft = Math.abs(carousel.scrollLeft);
-        const scrollableWidth = scrollWidth - clientWidth;
-        const percentage = scrollLeft / scrollableWidth;
-
-        setScrollPercentage(direction === 'ltr' ? percentage : 1 - percentage);
-    }, 100), []);
-
-    useEffect(() => {
-        const carousel = carouselRef.current;
-        if (!carousel) return;
-
-        if (!hydrated) {
-            handleScroll();
-            setHydrated(true);
+    const switchImageTo = (direction: 'prev' | 'next') => {
+        if (direction === 'prev' && focusImgIndex !== 0) {
+            setFocusImgIndex(state => state - 1);
+        } else if (direction === 'next' && focusImgIndex !== images.length - 1) {
+            setFocusImgIndex(state => state + 1);
+        } else {
+            console.warn(`Unable to switch to "${direction}" image`);
         }
-
-        carousel.addEventListener('scroll', handleScroll);
-        return () => {
-            carousel.removeEventListener('scroll', handleScroll);
-        }
-    }, [handleScroll, hydrated]);
-
-    const leftGradientOpacity = scrollPercentage > .2 ? 1 : 1 - ((.2 - scrollPercentage) * 5);
-    const rightGradientOpacity = scrollPercentage < .8 ? 1 : 1 - ((scrollPercentage - .8) * 5);
+    }
 
     return (
-        <div className={`${className} relative w-full overflow-x-auto`}>
+        <div className={`relative w-full h-full px-[1.5rem] ${className}`}>
             <div
-                ref={el => {
-                    if (!el) return;
-                    carouselRef.current = el;
-                }}
-                className={trim`
-                    w-full overflow-x-auto whitespace-nowrap
-                    scrollbar scrollbar-h-1 pb-2
-                `}
+                className='relative w-full h-[75%] overflow-hidden text-[0px]'
             >
-                <ul className="inline-flex gap-[1rem]">
-                    {images.map((src, index) => (
-                        /**
-                         *  flex: 0 0 auto means:
-                         *  - flex-shrink: 0
-                         *  - flex-grow: 0
-                         *  - flex-basis: auto
-                         *  Don’t grow or shrink -- stay exactly the size based on content or set dimensions
-                         **/
-                        <li key={index} className="flex-[0_0_auto]">
-                            <div
-                                className={trim`
-                                    w-[150px] h-[150px]
-                                    rounded bg-cover bg-center bg-no-repeat
-                                    shadow-md shadow-gray-500 dark:shadow-blue-500
-                                `}
-                                style={{ backgroundImage: `url(${src})` }}
-                                role="img"
-                                aria-label={`Placeholder Image ${index + 1}`}
-                            />
-                        </li>
+                <div className='inline-flex flex-nowrap w-full h-full direction-ltr transition-transform duration-300 ease-in-out'
+                    style={{ transform: translation }}
+                >
+                    {images.map(({ url }, i) => (
+                        <div
+                            key={i}
+                            style={{ backgroundImage: `url(${url})` }}
+                            className='flex-[0_0_auto] w-full h-full bg-center bg-cover bg-no-repeat z-1'
+                        />
                     ))}
-                </ul>
+                </div>
+
+                <div className={trim`
+                    absolute w-full h-[50px]
+                    left-0 bottom-0 z-1
+                    bg-gradient-to-t from-white dark:from-gray-900
+                    to-transparent
+                `} />
+
+                <div className={trim`
+                    w-full h-[35px]
+                    absolute bottom-0 left-0 z-2
+                    flex items-center justify-center gap-x-1.5
+                    direction-ltr
+                `}>
+                    {images.map((_, i) => (
+                        <span className={trim`
+                            inline-block rounded-md
+                            transition-all duration-250 ease-in-out
+                            ${i === focusImgIndex
+                                ? 'bg-blue-500 dark:bg-yellow-300 w-2.5 h-2.5'
+                                : 'bg-blue-500/60 dark:bg-yellow-300/60 w-1.5 h-1.5'
+                            }
+                        `} />
+                    ))}
+                </div>
             </div>
 
-            <div
-                className={trim`
-                    absolute top-0 left-0 pointer-events-none h-full w-6
-                    bg-gradient-to-r from-white dark:from-gray-900 to-transparent
-                `}
-                style={{ opacity: leftGradientOpacity }}
-            />
+            <div className='w-full px-2 py-3 direction-ltr'>
+                {location ? (
+                    <p className='flex flex-row gap-x-1 text-xs items-center'>
+                        <CountryFlagIcon className='rounded mr-1' countryCode={location.countryCode} size='sm' />
+                        <span>{location.name}</span>                        
+                    </p>
+                ) : (
+                    <p className='flex flex-row gap-x-1 text-xs items-center text-gray-500 dark:text-gray-400'>
+                        <MapPinOutlineIcon size='sm' />
+                        <span>Unknown Location</span>
+                    </p>
+                )}
+                <p className={trim`
+                    text-sm tracking-wide text-balance font-light my-4 line-clamp-3
+                    ${description ? '' : 'text-xs text-gray-500 dark:text-gray-400'}
+                `}>
+                    {description ?? 'No Description Provided'}
+                </p>
+            </div>
 
-            <div
-                className={trim`
-                    absolute top-0 right-0 pointer-events-none h-full w-6
-                    bg-gradient-to-l from-white dark:from-gray-900 to-transparent
-                `}
-                style={{ opacity: rightGradientOpacity }}
-            />
+            <button className={trim`
+                direction-ltr text-left
+                absolute left-0 top-0 w-[50%] h-[75%] z-3
+                hover:text-blue-500
+            `}
+                onClick={() => switchImageTo('prev')}
+            >
+                <span className='bg-gray-100 dark:bg-blue-500/30 rounded-l-sm px-0.5 py-4 inline-flex items-center'>
+                    <ChevronLeftOutlineIcon size='sm' className='inline-block' />
+                </span>
+            </button>
+
+            <button className={trim`
+                direction-ltr text-right
+                absolute right-0 top-0 w-[50%] h-[75%] z-3
+                hover:text-blue-500
+            `}
+                onClick={() => switchImageTo('next')}
+            >
+                <span className='bg-gray-100 dark:bg-blue-500/30 rounded-r-sm px-0.5 py-4 inline-flex items-center'>
+                    <ChevronRightOutlineIcon size='sm' className='inline-block' />
+                </span>
+            </button>
         </div>
-    );
+    )
 };
