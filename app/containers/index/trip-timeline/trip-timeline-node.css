@@ -1,7 +1,6 @@
 @reference 'tailwindcss';
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-
 .trip-timeline-node {
     @apply grid relative py-8;
     grid-template-columns: 1fr 1fr;

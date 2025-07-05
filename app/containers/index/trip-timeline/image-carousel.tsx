@@ -1,9 +1,10 @@
-import { useEffect, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import { CountryFlagIcon } from "~/icons/country/country";
 import { ChevronLeftOutlineIcon } from "~/icons/outline/chevron-left";
 import { ChevronRightOutlineIcon } from "~/icons/outline/chevron-right";
 import { MapPinOutlineIcon } from "~/icons/outline/map-pin";
 import { trim } from "~/utils/trim";
+import './image-carousel.css';
 
 export interface ImageCarouselProps {
     className?: string;
@@ -38,7 +39,10 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({
         } else {
             console.warn(`Unable to switch to "${direction}" image`);
         }
-    }
+    };
+
+    const disablePrevBtn = focusImgIndex === 0;
+    const disableNextBtn = focusImgIndex === images.length - 1;
 
     return (
         <div className={`relative w-full h-full px-[1.5rem] ${className}`}>
@@ -103,26 +107,44 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({
                 </p>
             </div>
 
+            {/* This is a hidden button to let image left side entire area to be clickable */}
+            <div
+                role='button'
+                aria-hidden='true'
+                className={trim`
+                    image-carousel__hidden-btn
+                    direction-ltr left-0
+                `}
+                onClick={() => !disablePrevBtn && switchImageTo('prev')}
+            />
             <button className={trim`
-                direction-ltr text-left
-                absolute left-0 top-0 w-[50%] h-[75%] z-3
-                hover:text-blue-500
+                direction-ltr text-left left-0
             `}
+                disabled={disablePrevBtn}
                 onClick={() => switchImageTo('prev')}
             >
-                <span className='bg-gray-100 dark:bg-blue-500/30 rounded-l-sm px-0.5 py-4 inline-flex items-center'>
+                <span className='rounded-l-sm'>
                     <ChevronLeftOutlineIcon size='sm' className='inline-block' />
                 </span>
             </button>
 
+            {/* This is a hidden button to let image right side entire area to be clickable */}
+            <div
+                role='button'
+                aria-hidden='true'
+                className={trim`
+                    image-carousel__hidden-btn
+                    direction-ltr right-0
+                `}
+                onClick={() => !disableNextBtn && switchImageTo('next')}
+            />
             <button className={trim`
-                direction-ltr text-right
-                absolute right-0 top-0 w-[50%] h-[75%] z-3
-                hover:text-blue-500
+                direction-ltr text-right right-0
             `}
+                disabled={disableNextBtn}
                 onClick={() => switchImageTo('next')}
             >
-                <span className='bg-gray-100 dark:bg-blue-500/30 rounded-r-sm px-0.5 py-4 inline-flex items-center'>
+                <span className='rounded-r-sm'>
                     <ChevronRightOutlineIcon size='sm' className='inline-block' />
                 </span>
             </button>
