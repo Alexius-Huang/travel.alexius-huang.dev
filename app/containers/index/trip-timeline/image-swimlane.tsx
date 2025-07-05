@@ -67,7 +67,8 @@ export const ImageSwimlane: FC<ImageSwimlaneProps> = ({ className, width, height
                     carouselRef.current = el;
                 }}
                 className={trim`
-                    w-full overflow-x-auto whitespace-nowrap pb-2
+                    w-full overflow-x-auto whitespace-nowrap
+                    scrollbar scrollbar-h-1 pb-2
                 `}
             >
                 <ul className="inline-flex gap-[1rem] px-1.5">

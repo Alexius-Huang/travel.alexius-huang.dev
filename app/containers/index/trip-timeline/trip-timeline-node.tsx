@@ -1,16 +1,21 @@
-import type { FC } from 'react';
+import { useRef, type FC } from 'react';
 import { ImageSwimlane } from './image-swimlane';
 import { Button } from '~/components/button';
 import { TagList } from './tag-list';
 import { CountryFlagChip } from '~/ui/country-flag-chip';
 import { ImageCarousel } from './image-carousel';
+import { useIsMouseEntering } from '~/hooks/use-is-mouse-entering';
 import './trip-timeline-node.css';
 
 export const TripTimelineNode: FC = () => {
+    const timelineNodeRef = useRef<HTMLDivElement>(null);
+    const isMouseEnteringTimelineNode = useIsMouseEntering(timelineNodeRef);
+
     return (
-        <div className="trip-timeline-node">
+        <div className="trip-timeline-node" ref={timelineNodeRef}>
             {/* Attraction Highlights */}
             <ImageCarousel
+                autoplay={isMouseEnteringTimelineNode}
                 images={[
                     {
                         url: 'https://placehold.co/200x200?text=Photo+1',

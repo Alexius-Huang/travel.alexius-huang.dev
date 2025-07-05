@@ -1,9 +1,10 @@
-import { useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { CountryFlagIcon } from "~/icons/country/country";
 import { ChevronLeftOutlineIcon } from "~/icons/outline/chevron-left";
 import { ChevronRightOutlineIcon } from "~/icons/outline/chevron-right";
 import { MapPinOutlineIcon } from "~/icons/outline/map-pin";
 import { trim } from "~/utils/trim";
+import { useIsMouseEntering } from "~/hooks/use-is-mouse-entering";
 import './image-carousel.css';
 
 export interface ImageCarouselProps {
@@ -16,13 +17,21 @@ export interface ImageCarouselProps {
             countryCode: string;
         };
     }>;
+    autoplay?: boolean;
+    autoplayDuration?: number;
 }
+
+let timeoutSignature: ReturnType<typeof setTimeout> | undefined;
 
 export const ImageCarousel: FC<ImageCarouselProps> = ({
     className,
-    images
+    images,
+    autoplay,
+    autoplayDuration = 5000
 }) => {
     const [focusImgIndex, setFocusImgIndex] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isEnteringImageCarousel = useIsMouseEntering(containerRef);
 
     const {
         description,
@@ -44,8 +53,33 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({
     const disablePrevBtn = focusImgIndex === 0;
     const disableNextBtn = focusImgIndex === images.length - 1;
 
+    const scheduleAutoplay = () => setTimeout(() => {
+        if (focusImgIndex === images.length - 1) {
+            setFocusImgIndex(0);
+        } else {
+            setFocusImgIndex(i => i + 1);
+        }
+    }, autoplayDuration);
+
+    /**
+     *  We autoplay the image carousel only when mouse is NOT focusing
+     *  the image carousel component but is marked as autoplay: true 
+     */
+    const shouldAutoplay = autoplay && !isEnteringImageCarousel;
+    useEffect(() => {
+        clearTimeout(timeoutSignature);
+
+        if (shouldAutoplay) {
+            console.log('scheduling')
+            timeoutSignature = scheduleAutoplay();
+        } else {
+            console.log('cleared')
+            clearTimeout(timeoutSignature);
+        }
+    }, [shouldAutoplay, autoplayDuration, scheduleAutoplay]);
+
     return (
-        <div className={`relative w-full h-full px-[1.5rem] ${className}`}>
+        <div ref={containerRef} className={`relative w-full h-full px-[1.5rem] ${className}`}>
             <div
                 className='relative w-full h-[75%] overflow-hidden text-[0px]'
             >
@@ -75,7 +109,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = ({
                     direction-ltr
                 `}>
                     {images.map((_, i) => (
-                        <span className={trim`
+                        <span key={i} className={trim`
                             inline-block rounded-md
                             transition-all duration-250 ease-in-out
                             ${i === focusImgIndex
