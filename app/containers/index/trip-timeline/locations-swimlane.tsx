@@ -101,7 +101,7 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
                             >
                                 <p className={trim`
                                     absolute bottom-0 left-0 px-2 pt-6 pb-1 w-full
-                                    text-sm whitespace-normal text-balance line-clamp-2
+                                    text-sm whitespace-normal line-clamp-2
                                     text-gray-700 dark:text-white tracking-wide font-light
                                     bg-gradient-to-t from-yellow-300 dark:from-blue-500 to-transparent
                                 `}>

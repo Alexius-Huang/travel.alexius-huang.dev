@@ -87,7 +87,7 @@ export const TravelHighlight: FC<{ className?: string }> = ({ className }) => {
                         {BannerConfig[index].title}
                     </h1>
 
-                    <p className="mt-1.5 text-xs xs:text-sm px-4 text-balance text-center text-white">
+                    <p className="mt-1.5 text-xs xs:text-sm px-4 text-center text-white">
                         {BannerConfig[index].description}
                     </p>
                 </div>

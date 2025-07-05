@@ -5,6 +5,7 @@ import { ChevronRightOutlineIcon } from "~/icons/outline/chevron-right";
 import { MapPinOutlineIcon } from "~/icons/outline/map-pin";
 import { trim } from "~/utils/trim";
 import { useIsMouseEntering } from "~/hooks/use-is-mouse-entering";
+import { Button } from "~/components/button";
 import './attractions-carousel.css';
 
 export interface AttractionsCarouselProps {
@@ -12,6 +13,7 @@ export interface AttractionsCarouselProps {
     attractions: Array<{
         url: string;
         description?: string;
+        name: string;
         location?: {
             name: string;
             countryCode: string;
@@ -67,13 +69,13 @@ export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
      */
     const shouldAutoplay = autoplay && !isEnteringImageCarousel;
     useEffect(() => {
-        clearTimeout(timeoutSignature);
-
         if (shouldAutoplay) {
-            console.log('scheduling')
             timeoutSignature = scheduleAutoplay();
         } else {
-            console.log('cleared')
+            clearTimeout(timeoutSignature);
+        }
+
+        return () => {
             clearTimeout(timeoutSignature);
         }
     }, [shouldAutoplay, autoplayDuration, scheduleAutoplay]);
@@ -134,11 +136,21 @@ export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
                     </p>
                 )}
                 <p className={trim`
-                    text-sm tracking-wide text-balance font-light my-4 line-clamp-3
+                    text-sm tracking-wide font-light my-4 line-clamp-3
                     ${description ? '' : 'text-xs text-gray-500 dark:text-gray-400'}
                 `}>
                     {description ?? 'No Description Provided'}
                 </p>
+
+                <div>
+                    <Button
+                        size='xs'
+                        variant='secondary'
+                        className='!border-1'
+                        aria-label={`View the details of ${attractions[focusAttractionIndex].name}`}>
+                            View Details
+                    </Button>
+                </div>
             </div>
 
             {/* This is a hidden button to let image left side entire area to be clickable */}

@@ -29,7 +29,7 @@ export const CountryFlagChip: FC<CountryFlagChip> = ({
                 className: '!px-0.5 !py-0.5',
                 variant: 'tertiary',
             }}
-            tooltip={<p className="text-sm text-balance text-center">{name}</p>}
+            tooltip={<p className="text-sm text-center">{name}</p>}
         >
             <div
                 className={trim`

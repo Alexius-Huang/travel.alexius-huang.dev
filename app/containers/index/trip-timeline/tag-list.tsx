@@ -16,7 +16,7 @@ export const TagList: FC<TagListProps> = ({ tags, className }) => {
                         key={tag}
                         className={trim`
                             text-sm font-normal
-                            border-1 border-blue-500/50 dark:border-yellow-300/70
+                            text-blue-500 dark:text-yellow-300
                             hover:bg-blue-100/50 dark:hover:bg-yellow-100/20
                             transition-colors duration-200 ease-in-out
                             rounded
@@ -32,7 +32,7 @@ export const TagList: FC<TagListProps> = ({ tags, className }) => {
                          */
                         // role='button'
                     >
-                        <span aria-hidden='true' className='font-bold text-blue-500 dark:text-yellow-300'>
+                        <span aria-hidden='true' className='font-bold text-blue-300 dark:text-yellow-200'>
                             #
                         </span>{' '}
                         {tag}

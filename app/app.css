@@ -40,6 +40,11 @@ h4,
 h5,
 h6 {
     font-family: var(--font-header);
+    @apply text-balance;
+}
+
+p, span {
+    @apply text-balance;
 }
 
 .mobile-only-block {

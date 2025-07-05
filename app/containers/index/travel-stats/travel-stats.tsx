@@ -116,7 +116,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                             <p className='font-header font-bold text-sm'>
                                 {name}
                             </p>
-                            <p className='text-xs text-white/70 text-balance'>
+                            <p className='text-xs text-white/70'>
                                 {fullname}
                             </p>
                         </li>
