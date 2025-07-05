@@ -1,0 +1,225 @@
+import { useEffect, useRef, useState, type FC } from 'react';
+import { CountryFlagIcon } from '~/icons/country/country';
+import { ChevronLeftOutlineIcon } from '~/icons/outline/chevron-left';
+import { ChevronRightOutlineIcon } from '~/icons/outline/chevron-right';
+import { MapPinOutlineIcon } from '~/icons/outline/map-pin';
+import { trim } from '~/utils/trim';
+import { useIsMouseEntering } from '~/hooks/use-is-mouse-entering';
+import { Button } from '~/components/button';
+import './attractions-carousel.css';
+
+export interface AttractionsCarouselProps {
+    className?: string;
+    attractions: Array<{
+        url: string;
+        description?: string;
+        name: string;
+        location?: {
+            name: string;
+            countryCode: string;
+        };
+    }>;
+    autoplay?: boolean;
+    autoplayDuration?: number;
+}
+
+let timeoutSignature: ReturnType<typeof setTimeout> | undefined;
+
+export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
+    className,
+    attractions,
+    autoplay,
+    autoplayDuration = 5000,
+}) => {
+    const [focusAttractionIndex, setFocusAttractionIndex] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isEnteringImageCarousel = useIsMouseEntering(containerRef);
+
+    const { description, location } = attractions[focusAttractionIndex];
+
+    const translation = `translateX(calc(-${100 * focusAttractionIndex}%))`;
+
+    const switchImageTo = (direction: 'prev' | 'next') => {
+        if (direction === 'prev' && focusAttractionIndex !== 0) {
+            setFocusAttractionIndex((state) => state - 1);
+        } else if (
+            direction === 'next' &&
+            focusAttractionIndex !== attractions.length - 1
+        ) {
+            setFocusAttractionIndex((state) => state + 1);
+        } else {
+            console.warn(`Unable to switch to "${direction}" image`);
+        }
+    };
+
+    const disablePrevBtn = focusAttractionIndex === 0;
+    const disableNextBtn = focusAttractionIndex === attractions.length - 1;
+
+    const scheduleAutoplay = () =>
+        setTimeout(() => {
+            if (focusAttractionIndex === attractions.length - 1) {
+                setFocusAttractionIndex(0);
+            } else {
+                setFocusAttractionIndex((i) => i + 1);
+            }
+        }, autoplayDuration);
+
+    /**
+     *  We autoplay the image carousel only when mouse is NOT focusing
+     *  the image carousel component but is marked as autoplay: true
+     */
+    const shouldAutoplay = autoplay && !isEnteringImageCarousel;
+    useEffect(() => {
+        if (shouldAutoplay) {
+            timeoutSignature = scheduleAutoplay();
+        } else {
+            clearTimeout(timeoutSignature);
+        }
+
+        return () => {
+            clearTimeout(timeoutSignature);
+        };
+    }, [shouldAutoplay, autoplayDuration, scheduleAutoplay]);
+
+    return (
+        <div
+            ref={containerRef}
+            className={`relative w-full h-full px-[1.5rem] ${className}`}
+        >
+            <div className="relative w-full h-[75%] overflow-hidden text-[0px]">
+                <div
+                    className="inline-flex flex-nowrap w-full h-full direction-ltr transition-transform duration-300 ease-in-out"
+                    style={{ transform: translation }}
+                >
+                    {attractions.map(({ url }, i) => (
+                        <div
+                            key={i}
+                            style={{ backgroundImage: `url(${url})` }}
+                            className="flex-[0_0_auto] w-full h-full bg-center bg-cover bg-no-repeat z-1"
+                        />
+                    ))}
+                </div>
+
+                <div
+                    className={trim`
+                    absolute w-full h-[50px]
+                    left-0 bottom-0 z-1
+                    bg-gradient-to-t from-white dark:from-gray-900
+                    to-transparent
+                `}
+                />
+
+                <div
+                    className={trim`
+                    w-full h-[35px]
+                    absolute bottom-0 left-0 z-2
+                    flex items-center justify-center gap-x-1.5
+                    direction-ltr
+                `}
+                >
+                    {attractions.map((_, i) => (
+                        <span
+                            key={i}
+                            className={trim`
+                            inline-block rounded-md
+                            transition-all duration-250 ease-in-out
+                            ${
+                                i === focusAttractionIndex
+                                    ? 'bg-blue-500 dark:bg-yellow-300 w-2.5 h-2.5'
+                                    : 'bg-blue-500/60 dark:bg-yellow-300/60 w-1.5 h-1.5'
+                            }
+                        `}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            <div className="w-full px-2 py-3 direction-ltr">
+                {location ? (
+                    <p className="flex flex-row gap-x-1 text-xs items-center">
+                        <CountryFlagIcon
+                            className="rounded mr-1"
+                            countryCode={location.countryCode}
+                            size="sm"
+                        />
+                        <span>{location.name}</span>
+                    </p>
+                ) : (
+                    <p className="flex flex-row gap-x-1 text-xs items-center text-gray-500 dark:text-gray-400">
+                        <MapPinOutlineIcon size="sm" />
+                        <span>Unknown Location</span>
+                    </p>
+                )}
+                <p
+                    className={trim`
+                    text-sm tracking-wide font-light my-4 line-clamp-3
+                    ${description ? '' : 'text-xs text-gray-500 dark:text-gray-400'}
+                `}
+                >
+                    {description ?? 'No Description Provided'}
+                </p>
+
+                <div>
+                    <Button
+                        size="xs"
+                        variant="secondary"
+                        className="!border-1"
+                        aria-label={`View the details of ${attractions[focusAttractionIndex].name}`}
+                    >
+                        View Details
+                    </Button>
+                </div>
+            </div>
+
+            {/* This is a hidden button to let image left side entire area to be clickable */}
+            <div
+                role="button"
+                aria-hidden="true"
+                className={trim`
+                    attractions-carousel__hidden-btn
+                    direction-ltr left-0
+                `}
+                onClick={() => !disablePrevBtn && switchImageTo('prev')}
+            />
+            <button
+                className={trim`
+                direction-ltr text-left left-0
+            `}
+                disabled={disablePrevBtn}
+                onClick={() => switchImageTo('prev')}
+            >
+                <span className="rounded-l-sm">
+                    <ChevronLeftOutlineIcon
+                        size="sm"
+                        className="inline-block"
+                    />
+                </span>
+            </button>
+
+            {/* This is a hidden button to let image right side entire area to be clickable */}
+            <div
+                role="button"
+                aria-hidden="true"
+                className={trim`
+                    attractions-carousel__hidden-btn
+                    direction-ltr right-0
+                `}
+                onClick={() => !disableNextBtn && switchImageTo('next')}
+            />
+            <button
+                className={trim`
+                direction-ltr text-right right-0
+            `}
+                disabled={disableNextBtn}
+                onClick={() => switchImageTo('next')}
+            >
+                <span className="rounded-r-sm">
+                    <ChevronRightOutlineIcon
+                        size="sm"
+                        className="inline-block"
+                    />
+                </span>
+            </button>
+        </div>
+    );
+};

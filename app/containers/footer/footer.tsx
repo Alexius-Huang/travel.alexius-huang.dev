@@ -32,7 +32,7 @@ export const Footer: FC<{ className?: string }> = ({ className }) => {
                 />{' '}
                 <span className="text-xs sm:text-sm">All Rights Reserved</span>
             </p>
-            <p className="text-xs text-balance opacity-80">
+            <p className="text-xs opacity-80">
                 No part of this website — including text, images, or any other
                 content — may be copied, reproduced, distributed, or used in any
                 manner without written permission from the copyright owner.{' '}

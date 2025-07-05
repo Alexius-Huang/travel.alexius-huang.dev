@@ -23,6 +23,10 @@
 
 @import './font.css';
 
+* {
+    user-select: none;
+}
+
 html,
 body {
     @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-white;
@@ -36,6 +40,12 @@ h4,
 h5,
 h6 {
     font-family: var(--font-header);
+    @apply text-balance;
+}
+
+p,
+span {
+    @apply text-balance;
 }
 
 .mobile-only-block {
@@ -52,6 +62,9 @@ h6 {
     @apply hidden sm:inline;
 }
 
+.direction-ltr {
+    direction: ltr;
+}
 .direction-rtl {
     direction: rtl;
 }
