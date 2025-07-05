@@ -12,9 +12,12 @@ export const TripTimelineNode: FC = () => {
             <ImageCarousel className="my-6" />
 
             <article className='relative flex flex-col gap-y-2'>
-                <h3 className='text-xl font-bold uppercase'>
+                <h3 className='text-2xl font-bold uppercase text-blue-500 dark:text-blue-400'>
                     Trip Title
                 </h3>
+                <p className='text-lg font-normal tracking-wide text-gray-600 dark:text-gray-300'>
+                    This is the trip's subtitle
+                </p>
 
                 <TagList
                     tags={['Tag A', 'Tag B', 'Tag C']}
@@ -25,9 +28,7 @@ export const TripTimelineNode: FC = () => {
                 </p>
 
                 <div>
-                    <Button size='sm'>
-                        View Details
-                    </Button>
+                    <Button size='sm'>Explore</Button>
                 </div>
 
                 <span aria-hidden="true" className="timeline-dot" />
