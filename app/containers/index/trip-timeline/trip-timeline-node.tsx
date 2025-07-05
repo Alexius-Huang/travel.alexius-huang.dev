@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { ImageCarousel } from './image-carousel';
 import { Button } from '~/components/button';
 import { TagList } from './tag-list';
+import { CountryFlagChip } from '~/ui/country-flag-chip';
 import './trip-timeline-node.css';
 
 export const TripTimelineNode: FC = () => {
@@ -18,6 +19,21 @@ export const TripTimelineNode: FC = () => {
                 <p className='text-lg font-normal tracking-wide text-gray-600 dark:text-gray-300'>
                     This is the trip's subtitle
                 </p>
+
+                <div className='flex flex-row flex-wrap gap-x-2 gap-y-1.5 mb-1'>
+                    <CountryFlagChip
+                        countryCode='us'
+                        name='United States'
+                        variant='horizontal'
+                        className='direction-ltr'
+                    />
+                    <CountryFlagChip
+                        countryCode='gb'
+                        name='United Kingdom'
+                        variant='horizontal'
+                        className='direction-ltr'
+                    />
+                </div>
 
                 <TagList
                     tags={['Tag A', 'Tag B', 'Tag C']}

@@ -22,6 +22,7 @@ export const TagList: FC<TagListProps> = ({ tags, className }) => {
                             rounded
                             px-1.5 py-0.5
                             cursor-pointer
+                            direction-ltr
                         `}
                         /**
                          *  TODO: In the future, we might want to change tag to

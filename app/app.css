@@ -56,6 +56,9 @@ h6 {
     @apply hidden sm:inline;
 }
 
+.direction-ltr {
+    direction: ltr;
+}
 .direction-rtl {
     direction: rtl;
 }
