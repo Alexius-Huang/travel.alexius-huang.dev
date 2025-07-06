@@ -5,27 +5,8 @@ import { CountryFlagChip } from '~/ui/country-flag-chip';
 import { TagList } from './tag-list';
 import { trim } from '~/utils/trim';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
-
-type Year = string;
-type Month = string;
-type Day = string;
-type DateFormat = `${Year}-${Month}-${Day}`;
-
-function daysBetween(startDate: DateFormat, endDate: DateFormat) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    const diffTime = end.getTime() - start.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-    return diffDays;
-}
-
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-});
+import { daysBetween } from '~/utils/date';
+import { dateFormatter, type DateFormat } from '~/data-access/date';
 
 export interface TripIntroductionProps {
     className?: string;
