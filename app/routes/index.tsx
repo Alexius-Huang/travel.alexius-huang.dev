@@ -21,18 +21,18 @@ export default function Home() {
     /* const {} = useLoaderData<LoaderData>(); */
     return (
         <>
-            <TravelHighlight className="my-0 mx-auto max-w-[960px]" />
-            <TravelStats className="my-0 mx-auto max-w-[960px] pt-12" />
+            <TravelHighlight className="my-0 centered-max-width-960" />
+            <TravelStats className="my-0 centered-max-width-960 pt-12" />
 
-            <p className="hidden mx-auto mt-[4rem] md:block text-center max-w-[960px] opacity-50">
+            <p className="hidden centered-max-width-960 mt-[4rem] md:block text-center opacity-50">
                 🚧 My Journey Timeline is Currently Under Construction 🚧 <br />
                 😊 Following is a Preview Version 😊
             </p>
             <TripTimeline
                 className={trim`
-                hidden md:block
-                my-0 mx-auto pt-24 px-[2rem] max-w-[960px]
-            `}
+                    hidden md:block centered-max-width-960
+                    my-0 pt-24 px-[2rem]
+                `}
             />
         </>
     );

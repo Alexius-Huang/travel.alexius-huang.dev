@@ -68,3 +68,7 @@ span {
 .direction-rtl {
     direction: rtl;
 }
+
+.centered-max-width-960 {
+    @apply max-w-[960px] mx-auto;
+}
