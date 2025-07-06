@@ -13,6 +13,10 @@ import { TagList } from '~/containers/index/trip-timeline/tag-list';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { trim } from '~/utils/trim';
 
+/**
+ *  TODO: we need to populate correct information on meta tag, checkout:
+ *      https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/44
+ */
 export function meta({ params }: Route.MetaArgs) {
     // const tripDetails = TRIPS.find(t => String(t.id) === params.tripId);
 
