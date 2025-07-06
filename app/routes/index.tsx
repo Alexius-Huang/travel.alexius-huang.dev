@@ -35,6 +35,11 @@ export default function Home() {
                 🚧 My Journey Timeline is Currently Under Construction 🚧 <br />
                 😊 Following is a Preview Version 😊
             </p>
+
+            {/**
+              *  TODO: Handle responsiveness of the trip-timeline section, checkout:
+              *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/43
+              */}
             <TripTimeline
                 className={trim`
                     hidden md:block centered-max-width-960
