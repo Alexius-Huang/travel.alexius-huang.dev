@@ -8,7 +8,7 @@ import { daysBetween } from '~/utils/date';
 import { dateFormatter } from '~/data-access/date';
 import type { TripDetails } from '~/data-access/trips';
 import { NavLink } from '~/components/nav-link';
-import { useViewTransitionState } from 'react-router';
+import { useViewTransition } from '~/hooks/use-view-transition';
 
 export interface TripIntroductionProps extends TripDetails {
     className?: string;
@@ -34,17 +34,15 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
     );
 
     const tripDetailsLink = `trips/${tripId}`;
-    const isTransitioningToTDP = useViewTransitionState(tripDetailsLink);
+    const vt = useViewTransition(
+        tripDetailsLink,
+        ['trip-title', 'trip-subtitle', 'trip-date-range', 'trip-country-list', 'trip-description', 'trip-tags']
+    );
 
     return (
         <article className={`relative flex flex-col gap-y-1.5 ${className}`}>
             <h3
-                className="text-2xl font-bold uppercase text-blue-500 dark:text-blue-400"
-                style={{
-                    viewTransitionName: isTransitioningToTDP
-                        ? 'trip-title'
-                        : 'none'
-                }}
+                className={`text-2xl font-bold uppercase text-blue-500 dark:text-blue-400 ${vt.tripTitle}`}
             >
                 {title}
             </h3>
@@ -52,12 +50,8 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                 className={trim`
                     text-lg font-medium tracking-wide line-clamp-2
                     text-gray-500 dark:text-gray-300
+                    ${vt.tripSubtitle}
                 `}
-                style={{
-                    viewTransitionName: isTransitioningToTDP
-                        ? 'trip-subtitle'
-                        : 'none'
-                }}
             >
                 {subtitle}
             </p>
@@ -65,7 +59,8 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
             <div
                 className={trim`
                 flex items-center gap-x-1.5 mt-1 mb-2
-                text-xs font-normal text-blue-500/80 dark:text-yellow-300
+                text-xs font-normal text-blue-500 dark:text-yellow-300
+                ${vt.tripDateRange}
             `}
             >
                 <CalendarDateRangeOutlineIcon size="sm" />
@@ -80,7 +75,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                 </span>
             </div>
 
-            <div className="flex flex-row flex-wrap gap-x-2 gap-y-1.5 mb-1">
+            <div className={`flex flex-row flex-wrap gap-x-2 gap-y-1.5 mb-1 ${vt.tripCountryList}`}>
                 {countryCodes.map((cc) => (
                     <CountryFlagChip
                         key={cc}
@@ -93,11 +88,11 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                 ))}
             </div>
 
-            <p className="text-md tracking-wide font-light mb-4 line-clamp-3">
+            <p className={`text-md tracking-wide font-light mb-4 line-clamp-3 ${vt.tripDescription}`}>
                 {description}
             </p>
 
-            {tags && <TagList tags={tags} />}
+            {tags && <TagList tags={tags} className={vt.tripTags} />}
 
             <div className="mt-4">
                 <NavLink

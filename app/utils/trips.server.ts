@@ -5,7 +5,7 @@ export const TRIPS: Array<TripDetails> = [
     {
         id: 1,
         title: "E Pluribus Unum",
-        subtitle: "Tracing America's roots through its political and financial heartlands",
+        subtitle: "Tracing America's Roots Through Its Political & Financial Heartlands",
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         tags: ['US East Coast', 'Long Trip', 'Capital Tour', 'Metropolis', 'New York', 'Washington D.C.', 'Pennsylvania'],
         countryCodes: ['us'],

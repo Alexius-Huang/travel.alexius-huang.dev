@@ -21,7 +21,8 @@
     preferredstrategy: 'pseudoelements';
 }
 
-@import './font.css';
+@import './styles/font.css';
+@import './styles/view-transitions.css';
 
 * {
     user-select: none;
@@ -71,10 +72,4 @@ span {
 
 .centered-max-width-960 {
     @apply max-w-[960px] mx-auto;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-    animation-duration: 0.3s;
-    animation-timing-function: ease-in-out;
 }

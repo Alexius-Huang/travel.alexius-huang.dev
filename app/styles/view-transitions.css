@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.25s;
+    animation-timing-function: ease-in-out;
+}
+
+@theme {
+    /* Transition to Trip Details Page */
+    --v-trans-trip-title: trip-title;
+    --v-trans-trip-subtitle: trip-subtitle;
+    --v-trans-trip-date-range: trip-date-range;
+    --v-trans-trip-country-list: trip-country-list;
+    --v-trans-trip-description: trip-description;
+    --v-trans-trip-tags: trip-tags;
+}
+
+@utility v-trans-* {
+    view-transition-name: --value(--v-trans-*);
+}
