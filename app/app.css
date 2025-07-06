@@ -72,3 +72,9 @@ span {
 .centered-max-width-960 {
     @apply max-w-[960px] mx-auto;
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+}

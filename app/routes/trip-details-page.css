@@ -1,0 +1,7 @@
+.tdp-container__title {
+    view-transition-name: trip-title;
+}
+
+.tdp-container__subtitle {
+    view-transition-name: trip-subtitle;
+}

@@ -8,6 +8,7 @@ import { daysBetween } from '~/utils/date';
 import { dateFormatter } from '~/data-access/date';
 import type { TripDetails } from '~/data-access/trips';
 import { NavLink } from '~/components/nav-link';
+import { useViewTransitionState } from 'react-router';
 
 export interface TripIntroductionProps extends TripDetails {
     className?: string;
@@ -33,17 +34,30 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
     );
 
     const tripDetailsLink = `trips/${tripId}`;
+    const isTransitioningToTDP = useViewTransitionState(tripDetailsLink);
 
     return (
         <article className={`relative flex flex-col gap-y-1.5 ${className}`}>
-            <h3 className="text-2xl font-bold uppercase text-blue-500 dark:text-blue-400">
+            <h3
+                className="text-2xl font-bold uppercase text-blue-500 dark:text-blue-400"
+                style={{
+                    viewTransitionName: isTransitioningToTDP
+                        ? 'trip-title'
+                        : 'none'
+                }}
+            >
                 {title}
             </h3>
             <p
                 className={trim`
-                text-lg font-medium tracking-wide line-clamp-2
-                text-gray-500 dark:text-gray-300
-            `}
+                    text-lg font-medium tracking-wide line-clamp-2
+                    text-gray-500 dark:text-gray-300
+                `}
+                style={{
+                    viewTransitionName: isTransitioningToTDP
+                        ? 'trip-subtitle'
+                        : 'none'
+                }}
             >
                 {subtitle}
             </p>
@@ -90,6 +104,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                     size="sm"
                     aria-label={`Explore more about this trip: ${title}, ${subtitle}`}
                     to={tripDetailsLink}
+                    viewTransition
                 >
                     Explore More
                 </NavLink>
