@@ -39,7 +39,7 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                     aria-hidden="true"
                 />
 
-                {trips.map(trip => (
+                {trips.map((trip) => (
                     <TripTimelineNode key={trip.id} tripDetails={trip} />
                 ))}
 

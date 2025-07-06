@@ -18,5 +18,5 @@
 }
 
 @utility v-trans-* {
-    view-transition-name: --value(--v-trans-*);
+    view-transition-name: --value(--v-trans- *);
 }

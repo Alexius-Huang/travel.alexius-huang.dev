@@ -1,7 +1,7 @@
-import { useEffect, useRef, type FC, type RefObject } from "react";
-import { useLocation } from "react-router";
-import { useHydration } from "~/hooks/use-hydration";
-import { throttle } from "~/utils/throttle";
+import { useEffect, useRef, type FC, type RefObject } from 'react';
+import { useLocation } from 'react-router';
+import { useHydration } from '~/hooks/use-hydration';
+import { throttle } from '~/utils/throttle';
 
 export interface ScrollRestorationProps {
     ref: RefObject<HTMLElement | null>;
@@ -9,11 +9,9 @@ export interface ScrollRestorationProps {
 
 /**
  *  This custom scroll restoration is being created because instead of targeting
- *  the body, we can target specific element for scroll restoration of that container 
+ *  the body, we can target specific element for scroll restoration of that container
  */
-export const ScrollRestoration: FC<ScrollRestorationProps> = ({
-    ref
-}) => {
+export const ScrollRestoration: FC<ScrollRestorationProps> = ({ ref }) => {
     const scrollLocationMap = useRef<Record<string, number>>({});
     const isHydrated = useHydration();
     const location = useLocation();
@@ -31,7 +29,7 @@ export const ScrollRestoration: FC<ScrollRestorationProps> = ({
         el.addEventListener('scroll', throttledEventHandler);
         return () => {
             el.removeEventListener('scroll', throttledEventHandler);
-        }
+        };
     }, [isHydrated]);
 
     useEffect(() => {
@@ -41,7 +39,6 @@ export const ScrollRestoration: FC<ScrollRestorationProps> = ({
         if (!scrollPosition) return;
 
         ref.current.scrollTo({ top: scrollPosition });
-
     }, [location]);
 
     return <></>;

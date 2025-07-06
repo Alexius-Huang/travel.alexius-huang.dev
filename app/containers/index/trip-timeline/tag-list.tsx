@@ -7,7 +7,11 @@ export interface TagListProps {
     tagClassName?: string;
 }
 
-export const TagList: FC<TagListProps> = ({ tags, className = '', tagClassName = '' }) => (
+export const TagList: FC<TagListProps> = ({
+    tags,
+    className = '',
+    tagClassName = '',
+}) => (
     <>
         <h4 className="sr-only">Tags About This Trip</h4>
         <ul

@@ -1,4 +1,4 @@
-import type { DateFormat } from "./date";
+import type { DateFormat } from './date';
 
 export interface TripDetails {
     id: number;

@@ -34,10 +34,14 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
     );
 
     const tripDetailsLink = `trips/${tripId}`;
-    const vt = useViewTransition(
-        tripDetailsLink,
-        ['trip-title', 'trip-subtitle', 'trip-date-range', 'trip-country-list', 'trip-description', 'trip-tags']
-    );
+    const vt = useViewTransition(tripDetailsLink, [
+        'trip-title',
+        'trip-subtitle',
+        'trip-date-range',
+        'trip-country-list',
+        'trip-description',
+        'trip-tags',
+    ]);
 
     return (
         <article className={`relative flex flex-col gap-y-1.5 ${className}`}>
@@ -75,7 +79,9 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                 </span>
             </div>
 
-            <div className={`flex flex-row flex-wrap gap-x-2 gap-y-1.5 mb-1 ${vt.tripCountryList}`}>
+            <div
+                className={`flex flex-row flex-wrap gap-x-2 gap-y-1.5 mb-1 ${vt.tripCountryList}`}
+            >
                 {countryCodes.map((cc) => (
                     <CountryFlagChip
                         key={cc}
@@ -88,7 +94,9 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                 ))}
             </div>
 
-            <p className={`text-md tracking-wide font-light mb-4 line-clamp-3 ${vt.tripDescription}`}>
+            <p
+                className={`text-md tracking-wide font-light mb-4 line-clamp-3 ${vt.tripDescription}`}
+            >
                 {description}
             </p>
 

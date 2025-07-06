@@ -11,7 +11,7 @@ export interface TripTimelineNodeProps {
 }
 
 export const TripTimelineNode: FC<TripTimelineNodeProps> = ({
-    tripDetails
+    tripDetails,
 }) => {
     const timelineNodeRef = useRef<HTMLDivElement>(null);
     const isMouseEnteringTimelineNode = useIsMouseEntering(timelineNodeRef);

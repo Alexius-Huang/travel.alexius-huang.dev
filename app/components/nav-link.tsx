@@ -1,5 +1,8 @@
 import type { FC, ReactNode } from 'react';
-import { NavLink as RRNavLink, type NavLinkProps as RRNavLinkProps } from 'react-router';
+import {
+    NavLink as RRNavLink,
+    type NavLinkProps as RRNavLinkProps,
+} from 'react-router';
 import { trim } from '~/utils/trim';
 import type { ButtonProps } from './button';
 import './nav-link.css';

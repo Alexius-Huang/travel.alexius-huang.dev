@@ -1,6 +1,7 @@
 # Create View Transitions
 
 ## What is View Transitions?
+
 [View Transition API](https://developer.chrome.com/docs/web-platform/view-transitions) is a way to create seamless visual transitions between different views on your website. This creates a more visually engaging user experience for users as they navigate your site, regardless of whether it's built as a multi-page application (MPA) or a single-page application (SPA).
 
 Checkout [react-router Official Doc](https://reactrouter.com/how-to/view-transitions) on implementation of the View Transition.
@@ -40,9 +41,7 @@ For instance, to transition the header element:
 <h3
     className="..."
     style={{
-        viewTransitionName: isTransitioningToTDP
-            ? 'trip-title'
-            : 'none'
+        viewTransitionName: isTransitioningToTDP ? 'trip-title' : 'none',
     }}
 >
     {title}
@@ -82,7 +81,7 @@ In this case, we can use `v-trans-trip-title` for populating the CSS `view-trans
 Lastly, apply the class to the corresponding element in the target transitioned page, in this case, the Trip Details Page (`app/routes/trip-details-page.tsx`):
 
 ```tsx
-<h1 className='v-trans-trip-title'>{title}</h1>
+<h1 className="v-trans-trip-title">{title}</h1>
 ```
 
 ## Steps In Short

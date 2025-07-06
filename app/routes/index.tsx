@@ -20,7 +20,7 @@ export interface HomePageLoaderData {
 
 export async function loader(_: Route.LoaderArgs) {
     return json<HomePageLoaderData>({
-        trips: TRIPS
+        trips: TRIPS,
     });
 }
 
@@ -37,9 +37,9 @@ export default function Home() {
             </p>
 
             {/**
-              *  TODO: Handle responsiveness of the trip-timeline section, checkout:
-              *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/43
-              */}
+             *  TODO: Handle responsiveness of the trip-timeline section, checkout:
+             *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/43
+             */}
             <TripTimeline
                 className={trim`
                     hidden md:block centered-max-width-960

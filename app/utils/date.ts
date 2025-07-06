@@ -1,4 +1,4 @@
-import type { DateFormat } from "~/data-access/date";
+import type { DateFormat } from '~/data-access/date';
 
 export function daysBetween(startDate: DateFormat, endDate: DateFormat) {
     const start = new Date(startDate);
