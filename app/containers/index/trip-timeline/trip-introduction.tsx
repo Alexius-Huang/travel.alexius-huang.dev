@@ -1,5 +1,4 @@
 import { useMemo, type FC } from 'react';
-import { Button } from '~/components/button';
 import { COUNTRY_INFO_MAP } from '~/data-access/country';
 import { CountryFlagChip } from '~/ui/country-flag-chip';
 import { TagList } from './tag-list';
@@ -32,6 +31,8 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
         }),
         [from, to],
     );
+
+    const tripDetailsLink = `trips/${tripId}`;
 
     return (
         <article className={`relative flex flex-col gap-y-1.5 ${className}`}>
@@ -87,8 +88,8 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
             <div className="mt-4">
                 <NavLink
                     size="sm"
-                    aria-label={`Explore More about ${title}`}
-                    to={`/trips/${tripId}`}
+                    aria-label={`Explore more about this trip: ${title}, ${subtitle}`}
+                    to={tripDetailsLink}
                 >
                     Explore More
                 </NavLink>

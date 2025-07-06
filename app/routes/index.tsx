@@ -4,6 +4,8 @@ import { TravelHighlight } from '~/containers/index/travel-highlight';
 import { TravelStats } from '~/containers/index/travel-stats/travel-stats';
 import { TripTimeline } from '~/containers/index/trip-timeline';
 import { trim } from '~/utils/trim';
+import type { TripDetails } from '~/data-access/trips';
+import { TRIPS } from '~/utils/trips.server';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -12,9 +14,14 @@ export function meta({}: Route.MetaArgs) {
     ];
 }
 
-interface LoaderData {}
+export interface HomePageLoaderData {
+    trips: Array<TripDetails>;
+}
+
 export async function loader(_: Route.LoaderArgs) {
-    return json<LoaderData>({});
+    return json<HomePageLoaderData>({
+        trips: TRIPS
+    });
 }
 
 export default function Home() {
