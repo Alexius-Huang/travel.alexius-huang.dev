@@ -8,12 +8,14 @@ import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-rang
 import { daysBetween } from '~/utils/date';
 import { dateFormatter } from '~/data-access/date';
 import type { TripDetails } from '~/data-access/trips';
+import { NavLink } from '~/components/nav-link';
 
 export interface TripIntroductionProps extends TripDetails {
     className?: string;
 }
 
 export const TripIntroduction: FC<TripIntroductionProps> = ({
+    id: tripId,
     className,
     title,
     subtitle,
@@ -83,9 +85,13 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
             {tags && <TagList tags={tags} />}
 
             <div className="mt-4">
-                <Button size="md" aria-label={`Explore More about ${title}`}>
+                <NavLink
+                    size="sm"
+                    aria-label={`Explore More about ${title}`}
+                    to={`/trips/${tripId}`}
+                >
                     Explore More
-                </Button>
+                </NavLink>
             </div>
 
             <span aria-hidden="true" className="timeline-dot" />

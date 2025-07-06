@@ -11,6 +11,8 @@ export interface TripDetails {
     tags?: Array<string>;
     countryCodes: Array<string>;
     date: { from: DateFormat; to: DateFormat };
+
+    // TODO: Plan for cities data and associated attraction data
 }
 
 export const TRIPS: Array<TripDetails> = [
