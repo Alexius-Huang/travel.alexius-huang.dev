@@ -47,12 +47,12 @@ export default function TripDetailsPage() {
 
     return (
         <div className='centered-max-width-960'>
-            <article>
-                <div
-                    style={{ backgroundImage: `url(https://placehold.co/960x560?text=Placeholder)` }}
-                    className='w-full h-[560px] bg-cover bg-no-repeat'
-                />
+            <div
+                style={{ backgroundImage: `url(https://placehold.co/960x560?text=Placeholder)` }}
+                className='w-full h-[560px] bg-cover bg-no-repeat'
+            />
 
+            <article className='px-[1rem]'>
                 <h1 className={trim`
                     v-trans-trip-title mt-8 mb-4
                     font-bold uppercase text-5xl text-blue-500
@@ -102,7 +102,16 @@ export default function TripDetailsPage() {
 
 
             <div className="flex gap-x-4 mt-8">
+                {/**
+                  *  TODO: design back button, checkout following ticket:
+                  *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/40
+                  */}
                 <NavLink to='/' aria-label='Back to Home Page' viewTransition>Back</NavLink>
+
+                {/**
+                  *  TODO: creates next / previous trip button, checkout following ticket:
+                  *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/41
+                  */}
                 {/* <NavLink to={`/trips/${tripDetails.id + 1}`} aria-label='Next Trip'>Next Trip</NavLink> */}
             </div>
         </div>
