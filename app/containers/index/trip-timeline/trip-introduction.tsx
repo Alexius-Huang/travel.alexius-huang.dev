@@ -6,16 +6,11 @@ import { TagList } from './tag-list';
 import { trim } from '~/utils/trim';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { daysBetween } from '~/utils/date';
-import { dateFormatter, type DateFormat } from '~/data-access/date';
+import { dateFormatter } from '~/data-access/date';
+import type { TripDetails } from '~/data-access/trips';
 
-export interface TripIntroductionProps {
+export interface TripIntroductionProps extends TripDetails {
     className?: string;
-    title: string;
-    subtitle: string;
-    description: string;
-    tags?: Array<string>;
-    countryCodes: Array<string>;
-    date: { from: DateFormat; to: DateFormat };
 }
 
 export const TripIntroduction: FC<TripIntroductionProps> = ({
@@ -57,7 +52,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
             `}
             >
                 <CalendarDateRangeOutlineIcon size="sm" />
-                <span className="font-semibold font-header mr-1.5">
+                <span className="font-semibold font-header mr-1.5 direction-ltr">
                     {daysPassed} DAYS
                 </span>
                 <time dateTime={from}>{formattedDate.from}</time>

@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { trim } from '~/utils/trim';
 import { Button } from '~/components/button';
 import { TripTimelineNode } from './trip-timeline-node';
+import { TRIPS } from '~/data-access/trips';
 
 interface TripTimelineProps {
     className?: string;
@@ -35,9 +36,9 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                     aria-hidden="true"
                 />
 
-                <TripTimelineNode />
-                <TripTimelineNode />
-                <TripTimelineNode />
+                {TRIPS.map(trip => (
+                    <TripTimelineNode key={trip.id} tripDetails={trip} />
+                ))}
 
                 <div className="flex flex-col items-center relative pt-15">
                     <span

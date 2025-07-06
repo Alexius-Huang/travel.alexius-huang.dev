@@ -4,8 +4,15 @@ import { AttractionsCarousel } from './attractions-carousel';
 import { useIsMouseEntering } from '~/hooks/use-is-mouse-entering';
 import { TripIntroduction } from './trip-introduction';
 import './trip-timeline-node.css';
+import type { TripDetails } from '~/data-access/trips';
 
-export const TripTimelineNode: FC = () => {
+export interface TripTimelineNodeProps {
+    tripDetails: TripDetails;
+}
+
+export const TripTimelineNode: FC<TripTimelineNodeProps> = ({
+    tripDetails
+}) => {
     const timelineNodeRef = useRef<HTMLDivElement>(null);
     const isMouseEnteringTimelineNode = useIsMouseEntering(timelineNodeRef);
 
@@ -70,14 +77,7 @@ export const TripTimelineNode: FC = () => {
                 ]}
             />
 
-            <TripIntroduction
-                title="USA East Coast Capital Tour"
-                subtitle="Wandering Through the Financial & Political Center of USA"
-                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                tags={['Tag A', 'Tag B', 'Tag C']}
-                countryCodes={['us', 'gb']}
-                date={{ from: '2025-04-30', to: '2025-05-12' }}
-            />
+            <TripIntroduction {...tripDetails} />
 
             <div className="timeline-bar" />
         </div>
