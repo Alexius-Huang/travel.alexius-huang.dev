@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import { trim } from '~/utils/trim';
 import { Button } from '~/components/button';
 import { TripTimelineNode } from './trip-timeline-node';
+import { useLoaderData } from 'react-router';
+import type { HomePageLoaderData } from '~/routes/index';
 
 interface TripTimelineProps {
     className?: string;
@@ -12,6 +14,8 @@ interface TripTimelineProps {
  *  Checkout issue: https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/24
  */
 export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
+    const { trips } = useLoaderData<HomePageLoaderData>();
+
     return (
         <section className={className}>
             <h2
@@ -35,9 +39,9 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                     aria-hidden="true"
                 />
 
-                <TripTimelineNode />
-                <TripTimelineNode />
-                <TripTimelineNode />
+                {trips.map((trip) => (
+                    <TripTimelineNode key={trip.id} tripDetails={trip} />
+                ))}
 
                 <div className="flex flex-col items-center relative pt-15">
                     <span

@@ -4,7 +4,6 @@ import {
     Meta,
     Outlet,
     Scripts,
-    ScrollRestoration,
     useLoaderData,
 } from 'react-router';
 
@@ -27,9 +26,11 @@ import {
     type Theme,
 } from 'remix-themes';
 
-import './app.css';
 import { trim } from './utils/trim';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { PreviousPathProvider } from './contexts/previous-path-provider';
+import { ScrollRestoration } from './components/scroll-restoration';
+import './app.css';
 
 export const links: Route.LinksFunction = () => [];
 
@@ -55,6 +56,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 export function App() {
     const data = useLoaderData();
     const [theme] = useTheme();
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         document.addEventListener('copy', (e) => {
@@ -93,11 +95,15 @@ export function App() {
                     className="fixed right-4.5 bottom-6 z-[100]"
                 />
 
-                <div className="h-screen overflow-y-scroll scrollbar scrollbar-w-1.5">
+                <div
+                    className="h-screen overflow-y-scroll scrollbar scrollbar-w-1.5"
+                    ref={containerRef}
+                >
                     <Outlet />
                     <Footer className="mt-[120px] text-center mb-[5rem] py-[2rem]" />
                 </div>
-                <ScrollRestoration />
+
+                <ScrollRestoration ref={containerRef} />
                 <Scripts />
             </body>
         </html>
@@ -114,7 +120,9 @@ export default function AppWithProviders() {
                     specifiedTheme={theme}
                     themeAction="/action/set-theme"
                 >
-                    <App />
+                    <PreviousPathProvider>
+                        <App />
+                    </PreviousPathProvider>
                 </ThemeProvider>
             </AuthenticityTokenProvider>
         </HoneypotProvider>

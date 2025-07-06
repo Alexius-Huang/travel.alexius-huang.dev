@@ -21,7 +21,8 @@
     preferredstrategy: 'pseudoelements';
 }
 
-@import './font.css';
+@import './styles/font.css';
+@import './styles/view-transitions.css';
 
 * {
     user-select: none;
@@ -67,4 +68,8 @@ span {
 }
 .direction-rtl {
     direction: rtl;
+}
+
+.centered-max-width-960 {
+    @apply max-w-[960px] mx-auto;
 }
