@@ -6,6 +6,10 @@ import { TripTimeline } from '~/containers/index/trip-timeline';
 import { trim } from '~/utils/trim';
 import type { TripDetails } from '~/data-access/trips';
 import { TRIPS } from '~/utils/trips.server';
+import { isResponseError } from '~/utils/response';
+import { useContext } from 'react';
+import { MinContainerHeightContext } from '~/contexts/min-container-height-provider';
+import { NavLink } from '~/components/nav-link';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -25,6 +29,7 @@ export async function loader(_: Route.LoaderArgs) {
 }
 
 export default function Home() {
+    // throw '123';
     /* const {} = useLoaderData<LoaderData>(); */
     return (
         <>
@@ -47,5 +52,34 @@ export default function Home() {
                 `}
             />
         </>
+    );
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+    const { status, message } = isResponseError(error) ? {
+        status: error.status,
+        message: error.data.message
+    } : {
+        status: 404,
+        message: 'Not Found'
+    };
+
+    const minContainerHeight = useContext(MinContainerHeightContext);
+
+    return (
+        <div
+            className='centered-max-width-1280 text-center flex flex-col items-center justify-center'
+            style={{ height: `${minContainerHeight}px` }}
+        >
+            <h1 className='text-blue-500 text-[7rem] font-black leading-12'>
+                {status}
+                <br />
+                <span className='text-white text-4xl uppercase'>{message}</span>
+            </h1>
+
+            <NavLink to='/' className='mt-12'>
+                Back to Home Page
+            </NavLink>
+        </div>
     );
 }

@@ -31,6 +31,8 @@ import { useEffect, useRef } from 'react';
 import { PreviousPathProvider } from './contexts/previous-path-provider';
 import { ScrollRestoration } from './components/scroll-restoration';
 import './app.css';
+import { useHydration } from './hooks/use-hydration';
+import { MinContainerHeightProvider } from './contexts/min-container-height-provider';
 
 export const links: Route.LinksFunction = () => [];
 
@@ -58,10 +60,17 @@ export function App() {
     const [theme] = useTheme();
     const containerRef = useRef<HTMLDivElement | null>(null);
 
+    const footerRef = useRef<HTMLElement | null>(null);
+    const hydrated = useHydration();
+
     useEffect(() => {
-        document.addEventListener('copy', (e) => {
+        function preventDefault(e: Event) {
             e.preventDefault();
-        });
+        }
+        document.addEventListener('copy', preventDefault);
+        return () => {
+            document.removeEventListener('copy', preventDefault);
+        }
     }, []);
 
     return (
@@ -99,8 +108,10 @@ export function App() {
                     className="h-screen overflow-y-scroll overflow-x-hidden scrollbar scrollbar-w-1.5"
                     ref={containerRef}
                 >
-                    <Outlet />
-                    <Footer className="mt-[120px] text-center mb-[5rem] py-[2rem]" />
+                    <MinContainerHeightProvider footerRef={footerRef}>
+                        <Outlet />
+                    </MinContainerHeightProvider>
+                    <Footer ref={footerRef} className="mt-[120px] text-center mb-[5rem] py-[2rem]" />
                 </div>
 
                 <ScrollRestoration ref={containerRef} />

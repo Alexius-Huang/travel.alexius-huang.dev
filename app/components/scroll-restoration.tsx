@@ -31,6 +31,7 @@ export const ScrollRestoration: FC<ScrollRestorationProps> = ({ ref }) => {
             el.removeEventListener('scroll', throttledEventHandler);
         };
     }, [isHydrated]);
+    console.log(scrollLocationMap.current)
 
     useEffect(() => {
         if (!ref.current) return;
