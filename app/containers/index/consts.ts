@@ -1,5 +1,8 @@
 import { IMG_BASE_URL } from '~/data-access/image-service';
 
+/**
+ *  TODO: This could in the future be linked to showing attractions as highlights 
+ */
 export const BannerConfig = [
     {
         title: 'SANTORINI',
@@ -11,7 +14,7 @@ export const BannerConfig = [
         desktop: `${IMG_BASE_URL}/highlight/gr-oia-landscape.webp`,
         desktopAlt: 'Sunset at Oia, Santorini at May of 2024',
         mobile: `${IMG_BASE_URL}/highlight/gr-santorini-vert-2.webp`,
-        mobileAlt: 'Santorini trip at May of 2024',
+        mobileAlt: 'Santorini trip at May of 2024'
     },
     {
         title: 'GIZA',

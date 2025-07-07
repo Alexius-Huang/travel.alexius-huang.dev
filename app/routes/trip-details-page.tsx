@@ -9,7 +9,7 @@ import { daysBetween } from '~/utils/date';
 import { dateFormatter } from '~/data-access/date';
 import { COUNTRY_INFO_MAP } from '~/data-access/country';
 import { CountryFlagChip } from '~/ui/country-flag-chip';
-import { TagList } from '~/containers/index/trip-timeline/tag-list';
+import { TagList } from '~/components/tag-list';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { trim } from '~/utils/trim';
 
@@ -60,7 +60,7 @@ export default function TripDetailsPage() {
     );
 
     return (
-        <div className="centered-max-width-960">
+        <div className="centered-max-width-1280">
             <div
                 style={{
                     backgroundImage: `url(https://placehold.co/960x560?text=Placeholder)`,

@@ -1,7 +1,7 @@
 import { useMemo, type FC } from 'react';
 import { COUNTRY_INFO_MAP } from '~/data-access/country';
 import { CountryFlagChip } from '~/ui/country-flag-chip';
-import { TagList } from './tag-list';
+import { TagList } from '~/components/tag-list';
 import { trim } from '~/utils/trim';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { daysBetween } from '~/utils/date';

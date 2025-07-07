@@ -28,10 +28,10 @@ export default function Home() {
     /* const {} = useLoaderData<LoaderData>(); */
     return (
         <>
-            <TravelHighlight className="my-0 centered-max-width-960" />
-            <TravelStats className="my-0 centered-max-width-960 pt-12" />
+            <TravelHighlight className="my-0 centered-max-width-1280" />
+            <TravelStats className="my-0 centered-max-width-1280 pt-12" />
 
-            <p className="hidden centered-max-width-960 mt-[4rem] md:block text-center opacity-50">
+            <p className="hidden centered-max-width-1280 mt-[4rem] md:block text-center opacity-50">
                 🚧 My Journey Timeline is Currently Under Construction 🚧 <br />
                 😊 Following is a Preview Version 😊
             </p>
@@ -42,7 +42,7 @@ export default function Home() {
              */}
             <TripTimeline
                 className={trim`
-                    hidden md:block centered-max-width-960
+                    hidden md:block centered-max-width-1280
                     my-0 pt-24 px-[2rem]
                 `}
             />

@@ -4,6 +4,7 @@ import { MapPinOutlineIcon } from '~/icons/outline/map-pin';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { CountryFlagIcon } from '~/icons/country/country';
 import { BannerConfig } from './consts';
+import { trim } from '~/utils/trim';
 
 const formatter = new Intl.DateTimeFormat('en-US', {
     month: 'long',
@@ -21,18 +22,16 @@ export const TravelHighlight: FC<{ className?: string }> = ({ className }) => {
     return (
         <div className={className}>
             <section className="desktop-only-block">
-                <div className="relative w-100%">
-                    <img
-                        width={960}
-                        height={720}
-                        className="object-cover"
-                        src={BannerConfig[index].desktop}
-                        alt={BannerConfig[index].desktopAlt}
-                    />
-
+                <div
+                    className={trim`
+                        relative w-100% h-[100vh] sm:h-[720px] xl:h-[100vh] xl:max-h-[960px]
+                        bg-cover bg-no-repeat
+                    `}
+                    style={{ backgroundImage: `url(${BannerConfig[index].desktop})` }}
+                >
                     <h1
                         className="
-                            absolute left-4
+                            absolute left-4 z-2
                             bottom-[-0.75rem] sm:bottom-[-1.5rem]
                             sm:text-8xl md:text-9xl
                             text-white font-bold"
