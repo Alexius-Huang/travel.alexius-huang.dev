@@ -27,7 +27,9 @@ export const TravelHighlight: FC<{ className?: string }> = ({ className }) => {
                         relative w-100% h-[100vh] sm:h-[720px] xl:h-[100vh] xl:max-h-[960px]
                         bg-cover bg-no-repeat
                     `}
-                    style={{ backgroundImage: `url(${BannerConfig[index].desktop})` }}
+                    style={{
+                        backgroundImage: `url(${BannerConfig[index].desktop})`,
+                    }}
                 >
                     <h1
                         className="

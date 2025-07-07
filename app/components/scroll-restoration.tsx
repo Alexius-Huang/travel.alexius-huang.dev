@@ -36,7 +36,7 @@ export const ScrollRestoration: FC<ScrollRestorationProps> = ({ ref }) => {
         if (!ref.current) return;
 
         const scrollPosition = scrollLocationMap.current[location.pathname];
-        if (!scrollPosition) return;
+        if (typeof scrollPosition !== 'number') return;
 
         ref.current.scrollTo({ top: scrollPosition });
     }, [location]);

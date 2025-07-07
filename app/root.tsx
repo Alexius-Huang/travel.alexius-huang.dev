@@ -58,10 +58,16 @@ export function App() {
     const [theme] = useTheme();
     const containerRef = useRef<HTMLDivElement | null>(null);
 
+    const footerRef = useRef<HTMLElement | null>(null);
+
     useEffect(() => {
-        document.addEventListener('copy', (e) => {
+        function preventDefault(e: Event) {
             e.preventDefault();
-        });
+        }
+        document.addEventListener('copy', preventDefault);
+        return () => {
+            document.removeEventListener('copy', preventDefault);
+        };
     }, []);
 
     return (
@@ -100,7 +106,7 @@ export function App() {
                     ref={containerRef}
                 >
                     <Outlet />
-                    <Footer className="mt-[120px] text-center mb-[5rem] py-[2rem]" />
+                    <Footer ref={footerRef} className="text-center" />
                 </div>
 
                 <ScrollRestoration ref={containerRef} />

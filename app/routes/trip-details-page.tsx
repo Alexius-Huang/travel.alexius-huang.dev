@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import type { Route } from './+types/trip-details-page';
 import { useLoaderData } from 'react-router';
-import { json } from '~/utils/response.server';
+import { Errors, json } from '~/utils/response.server';
 import { TRIPS } from '~/utils/trips.server';
 import type { TripDetails } from '~/data-access/trips';
 import { NavLink } from '~/components/nav-link';
@@ -32,9 +32,7 @@ interface LoaderData {
 export async function loader({ params }: Route.LoaderArgs) {
     const tripDetails = TRIPS.find((t) => String(t.id) === params.tripId);
 
-    if (!tripDetails) {
-        return json({ message: '404 Not Found' }, { status: 404 });
-    }
+    if (!tripDetails) throw Errors.NotFound();
 
     return json<LoaderData>({ tripDetails });
 }
@@ -160,7 +158,4 @@ export default function TripDetailsPage() {
     );
 }
 
-// See issue: https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/37
-export function ErrorBoundary() {
-    return <p>404 NOT FOUND</p>;
-}
+export { ErrorBoundary } from './index';

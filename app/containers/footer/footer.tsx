@@ -1,15 +1,23 @@
-import type { FC } from 'react';
+import { forwardRef, type ForwardedRef } from 'react';
 import { trim } from '~/utils/trim';
 import { Link } from '~/components/link';
 
-export const Footer: FC<{ className?: string }> = ({ className }) => {
-    return (
+interface FooterProps {
+    className?: string;
+}
+
+export const FOOTER_HEIGHT = 250;
+
+export const Footer = forwardRef<HTMLElement, FooterProps>(
+    ({ className }, ref) => (
         <footer
+            ref={ref}
             className={trim`
-            flex flex-col gap-y-1.5
+            flex flex-col gap-y-1.5 justify-center
             max-w-[768px] mx-auto px-[2rem]
             ${className}
         `}
+            style={{ height: `${FOOTER_HEIGHT}px` }}
         >
             <p className="block sm:flex items-center gap-x-2 justify-center text-sm mb-1.5">
                 <span className="inline-block m-1.5">
@@ -49,5 +57,7 @@ export const Footer: FC<{ className?: string }> = ({ className }) => {
                 </Link>
             </p>
         </footer>
-    );
-};
+    ),
+);
+
+Footer.displayName = 'Footer';

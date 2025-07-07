@@ -6,6 +6,9 @@ import { TripTimeline } from '~/containers/index/trip-timeline';
 import { trim } from '~/utils/trim';
 import type { TripDetails } from '~/data-access/trips';
 import { TRIPS } from '~/utils/trips.server';
+import { isResponseError } from '~/utils/response';
+import { StatusError } from '~/containers/status-error';
+import { FOOTER_HEIGHT } from '~/containers/footer';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -47,5 +50,26 @@ export default function Home() {
                 `}
             />
         </>
+    );
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+    const { status, message } = isResponseError(error)
+        ? {
+              status: error.status,
+              message: error.data.message,
+          }
+        : {
+              status: 404,
+              message: 'Not Found',
+          };
+
+    return (
+        <StatusError
+            className="centered-max-width-1280"
+            style={{ height: `calc(100vh - ${FOOTER_HEIGHT}px)` }}
+            status={status}
+            message={message}
+        />
     );
 }
