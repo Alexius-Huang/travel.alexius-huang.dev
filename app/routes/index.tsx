@@ -9,7 +9,7 @@ import { TRIPS } from '~/utils/trips.server';
 import { isResponseError } from '~/utils/response';
 import { useContext } from 'react';
 import { MinContainerHeightContext } from '~/contexts/min-container-height-provider';
-import { NavLink } from '~/components/nav-link';
+import { StatusError } from '~/containers/status-error';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -67,19 +67,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     const minContainerHeight = useContext(MinContainerHeightContext);
 
     return (
-        <div
-            className='centered-max-width-1280 text-center flex flex-col items-center justify-center'
+        <StatusError
+            className='centered-max-width-1280'
             style={{ height: `${minContainerHeight}px` }}
-        >
-            <h1 className='text-blue-500 text-[7rem] font-black leading-12'>
-                {status}
-                <br />
-                <span className='text-white text-4xl uppercase'>{message}</span>
-            </h1>
-
-            <NavLink to='/' className='mt-12'>
-                Back to Home Page
-            </NavLink>
-        </div>
+            status={status}
+            message={message}
+        />
     );
 }

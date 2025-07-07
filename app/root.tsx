@@ -30,9 +30,9 @@ import { trim } from './utils/trim';
 import { useEffect, useRef } from 'react';
 import { PreviousPathProvider } from './contexts/previous-path-provider';
 import { ScrollRestoration } from './components/scroll-restoration';
-import './app.css';
 import { useHydration } from './hooks/use-hydration';
 import { MinContainerHeightProvider } from './contexts/min-container-height-provider';
+import './app.css';
 
 export const links: Route.LinksFunction = () => [];
 
@@ -61,7 +61,6 @@ export function App() {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     const footerRef = useRef<HTMLElement | null>(null);
-    const hydrated = useHydration();
 
     useEffect(() => {
         function preventDefault(e: Event) {
@@ -111,7 +110,7 @@ export function App() {
                     <MinContainerHeightProvider footerRef={footerRef}>
                         <Outlet />
                     </MinContainerHeightProvider>
-                    <Footer ref={footerRef} className="mt-[120px] text-center mb-[5rem] py-[2rem]" />
+                    <Footer ref={footerRef} className="mt-[2rem] text-center mb-[5rem] py-[2rem]" />
                 </div>
 
                 <ScrollRestoration ref={containerRef} />
