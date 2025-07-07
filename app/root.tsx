@@ -32,7 +32,9 @@ import { PreviousPathProvider } from './contexts/previous-path-provider';
 import { ScrollRestoration } from './components/scroll-restoration';
 import './app.css';
 
-export const links: Route.LinksFunction = () => [];
+export const links: Route.LinksFunction = () => {
+    return [{ rel: 'icon', type: 'image/svg', href: '/favicon.svg' }];
+};
 
 type LoaderData = {
     token: string;
