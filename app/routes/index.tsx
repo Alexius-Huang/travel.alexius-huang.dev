@@ -28,7 +28,6 @@ export async function loader(_: Route.LoaderArgs) {
 }
 
 export default function Home() {
-    // throw '123';
     /* const {} = useLoaderData<LoaderData>(); */
     return (
         <>

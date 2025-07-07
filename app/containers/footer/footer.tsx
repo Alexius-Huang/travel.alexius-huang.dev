@@ -1,4 +1,4 @@
-import { forwardRef, type ForwardedRef, } from 'react';
+import { forwardRef, type ForwardedRef } from 'react';
 import { trim } from '~/utils/trim';
 import { Link } from '~/components/link';
 
