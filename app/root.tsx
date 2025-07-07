@@ -96,7 +96,7 @@ export function App() {
                 />
 
                 <div
-                    className="h-screen overflow-y-scroll scrollbar scrollbar-w-1.5"
+                    className="h-screen overflow-y-scroll overflow-x-hidden scrollbar scrollbar-w-1.5"
                     ref={containerRef}
                 >
                     <Outlet />

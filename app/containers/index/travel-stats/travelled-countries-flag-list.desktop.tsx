@@ -18,6 +18,7 @@ export const CountryFlagList: FC<CountryFlagListProps> = ({
         w-[45%] md:w-[35%]
         grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
         md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
+        lg:grid-cols-[repeat(auto-fill,minmax(40px,1fr))]
         ${className}
     `}
     >
@@ -26,7 +27,7 @@ export const CountryFlagList: FC<CountryFlagListProps> = ({
                 <CountryFlagChip
                     countryCode={countryCode}
                     name={name}
-                    countryFlagIconClassName="size-5 md:size-7"
+                    countryFlagIconClassName="size-5 md:size-7 lg:size-8"
                 />
             </li>
         ))}

@@ -70,6 +70,6 @@ span {
     direction: rtl;
 }
 
-.centered-max-width-960 {
-    @apply max-w-[960px] mx-auto;
+@utility centered-max-width-* {
+    @apply max-w-[--value(number)px] mx-auto;
 }

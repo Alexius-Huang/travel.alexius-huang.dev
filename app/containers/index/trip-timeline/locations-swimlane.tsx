@@ -41,7 +41,7 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
              */
             const scrollLeft = Math.abs(carousel.scrollLeft);
             const scrollableWidth = scrollWidth - clientWidth;
-            const percentage = scrollLeft / scrollableWidth;
+            const percentage = scrollableWidth === 0 ? 0 : scrollLeft / scrollableWidth;
 
             setScrollPercentage(
                 direction === 'ltr' ? percentage : 1 - percentage,

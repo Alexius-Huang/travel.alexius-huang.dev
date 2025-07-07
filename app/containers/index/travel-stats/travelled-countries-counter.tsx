@@ -10,8 +10,8 @@ export const TravelledCountriesCounter: FC<TravelledCountriesCounterProps> = ({
     unitNode,
 }) => {
     return (
-        <h3 className="font-header text-xl xs:text-2xl sm:text-xl leading-tight">
-            <span className="text-6xl xs:text-7xl sm:text-8xl font-bold text-blue-500">
+        <h3 className="font-header text-xl xs:text-2xl sm:text-xl lg:text-2xl leading-tight">
+            <span className="text-6xl xs:text-7xl sm:text-8xl lg:text-[7rem] font-bold text-blue-500">
                 {count}
             </span>
 
