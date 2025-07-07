@@ -8,11 +8,14 @@ export interface StatusErrorProps {
     style?: CSSProperties
 }
 export const StatusError: FC<StatusErrorProps> = ({
-    status, message, className, style
+    status,
+    message,
+    className,
+    style
 }) => {
     return (
         <div
-            className={`text-center flex flex-col items-center justify-center ${className}`}
+            className={`flex flex-col items-center justify-center text-center ${className}`}
             style={style}
         >
             <h1 className='text-blue-500 text-[7rem] font-black leading-12'>
