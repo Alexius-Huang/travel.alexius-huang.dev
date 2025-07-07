@@ -31,13 +31,12 @@ export const ScrollRestoration: FC<ScrollRestorationProps> = ({ ref }) => {
             el.removeEventListener('scroll', throttledEventHandler);
         };
     }, [isHydrated]);
-    console.log(scrollLocationMap.current)
 
     useEffect(() => {
         if (!ref.current) return;
 
         const scrollPosition = scrollLocationMap.current[location.pathname];
-        if (!scrollPosition) return;
+        if (typeof scrollPosition !== 'number') return;
 
         ref.current.scrollTo({ top: scrollPosition });
     }, [location]);

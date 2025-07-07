@@ -4,7 +4,6 @@ import { MinContainerHeightContext } from "~/contexts/min-container-height-provi
 
 export default function _404() {
     const minContainerHeight = useContext(MinContainerHeightContext);
-    console.log('HELLO');
 
     return (
         <div
