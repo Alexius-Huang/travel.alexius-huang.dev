@@ -64,7 +64,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
             </h2>
 
             <RegionBackgroundWrapper
-                className="travel-stats__eu-bg"
+                className="travel-stats__bg travel-stats__eu-bg"
                 backgroundImageURL="region/europe.v3.svg"
             >
                 <TravelledCountriesCounter
@@ -145,7 +145,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
             </div> */}
 
             <RegionBackgroundWrapper
-                className="travel-stats__asia-bg"
+                className="travel-stats__bg travel-stats__asia-bg"
                 backgroundImageURL="region/asia.svg"
             >
                 <TravelledCountriesCounter
@@ -164,7 +164,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
             </RegionBackgroundWrapper>
 
             <RegionBackgroundWrapper
-                className="travel-stats__central-north-america-bg"
+                className="travel-stats__bg travel-stats__central-north-america-bg"
                 backgroundImageURL="region/central-north-america.v3.svg"
             >
                 <TravelledCountriesCounter
@@ -183,7 +183,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
             </RegionBackgroundWrapper>
 
             <RegionBackgroundWrapper
-                className="travel-stats__africa-bg"
+                className="travel-stats__bg travel-stats__africa-bg"
                 backgroundImageURL="region/africa.svg"
             >
                 <TravelledCountriesCounter

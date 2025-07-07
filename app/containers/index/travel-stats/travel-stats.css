@@ -37,12 +37,19 @@
     }
 }
 
+/**
+ *  Not sure the reason why we have to separate this part out of the region
+ *  background wrapper in order to fix style consistancy explicity
+ */
+.travel-stats__bg {
+    @apply bg-cover xs:bg-contain;    
+}
+
 /* Region Background Image Position */
 .travel-stats__eu-bg {
     @apply h-[350px] md:h-[500px]
         bg-[right_-3.5rem_top_-3rem]
         xs:bg-[right_0rem_center];
-
     & > div {
         @apply top-[20%] sm:top-[2.5%] md:top-[12.5%]
             left-[5%] xs:left-[12%] sm:left-[7.5%] md:left-[5%];

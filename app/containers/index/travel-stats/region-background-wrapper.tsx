@@ -15,8 +15,7 @@ export const RegionBackgroundWrapper: FC<
         <div
             className={trim`
                 overflow-x-hidden relative w-full
-                bg-cover xs:bg-contain bg-no-repeat
-                ${className}
+                bg-no-repeat ${className}
             `}
             style={{
                 backgroundImage: `url('${IMG_BASE_URL}/${backgroundImageURL}')`,
