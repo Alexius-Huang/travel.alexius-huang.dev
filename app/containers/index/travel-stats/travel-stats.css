@@ -42,7 +42,7 @@
  *  background wrapper in order to fix style consistancy explicity
  */
 .travel-stats__bg {
-    @apply bg-cover xs:bg-contain;    
+    @apply bg-cover xs:bg-contain;
 }
 
 /* Region Background Image Position */

@@ -67,7 +67,7 @@ export function App() {
         document.addEventListener('copy', preventDefault);
         return () => {
             document.removeEventListener('copy', preventDefault);
-        }
+        };
     }, []);
 
     return (
