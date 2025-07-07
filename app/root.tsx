@@ -30,8 +30,6 @@ import { trim } from './utils/trim';
 import { useEffect, useRef } from 'react';
 import { PreviousPathProvider } from './contexts/previous-path-provider';
 import { ScrollRestoration } from './components/scroll-restoration';
-import { useHydration } from './hooks/use-hydration';
-import { MinContainerHeightProvider } from './contexts/min-container-height-provider';
 import './app.css';
 
 export const links: Route.LinksFunction = () => [];
@@ -107,10 +105,8 @@ export function App() {
                     className="h-screen overflow-y-scroll overflow-x-hidden scrollbar scrollbar-w-1.5"
                     ref={containerRef}
                 >
-                    <MinContainerHeightProvider footerRef={footerRef}>
-                        <Outlet />
-                    </MinContainerHeightProvider>
-                    <Footer ref={footerRef} className="mt-[2rem] text-center mb-[5rem] py-[2rem]" />
+                    <Outlet />
+                    <Footer ref={footerRef} className="text-center" />
                 </div>
 
                 <ScrollRestoration ref={containerRef} />

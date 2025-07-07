@@ -6,6 +6,8 @@ interface FooterProps {
     className?: string;
 }
 
+export const FOOTER_HEIGHT = 250;
+
 export const Footer = forwardRef<HTMLElement, FooterProps>((
     { className }, 
     ref
@@ -13,10 +15,11 @@ export const Footer = forwardRef<HTMLElement, FooterProps>((
     <footer
         ref={ref}
         className={trim`
-        flex flex-col gap-y-1.5
-        max-w-[768px] mx-auto px-[2rem]
-        ${className}
-    `}
+            flex flex-col gap-y-1.5 justify-center
+            max-w-[768px] mx-auto px-[2rem]
+            ${className}
+        `}
+        style={{ height: `${FOOTER_HEIGHT}px` }}
     >
         <p className="block sm:flex items-center gap-x-2 justify-center text-sm mb-1.5">
             <span className="inline-block m-1.5">

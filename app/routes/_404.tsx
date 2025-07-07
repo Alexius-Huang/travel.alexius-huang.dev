@@ -1,14 +1,11 @@
-import { useContext } from "react";
+import { FOOTER_HEIGHT } from "~/containers/footer";
 import { StatusError } from "~/containers/status-error";
-import { MinContainerHeightContext } from "~/contexts/min-container-height-provider";
 
 export default function _404() {
-    const minContainerHeight = useContext(MinContainerHeightContext);
-
     return (
         <StatusError
             className='centered-max-width-1280'
-            style={{ height: `${minContainerHeight}px` }}
+            style={{ height: `calc(100vh - ${FOOTER_HEIGHT}px)` }}
             status={404}
             message='Not Found'
         />

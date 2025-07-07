@@ -7,9 +7,8 @@ import { trim } from '~/utils/trim';
 import type { TripDetails } from '~/data-access/trips';
 import { TRIPS } from '~/utils/trips.server';
 import { isResponseError } from '~/utils/response';
-import { useContext } from 'react';
-import { MinContainerHeightContext } from '~/contexts/min-container-height-provider';
 import { StatusError } from '~/containers/status-error';
+import { FOOTER_HEIGHT } from '~/containers/footer';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -64,12 +63,10 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         message: 'Not Found'
     };
 
-    const minContainerHeight = useContext(MinContainerHeightContext);
-
     return (
         <StatusError
             className='centered-max-width-1280'
-            style={{ height: `${minContainerHeight}px` }}
+            style={{ height: `calc(100vh - ${FOOTER_HEIGHT}px)` }}
             status={status}
             message={message}
         />
