@@ -30,9 +30,12 @@ import { trim } from './utils/trim';
 import { useEffect, useRef } from 'react';
 import { PreviousPathProvider } from './contexts/previous-path-provider';
 import { ScrollRestoration } from './components/scroll-restoration';
+import { FAVICON_LINKS } from './data-access/favicon-config';
 import './app.css';
 
-export const links: Route.LinksFunction = () => [];
+export const links: Route.LinksFunction = () => [
+    ...FAVICON_LINKS
+];
 
 type LoaderData = {
     token: string;
