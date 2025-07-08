@@ -33,7 +33,10 @@ import { ScrollRestoration } from './components/scroll-restoration';
 import './app.css';
 
 export const links: Route.LinksFunction = () => {
-    return [{ rel: 'icon', type: 'image/svg', href: '/favicon.svg' }];
+    return [
+        { rel: 'icon', type: 'image/svg', href: '/favicon.svg', media: '(prefers-color-scheme: light)' },
+        { rel: 'icon', type: 'image/svg', href: '/favicon.dark.svg', media: '(prefers-color-scheme: dark)' },
+    ];
 };
 
 type LoaderData = {

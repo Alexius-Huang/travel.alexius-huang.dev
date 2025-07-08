@@ -3,7 +3,7 @@
   
     <defs>
         <linearGradient id="gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="hsl(221, 42%, 11%)" />
+            <stop offset="0%" stop-color="white" />
             <stop offset="70%" stop-color="hsl(216, 100%, 58.9%)" />
         </linearGradient>
     </defs>
