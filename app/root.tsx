@@ -30,14 +30,12 @@ import { trim } from './utils/trim';
 import { useEffect, useRef } from 'react';
 import { PreviousPathProvider } from './contexts/previous-path-provider';
 import { ScrollRestoration } from './components/scroll-restoration';
+import { FAVICON_LINKS } from './data-access/favicon-config';
 import './app.css';
 
-export const links: Route.LinksFunction = () => {
-    return [
-        { rel: 'icon', type: 'image/svg', href: '/favicon.svg', media: '(prefers-color-scheme: light)' },
-        { rel: 'icon', type: 'image/svg', href: '/favicon.dark.svg', media: '(prefers-color-scheme: dark)' },
-    ];
-};
+export const links: Route.LinksFunction = () => [
+    ...FAVICON_LINKS
+];
 
 type LoaderData = {
     token: string;
