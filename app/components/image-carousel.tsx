@@ -7,8 +7,7 @@ import './image-carousel.css';
 
 interface ImageCarouselProps {
     className?: string;
-    width: number;
-    height: number;
+    aspectRatio: [width: number, height: number];
     images: Array<{ url: string }>;
     autoplay?: boolean;
     autoplayDuration?: number;
@@ -17,8 +16,7 @@ interface ImageCarouselProps {
 
 export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
     className,
-    width,
-    height,
+    aspectRatio,
     images,
     children,
     autoplay,
@@ -81,108 +79,90 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
     return (
         <div
             ref={containerRef}
-            className={`relative w-full h-full px-[1.5rem] ${className}`}
+            className={`block relative px-[1.5rem] ${className}`}
         >
+            <div className='relative w-full'>
+                <div className="relative w-full overflow-hidden text-[0px]">
+                    <div className="image-carousel__carousel">
+                        {images.map(({ url }) => (
+                            <img
+                                key={url}
+                                src={url}
+                                alt='Some text'
+                                style={{ aspectRatio: aspectRatio.join(' / '), transform: translation }}
+                            />
+                        ))}
+                    </div>
 
-            <div className="relative w-full h-[75%] overflow-hidden text-[0px]">
-                <div
-                    className="inline-flex flex-nowrap w-full h-full direction-ltr transition-transform duration-300 ease-in-out"
-                    style={{ transform: translation }}
-                >
-                    {images.map(({ url }, i) => (
-                        <div
-                            key={i}
-                            style={{ backgroundImage: `url(${url})` }}
-                            className="flex-[0_0_auto] w-full h-full bg-center bg-cover bg-no-repeat z-1"
-                        />
-                    ))}
+                    <span aria-hidden='true' className='image-carousel__image-gradient' />
+
+                    <div
+                        className={trim`
+                        w-full h-[35px]
+                        absolute bottom-0 left-0 z-2
+                        flex items-center justify-center gap-x-1.5
+                        direction-ltr
+                    `}
+                    >
+                        {images.map((_, i) => (
+                            <span
+                                key={i}
+                                className={trim`
+                                inline-block rounded-md
+                                transition-all duration-250 ease-in-out
+                                ${
+                                    i === focusImgIndex
+                                        ? 'bg-blue-500 dark:bg-yellow-300 w-2.5 h-2.5'
+                                        : 'bg-blue-500/60 dark:bg-yellow-300/60 w-1.5 h-1.5'
+                                }
+                            `}
+                            />
+                        ))}
+                    </div>
                 </div>
+                
 
+                {/* This is a hidden button to let image left side entire area to be clickable */}
                 <div
-                    className={trim`
-                    absolute w-full h-[50px]
-                    left-0 bottom-0 z-1
-                    bg-gradient-to-t from-white dark:from-gray-900
-                    to-transparent
-                `}
+                    role="button"
+                    aria-hidden="true"
+                    className='image-carousel__hidden-btn'
+                    onClick={() => !disablePrevBtn && switchImageTo('prev')}
                 />
-
-                <div
-                    className={trim`
-                    w-full h-[35px]
-                    absolute bottom-0 left-0 z-2
-                    flex items-center justify-center gap-x-1.5
-                    direction-ltr
-                `}
+                <button
+                    disabled={disablePrevBtn}
+                    onClick={() => switchImageTo('prev')}
                 >
-                    {images.map((_, i) => (
-                        <span
-                            key={i}
-                            className={trim`
-                            inline-block rounded-md
-                            transition-all duration-250 ease-in-out
-                            ${
-                                i === focusImgIndex
-                                    ? 'bg-blue-500 dark:bg-yellow-300 w-2.5 h-2.5'
-                                    : 'bg-blue-500/60 dark:bg-yellow-300/60 w-1.5 h-1.5'
-                            }
-                        `}
+                    <span>
+                        <ChevronLeftOutlineIcon
+                            size="sm"
+                            className="inline-block"
                         />
-                    ))}
-                </div>
+                    </span>
+                </button>
+
+
+                {/* This is a hidden button to let image right side entire area to be clickable */}
+                <div
+                    role="button"
+                    aria-hidden="true"
+                    className='image-carousel__hidden-btn'
+                    onClick={() => !disableNextBtn && switchImageTo('next')}
+                />
+                <button
+                    disabled={disableNextBtn}
+                    onClick={() => switchImageTo('next')}
+                >
+                    <span>
+                        <ChevronRightOutlineIcon
+                            size="sm"
+                            className="inline-block"
+                        />
+                    </span>
+                </button>
             </div>
 
             {children}
-
-            {/* This is a hidden button to let image left side entire area to be clickable */}
-            <div
-                role="button"
-                aria-hidden="true"
-                className={trim`
-                    image-carousel__hidden-btn
-                    direction-ltr left-0
-                `}
-                onClick={() => !disablePrevBtn && switchImageTo('prev')}
-            />
-            <button
-                className={trim`
-                direction-ltr text-left left-0
-            `}
-                disabled={disablePrevBtn}
-                onClick={() => switchImageTo('prev')}
-            >
-                <span className="rounded-l-sm">
-                    <ChevronLeftOutlineIcon
-                        size="sm"
-                        className="inline-block"
-                    />
-                </span>
-            </button>
-
-            {/* This is a hidden button to let image right side entire area to be clickable */}
-            <div
-                role="button"
-                aria-hidden="true"
-                className={trim`
-                    image-carousel__hidden-btn
-                    direction-ltr right-0
-                `}
-                onClick={() => !disableNextBtn && switchImageTo('next')}
-            />
-            <button
-                className={trim`
-                direction-ltr text-right right-0
-            `}
-                disabled={disableNextBtn}
-                onClick={() => switchImageTo('next')}
-            >
-                <span className="rounded-r-sm">
-                    <ChevronRightOutlineIcon
-                        size="sm"
-                        className="inline-block"
-                    />
-                </span>
-            </button>
         </div>
     );
 };

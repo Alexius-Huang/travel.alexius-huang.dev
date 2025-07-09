@@ -3,7 +3,7 @@ import { CountryFlagIcon } from '~/icons/country/country';
 import { MapPinOutlineIcon } from '~/icons/outline/map-pin';
 import { trim } from '~/utils/trim';
 import { Button } from '~/components/button';
-import { ImageCarousel } from '~/components/image-carousel';
+import { ImageCarousel, type ImageCarouselProps } from '~/components/image-carousel';
 
 export interface AttractionsCarouselProps {
     className?: string;
@@ -16,8 +16,8 @@ export interface AttractionsCarouselProps {
             countryCode: string;
         };
     }>;
-    autoplay?: boolean;
-    autoplayDuration?: number;
+    autoplay?: ImageCarouselProps['autoplay'];
+    autoplayDuration?: ImageCarouselProps['autoplayDuration'];
 }
 
 export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
@@ -32,8 +32,7 @@ export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
     return (
         <ImageCarousel
             className={className}
-            width={600}
-            height={300}
+            aspectRatio={[4, 3]}
             images={attractions}
             autoplay={autoplay}
             autoplayDuration={autoplayDuration}
