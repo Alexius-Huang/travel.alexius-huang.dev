@@ -4,7 +4,6 @@ import { MapPinOutlineIcon } from '~/icons/outline/map-pin';
 import { trim } from '~/utils/trim';
 import { Button } from '~/components/button';
 import { ImageCarousel } from '~/components/image-carousel';
-import './attractions-carousel.css';
 
 export interface AttractionsCarouselProps {
     className?: string;
@@ -20,7 +19,6 @@ export interface AttractionsCarouselProps {
     autoplay?: boolean;
     autoplayDuration?: number;
 }
-
 
 export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
     className,

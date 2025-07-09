@@ -3,6 +3,7 @@ import { useIsMouseEntering } from "~/hooks/use-is-mouse-entering";
 import { ChevronLeftOutlineIcon } from "~/icons/outline/chevron-left";
 import { ChevronRightOutlineIcon } from "~/icons/outline/chevron-right";
 import { trim } from "~/utils/trim";
+import './image-carousel.css';
 
 interface ImageCarouselProps {
     className?: string;
@@ -138,7 +139,7 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
                 role="button"
                 aria-hidden="true"
                 className={trim`
-                    attractions-carousel__hidden-btn
+                    image-carousel__hidden-btn
                     direction-ltr left-0
                 `}
                 onClick={() => !disablePrevBtn && switchImageTo('prev')}
@@ -163,7 +164,7 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
                 role="button"
                 aria-hidden="true"
                 className={trim`
-                    attractions-carousel__hidden-btn
+                    image-carousel__hidden-btn
                     direction-ltr right-0
                 `}
                 onClick={() => !disableNextBtn && switchImageTo('next')}
