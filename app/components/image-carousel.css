@@ -1,0 +1,78 @@
+@reference 'tailwindcss';
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+.image-carousel__carousel {
+    @apply whitespace-nowrap;
+    direction: ltr;
+
+    & > img {
+        @apply inline-block object-cover w-full
+            transition-transform duration-300 ease-in-out;
+    }
+}
+
+.image-carousel__image-gradient {
+    @apply absolute block w-full h-[50px]
+        left-0 bottom-0 z-1
+        bg-gradient-to-t from-white dark:from-gray-900
+        to-transparent;
+}
+
+.image-carousel__hidden-btn {
+    @apply absolute w-[50%] z-3 top-0 h-full;
+    direction: ltr;
+
+    & + button {
+        @apply absolute w-[1.5rem] z-4 top-[calc(50%-2rem)]
+            transition-colors duration-250;
+
+        & > span {
+            @apply inline-flex items-center
+                h-[4rem] px-0.5
+                text-blue-600 dark:text-yellow-300
+                bg-blue-500/20 dark:bg-yellow-300/50
+                transition-colors duration-250;
+        }
+    }
+
+    /* Left Chevron Button */
+    &:nth-of-type(2) {
+        @apply left-0;
+
+        & + button {
+            @apply text-left left-[-1.5rem];
+
+            & > span {
+                @apply rounded-l-sm;
+            }
+        }
+    }
+
+    /* Right Chevron Button */
+    &:nth-of-type(3) {
+        @apply right-0;
+
+        & + button {
+            @apply text-right right-[-1.5rem];
+
+            & > span {
+                @apply rounded-r-sm;
+            }
+        }
+    }
+}
+
+
+.image-carousel__hidden-btn:hover + button,
+.image-carousel__hidden-btn + button:focus,
+.image-carousel__hidden-btn + button:hover {
+    & > span {
+        @apply bg-blue-500 dark:bg-yellow-300
+            text-white dark:text-gray-800;
+    }
+}
+
+.image-carousel__hidden-btn + button:disabled > span {
+    @apply text-gray-400 bg-gray-200 
+        dark:text-gray-400 dark:bg-gray-700;
+}

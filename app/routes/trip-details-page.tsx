@@ -89,7 +89,7 @@ export default function TripDetailsPage() {
                     <div
                         className={trim`
                         flex items-center gap-x-1.5
-                        text-md font-normal text-blue-500 dark:text-yellow-300
+                        text-base font-normal text-blue-500 dark:text-yellow-300
                         v-trans-trip-date-range
                     `}
                     >

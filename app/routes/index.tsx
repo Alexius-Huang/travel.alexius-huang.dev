@@ -45,7 +45,7 @@ export default function Home() {
              */}
             <TripTimeline
                 className={trim`
-                    hidden md:block centered-max-width-1280
+                    block centered-max-width-1280
                     my-0 pt-24 px-[2rem]
                 `}
             />
