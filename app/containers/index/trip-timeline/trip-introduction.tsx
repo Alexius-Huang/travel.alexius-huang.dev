@@ -52,7 +52,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
             </h3>
             <p
                 className={trim`
-                    text-lg font-medium tracking-wide line-clamp-2
+                    text-base lg:text-lg font-medium tracking-wide line-clamp-2
                     text-gray-500 dark:text-gray-300
                     ${vt.tripSubtitle}
                 `}
@@ -62,21 +62,27 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
 
             <div
                 className={trim`
-                flex items-center gap-x-1.5 mt-1 mb-2
+                flex items-center gap-x-1.5 gap-y-1.5 mt-1 mb-2
                 text-xs font-normal text-blue-500 dark:text-yellow-300
+                flex-wrap
                 ${vt.tripDateRange}
             `}
             >
-                <CalendarDateRangeOutlineIcon size="sm" />
-                <span className="font-semibold font-header mr-1.5 direction-ltr">
-                    {daysPassed} DAYS
-                </span>
-                <time dateTime={from}>{formattedDate.from}</time>
-                <span aria-hidden="true">~</span>
-                <time dateTime={to}>{formattedDate.to}</time>
-                <span className="sr-only">
-                    from {formattedDate.from} to {formattedDate.to}
-                </span>
+                <div>
+                    <CalendarDateRangeOutlineIcon className='inline-block' size="sm" />
+                    <span className="font-semibold font-header mr-1.5 direction-ltr align-middle ml-1.5">
+                        {daysPassed} DAY{daysPassed > 1 ? 'S' : ''}
+                    </span>
+                </div>
+
+                <div>
+                    <time dateTime={from}>{formattedDate.from}</time>
+                    <span aria-hidden="true">{' '}~{' '}</span>
+                    <time dateTime={to}>{formattedDate.to}</time>
+                    <span className="sr-only">
+                        from {formattedDate.from} to {formattedDate.to}
+                    </span>
+                </div>
             </div>
 
             <div
@@ -94,9 +100,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                 ))}
             </div>
 
-            <p
-                className={`text-md tracking-wide font-light mb-4 line-clamp-3 ${vt.tripDescription}`}
-            >
+            <p className={`text-sm lg:text-base tracking-wide font-light mb-4 line-clamp-3 ${vt.tripDescription}`}>
                 {description}
             </p>
 

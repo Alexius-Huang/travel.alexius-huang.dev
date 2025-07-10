@@ -32,47 +32,45 @@ export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
     return (
         <ImageCarousel
             className={className}
-            aspectRatio={[4, 3]}
+            imageClassName='aspect-3/4 lg:aspect-4/3'
             images={attractions}
             autoplay={autoplay}
             autoplayDuration={autoplayDuration}
             onImageFocus={(_, index) => setFocusAttractionIndex(index)}
         >
-            <div className="w-full px-2 py-3 direction-ltr">
-                {location ? (
-                    <p className="flex flex-row gap-x-1 text-xs items-center">
-                        <CountryFlagIcon
-                            className="rounded mr-1"
-                            countryCode={location.countryCode}
-                            size="sm"
-                        />
-                        <span>{location.name}</span>
-                    </p>
-                ) : (
-                    <p className="flex flex-row gap-x-1 text-xs items-center text-gray-500 dark:text-gray-400">
-                        <MapPinOutlineIcon size="sm" />
-                        <span>Unknown Location</span>
-                    </p>
-                )}
-                <p
-                    className={trim`
-                    text-sm tracking-wide font-light my-4 line-clamp-3
-                    ${description ? '' : 'text-xs text-gray-500 dark:text-gray-400'}
-                `}
-                >
-                    {description ?? 'No Description Provided'}
+            {location ? (
+                <p className="flex flex-row gap-x-1 text-xs items-center">
+                    <CountryFlagIcon
+                        className="rounded mr-1"
+                        countryCode={location.countryCode}
+                        size="sm"
+                    />
+                    <span>{location.name}</span>
                 </p>
+            ) : (
+                <p className="flex flex-row gap-x-1 text-xs items-center text-gray-500 dark:text-gray-400">
+                    <MapPinOutlineIcon size="sm" />
+                    <span>Unknown Location</span>
+                </p>
+            )}
+            <p
+                className={trim`
+                text-sm tracking-wide font-light my-4 line-clamp-3
+                ${description ? '' : 'text-xs text-gray-500 dark:text-gray-400'}
+            `}
+            >
+                {description ?? 'No Description Provided'}
+            </p>
 
-                <div>
-                    <Button
-                        size="xs"
-                        variant="secondary"
-                        className="!border-1"
-                        aria-label={`View the details of ${attractions[focusAttractionIndex].name}`}
-                    >
-                        View Details
-                    </Button>
-                </div>
+            <div>
+                <Button
+                    size="xs"
+                    variant="secondary"
+                    className="!border-1"
+                    aria-label={`View the details of ${attractions[focusAttractionIndex].name}`}
+                >
+                    View Details
+                </Button>
             </div>
         </ImageCarousel>
     );

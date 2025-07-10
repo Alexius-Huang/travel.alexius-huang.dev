@@ -4,7 +4,7 @@ type Day = string;
 export type DateFormat = `${Year}-${Month}-${Day}`;
 
 export const dateFormatter = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
+    month: 'short',
     day: 'numeric',
     year: 'numeric',
 });

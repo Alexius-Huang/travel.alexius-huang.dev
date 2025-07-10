@@ -21,23 +21,32 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
             <h2
                 className={trim`
                 text-center text-3xl font-bold uppercase
-                text-blue-500
+                text-blue-500 mb-[2rem] xs:mb-[3rem]
             `}
             >
                 My Journey Timeline
             </h2>
 
-            <div aria-hidden="true" className="text-center mt-[1rem]">
-                <span className="font-bold text-xl">
+            <div aria-hidden="true" className="hidden md:block text-center mb-[1rem]">
+                <span className="font-bold font-header text-2xl">
                     {new Date().getFullYear()}
                 </span>
             </div>
 
             <div className="relative pt-8">
                 <span
-                    className="absolute rounded inline-block w-8 h-8 left-0 right-0 top-0 mx-auto bg-blue-500"
+                    className={trim`
+                        rounded inline-block 
+                        absolute w-8 h-8 left-[-.875rem] md:left-0 md:right-0 top-0 mx-auto bg-blue-500
+                    `}
                     aria-hidden="true"
-                />
+                >
+                    <span className='md:hidden absolute left-[calc(100%+1rem)] h-full flex items-center'>
+                        <span className='font-bold font-header text-xl tracking-wider'>
+                            {new Date().getFullYear()}
+                        </span>
+                    </span>
+                </span>
 
                 {trips.map((trip) => (
                     <TripTimelineNode key={trip.id} tripDetails={trip} />
@@ -47,7 +56,7 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                     <span
                         aria-hidden="true"
                         className={trim`
-                            absolute left-0 right-0 top-0 mx-auto
+                            absolute left-0 md:right-0 top-0 mx-auto
                             inline-block w-1.25 h-12 bg-gradient-to-b from-blue-500 to-transparent
                         `}
                     />

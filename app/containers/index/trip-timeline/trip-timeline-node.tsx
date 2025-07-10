@@ -3,8 +3,8 @@ import { LocationsSwimlane } from './locations-swimlane';
 import { AttractionsCarousel } from './attractions-carousel';
 import { useIsMouseEntering } from '~/hooks/use-is-mouse-entering';
 import { TripIntroduction } from './trip-introduction';
-import './trip-timeline-node.css';
 import type { TripDetails } from '~/data-access/trips';
+import './trip-timeline-node.css';
 
 export interface TripTimelineNodeProps {
     tripDetails: TripDetails;
@@ -21,6 +21,7 @@ export const TripTimelineNode: FC<TripTimelineNodeProps> = ({
             {/* Attraction Highlights */}
             <AttractionsCarousel
                 autoplay={isMouseEnteringTimelineNode}
+                className='hidden md:block'
                 attractions={[
                     {
                         url: 'https://placehold.co/200x200?text=Photo+1',

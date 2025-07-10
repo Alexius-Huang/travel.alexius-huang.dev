@@ -5,9 +5,13 @@ import { ChevronRightOutlineIcon } from "~/icons/outline/chevron-right";
 import { trim } from "~/utils/trim";
 import './image-carousel.css';
 
-interface ImageCarouselProps {
+export interface ImageCarouselProps {
+    /**
+     *  Required to have class to represent aspect-ratio: aspect-* 
+     */
+    imageClassName: string;
+
     className?: string;
-    aspectRatio: [width: number, height: number];
     images: Array<{ url: string }>;
     autoplay?: boolean;
     autoplayDuration?: number;
@@ -16,7 +20,7 @@ interface ImageCarouselProps {
 
 export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
     className,
-    aspectRatio,
+    imageClassName,
     images,
     children,
     autoplay,
@@ -89,7 +93,8 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
                                 key={url}
                                 src={url}
                                 alt='Some text'
-                                style={{ aspectRatio: aspectRatio.join(' / '), transform: translation }}
+                                className={imageClassName}
+                                style={{ transform: translation }}
                             />
                         ))}
                     </div>
@@ -162,7 +167,9 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
                 </button>
             </div>
 
-            {children}
+            <div className="w-full px-2 py-3 direction-ltr">
+                {children}
+            </div>
         </div>
     );
 };
