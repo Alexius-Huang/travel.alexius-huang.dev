@@ -69,7 +69,10 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
             `}
             >
                 <div>
-                    <CalendarDateRangeOutlineIcon className='inline-block' size="sm" />
+                    <CalendarDateRangeOutlineIcon
+                        className="inline-block"
+                        size="sm"
+                    />
                     <span className="font-semibold font-header mr-1.5 direction-ltr align-middle ml-1.5">
                         {daysPassed} DAY{daysPassed > 1 ? 'S' : ''}
                     </span>
@@ -77,7 +80,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
 
                 <div>
                     <time dateTime={from}>{formattedDate.from}</time>
-                    <span aria-hidden="true">{' '}~{' '}</span>
+                    <span aria-hidden="true"> ~ </span>
                     <time dateTime={to}>{formattedDate.to}</time>
                     <span className="sr-only">
                         from {formattedDate.from} to {formattedDate.to}
@@ -100,7 +103,9 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                 ))}
             </div>
 
-            <p className={`text-sm lg:text-base tracking-wide font-light mb-4 line-clamp-3 ${vt.tripDescription}`}>
+            <p
+                className={`text-sm lg:text-base tracking-wide font-light mb-4 line-clamp-3 ${vt.tripDescription}`}
+            >
                 {description}
             </p>
 

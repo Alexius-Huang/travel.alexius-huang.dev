@@ -12,6 +12,11 @@ import { CountryFlagChip } from '~/ui/country-flag-chip';
 import { TagList } from '~/components/tag-list';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { trim } from '~/utils/trim';
+import loadable from '@loadable/component';
+
+const Map = loadable(() =>
+    import('~/containers/trip-details-page/map').then((m) => m.Map),
+);
 
 /**
  *  TODO: we need to populate correct information on meta tag, checkout:
@@ -153,6 +158,10 @@ export default function TripDetailsPage() {
                  *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/41
                  */}
                 {/* <NavLink to={`/trips/${tripDetails.id + 1}`} aria-label='Next Trip'>Next Trip</NavLink> */}
+            </div>
+
+            <div>
+                <Map fallback={<>Loading...</>} />
             </div>
         </div>
     );
