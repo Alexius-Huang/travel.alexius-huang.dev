@@ -23,6 +23,7 @@
         "classnames": "^2.5.1",
         "isbot": "5.1.17",
         "maplibre-gl": "^5.6.1",
+        "pmtiles": "^4.3.0",
         "react": "19.0.0",
         "react-aria-components": "^1.10.1",
         "react-dom": "19.0.0",
