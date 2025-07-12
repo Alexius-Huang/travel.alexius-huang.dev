@@ -18,7 +18,7 @@ import maplibre from 'maplibre-gl';
 const { LngLat, LngLatBounds } = maplibre;
 
 const Map = loadable(() =>
-    import('~/containers/trip-details-page/map').then((m) => m.Map),
+    import('~/components/map').then((m) => m.Map),
 );
 
 /**
