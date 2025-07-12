@@ -3,7 +3,10 @@ import { CountryFlagIcon } from '~/icons/country/country';
 import { MapPinOutlineIcon } from '~/icons/outline/map-pin';
 import { trim } from '~/utils/trim';
 import { Button } from '~/components/button';
-import { ImageCarousel, type ImageCarouselProps } from '~/components/image-carousel';
+import {
+    ImageCarousel,
+    type ImageCarouselProps,
+} from '~/components/image-carousel';
 
 export interface AttractionsCarouselProps {
     className?: string;
@@ -32,7 +35,7 @@ export const AttractionsCarousel: FC<AttractionsCarouselProps> = ({
     return (
         <ImageCarousel
             className={className}
-            imageClassName='aspect-3/4 lg:aspect-4/3'
+            imageClassName="aspect-3/4 lg:aspect-4/3"
             images={attractions}
             autoplay={autoplay}
             autoplayDuration={autoplayDuration}

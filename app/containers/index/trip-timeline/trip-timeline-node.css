@@ -32,21 +32,21 @@
         & > .timeline-bar {
             @apply absolute left-0 top-0
                 h-full w-1.25 bg-blue-500;
-        }    
+        }
     }
     @media (min-width: theme('screens.md')) {
-        & > article {    
+        & > article {
             & > span.timeline-dot::before {
                 @apply absolute left-[-2.25rem] top-0.5
                     inline-block w-6 h-6 bg-blue-500 rounded-full;
                 content: '';
             }
         }
-    
+
         & > .timeline-bar {
             @apply absolute left-0 right-0 top-0 mx-auto
                 h-full w-1.25 bg-blue-500;
-        }    
+        }
     }
 
     & + .trip-timeline-node {
@@ -54,32 +54,31 @@
     }
 }
 
-
 @media (min-width: theme('screens.md')) {
     .trip-timeline-node:nth-child(even) {
         grid-template-areas:
             'random-highlights image-carousel'
             'random-highlights trip-detail';
     }
-    
+
     .trip-timeline-node:nth-child(odd) {
         grid-template-areas:
             'image-carousel random-highlights'
             'trip-detail random-highlights';
-    
+
         & > div,
         & > article {
             direction: rtl;
         }
-    
+
         & > article {
             & > span.timeline-dot::before {
                 @apply right-[-2.25rem];
             }
-    
+
             & > span.timeline-dot::after {
                 @apply right-[-2rem];
             }
         }
-    }    
+    }
 }

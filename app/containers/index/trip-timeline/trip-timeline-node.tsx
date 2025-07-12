@@ -21,7 +21,7 @@ export const TripTimelineNode: FC<TripTimelineNodeProps> = ({
             {/* Attraction Highlights */}
             <AttractionsCarousel
                 autoplay={isMouseEnteringTimelineNode}
-                className='hidden md:block'
+                className="hidden md:block"
                 attractions={[
                     {
                         url: 'https://placehold.co/200x200?text=Photo+1',
