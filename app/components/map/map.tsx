@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, type FC } from 'react';
-import maplibregl, { LngLat, LngLatBounds } from 'maplibre-gl';
+import { Theme, useTheme } from 'remix-themes';
+import maplibregl from 'maplibre-gl';
 import { Protocol } from 'pmtiles';
 import mapStyle from './map-style.json';
 import mapStyleDark from './map-style.dark.json';
-import { Theme, useTheme } from 'remix-themes';
 
 export interface MapProps {
     name: string;
@@ -40,8 +40,12 @@ export const Map: FC<MapProps> = ({ name, config = {} }) => {
             ...config,
         });
 
+        globalThis.maps ??= {};
+        globalThis.maps[name] = mapInstance.current;
+
         return () => {
             mapInstance.current?.remove();
+            globalThis.maps && delete globalThis.maps[name];
             maplibregl.removeProtocol('pmtiles');
         };
     }, []);

@@ -17,9 +17,7 @@ import maplibre from 'maplibre-gl';
 
 const { LngLat, LngLatBounds } = maplibre;
 
-const Map = loadable(() =>
-    import('~/components/map').then((m) => m.Map),
-);
+const Map = loadable(() => import('~/components/map').then((m) => m.Map));
 
 /**
  *  TODO: we need to populate correct information on meta tag, checkout:
@@ -180,6 +178,22 @@ export default function TripDetailsPage() {
                         maxZoom: 16,
                     }}
                 />
+                {/* <Map    
+                    fallback={<>Loading...</>}
+                    name="vancouver"
+                    config={{
+                        maxBounds: new LngLatBounds([
+                            new LngLat(-123.416111,49.041615),
+                            new LngLat(-122.701307,49.406933),
+                        ]),
+                        center: new LngLat(
+                            -123.10059136279176,
+                            49.26503754955408
+                        ),
+                        minZoom: 11,
+                        maxZoom: 16,
+                    }}
+                /> */}
             </div>
         </div>
     );
