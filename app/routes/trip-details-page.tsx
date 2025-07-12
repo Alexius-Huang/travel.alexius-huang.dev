@@ -13,6 +13,9 @@ import { TagList } from '~/components/tag-list';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { trim } from '~/utils/trim';
 import loadable from '@loadable/component';
+import maplibre from 'maplibre-gl';
+
+const { LngLat, LngLatBounds } = maplibre;
 
 const Map = loadable(() =>
     import('~/containers/trip-details-page/map').then((m) => m.Map),
@@ -161,7 +164,22 @@ export default function TripDetailsPage() {
             </div>
 
             <div>
-                <Map fallback={<>Loading...</>} />
+                <Map
+                    fallback={<>Loading...</>}
+                    name="new-york"
+                    config={{
+                        maxBounds: new LngLatBounds([
+                            new LngLat(-74.176123, 40.653505),
+                            new LngLat(-73.771575, 40.868387),
+                        ]),
+                        center: new LngLat(
+                            -73.9854072101976,
+                            40.74200478200777,
+                        ),
+                        minZoom: 11,
+                        maxZoom: 16,
+                    }}
+                />
             </div>
         </div>
     );
