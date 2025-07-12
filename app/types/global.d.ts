@@ -1,9 +1,6 @@
 declare global {
-    /**
-     *  This property is only used for example-form to pass around the
-     *  input from Backend
-     */
-    var __name: string;
+    /* For exposing the map variable in order to debug on client */
+    var maps: undefined | Record<string, maplibregl.Map>;
 }
 
 export {};

@@ -33,9 +33,7 @@ import { ScrollRestoration } from './components/scroll-restoration';
 import { FAVICON_LINKS } from './data-access/favicon-config';
 import './app.css';
 
-export const links: Route.LinksFunction = () => [
-    ...FAVICON_LINKS
-];
+export const links: Route.LinksFunction = () => [...FAVICON_LINKS];
 
 type LoaderData = {
     token: string;

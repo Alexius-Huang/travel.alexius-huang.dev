@@ -1,13 +1,19 @@
-import { useEffect, useRef, useState, type FC, type PropsWithChildren } from "react";
-import { useIsMouseEntering } from "~/hooks/use-is-mouse-entering";
-import { ChevronLeftOutlineIcon } from "~/icons/outline/chevron-left";
-import { ChevronRightOutlineIcon } from "~/icons/outline/chevron-right";
-import { trim } from "~/utils/trim";
+import {
+    useEffect,
+    useRef,
+    useState,
+    type FC,
+    type PropsWithChildren,
+} from 'react';
+import { useIsMouseEntering } from '~/hooks/use-is-mouse-entering';
+import { ChevronLeftOutlineIcon } from '~/icons/outline/chevron-left';
+import { ChevronRightOutlineIcon } from '~/icons/outline/chevron-right';
+import { trim } from '~/utils/trim';
 import './image-carousel.css';
 
 export interface ImageCarouselProps {
     /**
-     *  Required to have class to represent aspect-ratio: aspect-* 
+     *  Required to have class to represent aspect-ratio: aspect-*
      */
     imageClassName: string;
 
@@ -25,12 +31,14 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
     children,
     autoplay,
     autoplayDuration = 5000,
-    onImageFocus
+    onImageFocus,
 }) => {
     const [focusImgIndex, setFocusImgIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const isEnteringImageCarousel = useIsMouseEntering(containerRef);
-    const timeoutSignature = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    const timeoutSignature = useRef<ReturnType<typeof setTimeout> | undefined>(
+        undefined,
+    );
 
     const translation = `translateX(calc(-${100 * focusImgIndex}%))`;
 
@@ -85,21 +93,24 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
             ref={containerRef}
             className={`block relative px-[1.5rem] ${className}`}
         >
-            <div className='relative w-full'>
+            <div className="relative w-full">
                 <div className="relative w-full overflow-hidden text-[0px]">
                     <div className="image-carousel__carousel">
                         {images.map(({ url }) => (
                             <img
                                 key={url}
                                 src={url}
-                                alt='Some text'
+                                alt="Some text"
                                 className={imageClassName}
                                 style={{ transform: translation }}
                             />
                         ))}
                     </div>
 
-                    <span aria-hidden='true' className='image-carousel__image-gradient' />
+                    <span
+                        aria-hidden="true"
+                        className="image-carousel__image-gradient"
+                    />
 
                     <div
                         className={trim`
@@ -125,13 +136,12 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
                         ))}
                     </div>
                 </div>
-                
 
                 {/* This is a hidden button to let image left side entire area to be clickable */}
                 <div
                     role="button"
                     aria-hidden="true"
-                    className='image-carousel__hidden-btn'
+                    className="image-carousel__hidden-btn"
                     onClick={() => !disablePrevBtn && switchImageTo('prev')}
                 />
                 <button
@@ -146,12 +156,11 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
                     </span>
                 </button>
 
-
                 {/* This is a hidden button to let image right side entire area to be clickable */}
                 <div
                     role="button"
                     aria-hidden="true"
-                    className='image-carousel__hidden-btn'
+                    className="image-carousel__hidden-btn"
                     onClick={() => !disableNextBtn && switchImageTo('next')}
                 />
                 <button
@@ -167,9 +176,7 @@ export const ImageCarousel: FC<PropsWithChildren<ImageCarouselProps>> = ({
                 </button>
             </div>
 
-            <div className="w-full px-2 py-3 direction-ltr">
-                {children}
-            </div>
+            <div className="w-full px-2 py-3 direction-ltr">{children}</div>
         </div>
     );
 };

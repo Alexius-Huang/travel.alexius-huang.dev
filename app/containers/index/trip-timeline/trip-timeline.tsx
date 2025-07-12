@@ -27,7 +27,10 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                 My Journey Timeline
             </h2>
 
-            <div aria-hidden="true" className="hidden md:block text-center mb-[1rem]">
+            <div
+                aria-hidden="true"
+                className="hidden md:block text-center mb-[1rem]"
+            >
                 <span className="font-bold font-header text-2xl">
                     {new Date().getFullYear()}
                 </span>
@@ -41,8 +44,8 @@ export const TripTimeline: FC<TripTimelineProps> = ({ className }) => {
                     `}
                     aria-hidden="true"
                 >
-                    <span className='md:hidden absolute left-[calc(100%+1rem)] h-full flex items-center'>
-                        <span className='font-bold font-header text-xl tracking-wider'>
+                    <span className="md:hidden absolute left-[calc(100%+1rem)] h-full flex items-center">
+                        <span className="font-bold font-header text-xl tracking-wider">
                             {new Date().getFullYear()}
                         </span>
                     </span>

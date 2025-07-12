@@ -12,6 +12,12 @@ import { CountryFlagChip } from '~/ui/country-flag-chip';
 import { TagList } from '~/components/tag-list';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { trim } from '~/utils/trim';
+import loadable from '@loadable/component';
+import maplibre from 'maplibre-gl';
+
+const { LngLat, LngLatBounds } = maplibre;
+
+const Map = loadable(() => import('~/components/map').then((m) => m.Map));
 
 /**
  *  TODO: we need to populate correct information on meta tag, checkout:
@@ -153,6 +159,41 @@ export default function TripDetailsPage() {
                  *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/41
                  */}
                 {/* <NavLink to={`/trips/${tripDetails.id + 1}`} aria-label='Next Trip'>Next Trip</NavLink> */}
+            </div>
+
+            <div>
+                <Map
+                    fallback={<>Loading...</>}
+                    name="new-york"
+                    config={{
+                        maxBounds: new LngLatBounds([
+                            new LngLat(-74.176123, 40.653505),
+                            new LngLat(-73.771575, 40.868387),
+                        ]),
+                        center: new LngLat(
+                            -73.9854072101976,
+                            40.74200478200777,
+                        ),
+                        minZoom: 11,
+                        maxZoom: 16,
+                    }}
+                />
+                {/* <Map    
+                    fallback={<>Loading...</>}
+                    name="vancouver"
+                    config={{
+                        maxBounds: new LngLatBounds([
+                            new LngLat(-123.416111,49.041615),
+                            new LngLat(-122.701307,49.406933),
+                        ]),
+                        center: new LngLat(
+                            -123.10059136279176,
+                            49.26503754955408
+                        ),
+                        minZoom: 11,
+                        maxZoom: 16,
+                    }}
+                /> */}
             </div>
         </div>
     );
