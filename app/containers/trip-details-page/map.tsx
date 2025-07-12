@@ -19,10 +19,10 @@ export const Map: FC = () => {
                 ...mapStyle,
                 sources: {
                     protomaps: {
-                        type: "vector",
-                        url: "pmtiles://https://images.alexius-huang.dev/pmtiles/new-york.pmtiles"
-                    }
-                }
+                        type: 'vector',
+                        url: 'pmtiles://https://images.alexius-huang.dev/pmtiles/new-york.pmtiles',
+                    },
+                },
             } as maplibregl.StyleSpecification,
             maxBounds: new LngLatBounds([
                 new LngLat(-74.176123, 40.653505),
