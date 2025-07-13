@@ -13,6 +13,7 @@ import { TagList } from '~/components/tag-list';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { trim } from '~/utils/trim';
 import loadable from '@loadable/component';
+import { readFile } from 'fs/promises';
 
 const Map = loadable(() => import('~/components/map').then((m) => m.Map));
 
@@ -31,17 +32,26 @@ export function meta({ params }: Route.MetaArgs) {
 
 interface LoaderData {
     tripDetails: TripDetails;
+    routeCoordinates?: Array<[lat: number, lng: number]>;
 }
 export async function loader({ params }: Route.LoaderArgs) {
     const tripDetails = TRIPS.find((t) => String(t.id) === params.tripId);
 
     if (!tripDetails) throw Errors.NotFound();
 
-    return json<LoaderData>({ tripDetails });
+    let routeCoordinates: LoaderData['routeCoordinates'];
+    try {
+        const geojsonContent = await readFile('output.json', 'utf-8');
+        routeCoordinates = JSON.parse(geojsonContent);
+    } catch (error) {
+        console.warn('Could not read output.json or it is not valid JSON:', error);
+    }
+
+    return json<LoaderData>({ tripDetails, routeCoordinates });
 }
 
 export default function TripDetailsPage() {
-    const { tripDetails } = useLoaderData<LoaderData>();
+    const { tripDetails, routeCoordinates } = useLoaderData<LoaderData>();
     const {
         title,
         subtitle,
@@ -168,26 +178,11 @@ export default function TripDetailsPage() {
                     <Map
                         fallback={<>Loading...</>}
                         name={mapOptions.pmtilesName}
-                        config={{ ...mapOptions, interactive: true }}
+                        config={{ ...mapOptions, interactive: false }}
                         mapPins={mapPins}
+                        routeCoordinates={routeCoordinates}
                     />
                 </div>
-                {/* <Map    
-                    fallback={<>Loading...</>}
-                    name="vancouver"
-                    config={{
-                        maxBounds: new LngLatBounds([
-                            new LngLat(-123.416111,49.041615),
-                            new LngLat(-122.701307,49.406933),
-                        ]),
-                        center: new LngLat(
-                            -123.10059136279176,
-                            49.26503754955408
-                        ),
-                        minZoom: 11,
-                        maxZoom: 16,
-                    }}
-                /> */}
             </div>
         </div>
     );
