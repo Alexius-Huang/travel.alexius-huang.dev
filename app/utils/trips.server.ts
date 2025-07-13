@@ -15,6 +15,7 @@ const mapPins: TripDetails['mapPins'] = [
         coord: [-77.0369, 38.9072]
     }
 ];
+
 export const TRIPS: Array<TripDetails> = [
     {
         id: 1,
