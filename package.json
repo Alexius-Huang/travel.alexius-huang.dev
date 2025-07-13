@@ -12,7 +12,8 @@
         "build-storybook": "storybook build",
         "generate-map": "./bin/generate-map.js",
         "generate-route": "./bin/generate-route.js",
-        "remove-map": "./bin/remove-map.js"
+        "remove-map": "./bin/remove-map.js",
+        "upload-s3": "./bin/upload-s3.js"
     },
     "dependencies": {
         "@conform-to/react": "^1.2.2",
