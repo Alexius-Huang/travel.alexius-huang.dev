@@ -53,7 +53,7 @@ export default function TripDetailsPage() {
         tags,
         countryCodes,
         date: { from, to },
-        map: mapOptions
+        map: mapOptions,
     } = tripDetails;
 
     const daysPassed = useMemo(() => daysBetween(from, to), [from, to]);
@@ -164,9 +164,7 @@ export default function TripDetailsPage() {
             </div>
 
             <div>
-                <div
-                    style={{ height: '500px', width: '100%' }}
-                >
+                <div style={{ height: '500px', width: '100%' }}>
                     <Map
                         fallback={<>Loading...</>}
                         name={mapOptions.pmtilesName}

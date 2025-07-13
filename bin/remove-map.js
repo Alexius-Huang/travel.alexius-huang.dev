@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
 import inquirer from 'inquirer';
-import { S3Client, DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
+import {
+    S3Client,
+    DeleteObjectCommand,
+    HeadObjectCommand,
+} from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const isDryRun = process.argv.includes('--dry-run') || process.argv.includes('-d');
+const isDryRun =
+    process.argv.includes('--dry-run') || process.argv.includes('-d');
 
 console.log('\n⚡ Removing PMTiles Map from Cloudflare R2\n');
 
@@ -15,7 +20,8 @@ async function removeMap() {
         {
             type: 'input',
             name: 'pmtilesName',
-            message: 'Please provide the name of the `pmtiles` file to remove (e.g., `example` for `example.pmtiles`):',
+            message:
+                'Please provide the name of the `pmtiles` file to remove (e.g., `example` for `example.pmtiles`):',
             validate: (input) => {
                 if (input.trim() === '') {
                     return 'Please provide a valid name.';
@@ -24,15 +30,28 @@ async function removeMap() {
                     return 'The name can only include alphanumeral characters, underscores and dashes.';
                 }
                 return true;
-            }
-        }
+            },
+        },
     ]);
 
     const outputFile = `${pmtilesName}.pmtiles`;
-    const { CLOUDFLARE_ACCOUNT_ID, R2_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, UPLOAD_DIR = 'pmtiles' } = process.env;
+    const {
+        CLOUDFLARE_ACCOUNT_ID,
+        R2_BUCKET_NAME,
+        AWS_ACCESS_KEY_ID,
+        AWS_SECRET_ACCESS_KEY,
+        UPLOAD_DIR = 'pmtiles',
+    } = process.env;
 
-    if (!CLOUDFLARE_ACCOUNT_ID || !R2_BUCKET_NAME || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
-        console.error('\n❌ Cloudflare R2 credentials not set in environment variables. Please check your .env file.\n');
+    if (
+        !CLOUDFLARE_ACCOUNT_ID ||
+        !R2_BUCKET_NAME ||
+        !AWS_ACCESS_KEY_ID ||
+        !AWS_SECRET_ACCESS_KEY
+    ) {
+        console.error(
+            '\n❌ Cloudflare R2 credentials not set in environment variables. Please check your .env file.\n',
+        );
         return;
     }
 
@@ -49,10 +68,12 @@ async function removeMap() {
 
     try {
         console.log(`\n🔍 Checking for ${uploadFileLocation} in R2...`);
-        await s3.send(new HeadObjectCommand({
-            Bucket: R2_BUCKET_NAME,
-            Key: uploadFileLocation,
-        }));
+        await s3.send(
+            new HeadObjectCommand({
+                Bucket: R2_BUCKET_NAME,
+                Key: uploadFileLocation,
+            }),
+        );
         console.log(`✅ File ${uploadFileLocation} found in R2.`);
 
         const { confirmDelete } = await inquirer.prompt({
@@ -68,19 +89,26 @@ async function removeMap() {
         }
 
         if (isDryRun) {
-            console.log(`\n📢 Dry run: Would have deleted ${uploadFileLocation} from R2.`);
+            console.log(
+                `\n📢 Dry run: Would have deleted ${uploadFileLocation} from R2.`,
+            );
         } else {
             console.log(`\n🗑️ Deleting ${uploadFileLocation} from R2...`);
-            await s3.send(new DeleteObjectCommand({
-                Bucket: R2_BUCKET_NAME,
-                Key: uploadFileLocation,
-            }));
-            console.log(`\n🎉 ${uploadFileLocation} deleted successfully from R2!\n`);
+            await s3.send(
+                new DeleteObjectCommand({
+                    Bucket: R2_BUCKET_NAME,
+                    Key: uploadFileLocation,
+                }),
+            );
+            console.log(
+                `\n🎉 ${uploadFileLocation} deleted successfully from R2!\n`,
+            );
         }
-
     } catch (error) {
         if (error.name === 'NotFound') {
-            console.log(`\n❌ File ${uploadFileLocation} does not exist in R2.`);
+            console.log(
+                `\n❌ File ${uploadFileLocation} does not exist in R2.`,
+            );
         } else {
             console.error('\nAn error occurred:', error.message);
         }

@@ -44,11 +44,11 @@ export const Map: FC<MapProps> = ({ name, config = {}, ...props }) => {
         globalThis.maps[name] = mapInstance.current;
 
         const resizeObserver = new ResizeObserver(() => {
-            console.log("HELLO");
+            console.log('HELLO');
             mapInstance.current?.resize();
         });
-    
-        resizeObserver.observe(mapContainer.current);      
+
+        resizeObserver.observe(mapContainer.current);
 
         return () => {
             mapInstance.current?.remove();
@@ -69,10 +69,5 @@ export const Map: FC<MapProps> = ({ name, config = {}, ...props }) => {
         mapInstance.current.setStyle(newStyle);
     }, [theme]);
 
-    return (
-        <div
-            ref={mapContainer}
-            style={{ height: '100%', width: '100%' }}
-        />
-    );
+    return <div ref={mapContainer} style={{ height: '100%', width: '100%' }} />;
 };

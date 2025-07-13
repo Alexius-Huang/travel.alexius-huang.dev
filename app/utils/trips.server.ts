@@ -22,10 +22,10 @@ export const TRIPS: Array<TripDetails> = [
         date: { from: '2025-04-30', to: '2025-05-12' },
         map: {
             pmtilesName: '2025-05-us.v2',
-            bounds: [-78.898165,37.787573,-71.339700,41.610389],
+            bounds: [-78.898165, 37.787573, -71.3397, 41.610389],
             maxZoom: 10,
-            center: [-74.912789,39.797227]
-        }
+            center: [-74.912789, 39.797227],
+        },
     },
     {
         id: 2,
@@ -41,10 +41,10 @@ export const TRIPS: Array<TripDetails> = [
         // TODO: replcae this to germany map
         map: {
             pmtilesName: '2025-05-us.v2',
-            bounds: [-78.898165,37.787573,-71.339700,41.610389],
+            bounds: [-78.898165, 37.787573, -71.3397, 41.610389],
             maxZoom: 10,
-            center: [-74.912789,39.797227]
-        }
+            center: [-74.912789, 39.797227],
+        },
     },
     {
         id: 3,
@@ -60,9 +60,9 @@ export const TRIPS: Array<TripDetails> = [
         // TODO: replcae this to italy map
         map: {
             pmtilesName: '2025-05-us.v2',
-            bounds: [-78.898165,37.787573,-71.339700,41.610389],
+            bounds: [-78.898165, 37.787573, -71.3397, 41.610389],
             maxZoom: 10,
-            center: [-74.912789,39.797227]
-        }
+            center: [-74.912789, 39.797227],
+        },
     },
 ];
