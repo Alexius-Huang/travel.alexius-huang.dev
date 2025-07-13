@@ -32,7 +32,7 @@ const { pmtilesName, boundingBox, minZoom } = await inquirer.prompt([
         type: 'input',
         name: 'boundingBox',
         message:
-            'Please input the bounding box of the map to be extracted (e.g., minLon,minLat,maxLon,minLat):',
+            'Please input the bounding box of the map to be extracted (e.g., minLon,minLat,maxLon,maxLat):',
         validate: (input) => {
             const parts = input.split(',');
             if (parts.length !== 4) {
