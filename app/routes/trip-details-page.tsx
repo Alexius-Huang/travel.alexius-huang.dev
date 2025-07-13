@@ -6,12 +6,10 @@ import { TRIPS } from '~/utils/trips.server';
 import { dateFormatter } from '~/data-access/date';
 import type { LoaderData } from '~/containers/trip-details-page/types';
 import { trim } from '~/utils/trim';
-import loadable from '@loadable/component';
 import fetch from 'node-fetch';
 import { Button } from '~/components/button';
 import { TripIntroduction } from '~/containers/trip-details-page/trip-introduction';
-
-const Map = loadable(() => import('~/components/map').then((m) => m.Map));
+import { createMapComponents } from '~/components/map/create-map-components';
 
 /**
  *  TODO: we need to populate correct information on meta tag, checkout:
@@ -56,6 +54,8 @@ export default function TripDetailsPage() {
         [locations]
     );
 
+    const { Map, MapPin } = useMemo(createMapComponents, []);
+
     return (
         <div className="centered-max-width-1280">
             <div
@@ -77,12 +77,14 @@ export default function TripDetailsPage() {
                     className='sticky top-0 left-0 z-[-1]'
                 >
                     <Map
-                        fallback={<>Loading...</>}
                         name={mapOptions.pmtilesName}
                         config={{ ...mapOptions, interactive: false }}
-                        mapPins={mapPins}
                         // routeCoordinates={routeCoordinates}
-                    />
+                    >
+                        {mapPins.map(mp => (
+                            <MapPin key={mp.name} {...mp} />
+                        ))}
+                    </Map>
                 </div>
                 <div
                     className={trim`
