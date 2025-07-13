@@ -67,19 +67,6 @@ export default function TripDetailsPage() {
 
             <TripIntroduction className="px-[1rem]" />
 
-            <div className="flex gap-x-4 mt-8">
-                {/**
-                 *  TODO: design back button, checkout following ticket:
-                 *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/40
-                 */}
-
-                {/**
-                 *  TODO: creates next / previous trip button, checkout following ticket:
-                 *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/41
-                 */}
-                {/* <NavLink to={`/trips/${tripDetails.id + 1}`} aria-label='Next Trip'>Next Trip</NavLink> */}
-            </div>
-
             <h2 className='font-bold uppercase text-4xl text-blue-500 text-center my-[4rem]'>
                 Trip Main Route
             </h2>

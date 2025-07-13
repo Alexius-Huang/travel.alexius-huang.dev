@@ -48,10 +48,21 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                     {title}
                 </h1>
 
-                <div>
+                <div>                    
+                    {/**
+                     *  TODO: design back button, checkout following ticket:
+                     *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/40
+                     */}
+
                     <NavLink to="/" aria-label="Back to Home Page" viewTransition>
                         Back
                     </NavLink>
+
+                    {/**
+                     *  TODO: creates next / previous trip button, checkout following ticket:
+                     *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/41
+                     */}
+                    {/* <NavLink to={`/trips/${tripDetails.id + 1}`} aria-label='Next Trip'>Next Trip</NavLink> */}
                 </div>
             </div>
 
