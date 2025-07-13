@@ -14,6 +14,10 @@ interface MapInstanceProviderProps {
 export type MapInstanceProviderType = FC<PropsWithChildren<MapInstanceProviderProps>>;
 export type UseMapInstanceType = () => maplibregl.Map | null;
 
+/**
+ *  To use the Map related component in React composition pattern, we have to
+ *  use the HOC in order to assign each component with its own context 
+ */
 export function createMapComponents() {
     const MapInstanceContext = createContext<maplibregl.Map | null>(null);
 
@@ -34,4 +38,3 @@ export function createMapComponents() {
         MapPin: MapPin(useMapInstance)
      };
 }
-

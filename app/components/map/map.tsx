@@ -5,6 +5,7 @@ import { Protocol } from 'pmtiles';
 import mapStyle from './map-style.json';
 import mapStyleDark from './map-style.dark.json';
 import type { MapInstanceProviderType } from '~/components/map/create-map-components';
+import { useHydration } from '~/hooks/use-hydration';
 
 export interface MapProps extends HTMLProps<HTMLDivElement> {
     name: string;
@@ -12,25 +13,25 @@ export interface MapProps extends HTMLProps<HTMLDivElement> {
     routeCoordinates?: Array<[lat: number, lng: number]>;
 }
 
-function easeInOutCubic(t: number) {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-}
+// function easeInOutCubic(t: number) {
+//     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+// }
 
-function geojsomFromCoorindates(coordinates: Array<[lat: number, lng: number]>) {
-    return {
-        type: 'FeatureCollection',
-        features: [
-            {
-                type: 'Feature',
-                properties: {},
-                geometry: {
-                    type: 'LineString',
-                    coordinates,
-                },
-            },
-        ],
-    } as GeoJSON.GeoJSON;
-}
+// function geojsomFromCoorindates(coordinates: Array<[lat: number, lng: number]>) {
+//     return {
+//         type: 'FeatureCollection',
+//         features: [
+//             {
+//                 type: 'Feature',
+//                 properties: {},
+//                 geometry: {
+//                     type: 'LineString',
+//                     coordinates,
+//                 },
+//             },
+//         ],
+//     } as GeoJSON.GeoJSON;
+// }
 
 export const Map: (Provider: MapInstanceProviderType) => FC<PropsWithChildren<MapProps>> = (
     Provider
@@ -38,10 +39,11 @@ export const Map: (Provider: MapInstanceProviderType) => FC<PropsWithChildren<Ma
     children,
     name,
     config = {},
-    routeCoordinates
+    // routeCoordinates
 }) => {
     const mapContainer = useRef<HTMLDivElement>(null);
     const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
+    const hydrated = useHydration();
 
     const [theme] = useTheme();
 
@@ -56,7 +58,7 @@ export const Map: (Provider: MapInstanceProviderType) => FC<PropsWithChildren<Ma
     );
 
     useEffect(() => {
-        if (!mapContainer.current) return;
+        if (!hydrated || !mapContainer.current) return;
 
         const protocol = new Protocol();
         maplibregl.addProtocol('pmtiles', protocol.tile);
@@ -69,7 +71,7 @@ export const Map: (Provider: MapInstanceProviderType) => FC<PropsWithChildren<Ma
             } as maplibregl.StyleSpecification,
             ...config,
         }));
-    }, []);
+    }, [hydrated]);
 
     useEffect(() => {
         if (!mapInstance || !mapContainer.current) return;
