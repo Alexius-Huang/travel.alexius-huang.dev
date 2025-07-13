@@ -14,6 +14,7 @@ import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-rang
 import { trim } from '~/utils/trim';
 import loadable from '@loadable/component';
 import fetch from 'node-fetch';
+import { Button } from '~/components/button';
 
 const Map = loadable(() => import('~/components/map').then((m) => m.Map));
 
@@ -49,7 +50,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export default function TripDetailsPage() {
-    const { tripDetails, routeCoordinates } = useLoaderData<LoaderData>();
+    const { tripDetails /* routeCoordinates */ } = useLoaderData<LoaderData>();
     const {
         title,
         subtitle,
@@ -58,7 +59,7 @@ export default function TripDetailsPage() {
         countryCodes,
         date: { from, to },
         map: mapOptions,
-        mapPins
+        locations,
     } = tripDetails;
 
     const daysPassed = useMemo(() => daysBetween(from, to), [from, to]);
@@ -68,6 +69,14 @@ export default function TripDetailsPage() {
             to: dateFormatter.format(new Date(to)),
         }),
         [from, to],
+    );
+
+    const mapPins = useMemo(() =>
+        locations.map((location) => ({
+            name: location.name,
+            coord: location.coord,
+        })),
+        [locations]
     );
 
     return (
@@ -80,14 +89,22 @@ export default function TripDetailsPage() {
             />
 
             <article className="px-[1rem]">
-                <h1
-                    className={trim`
-                    v-trans-trip-title mt-8 mb-4
-                    font-bold uppercase text-5xl text-blue-500
-                `}
-                >
-                    {title}
-                </h1>
+                <div className='flex justify-between items-center'>
+                    <h1
+                        className={trim`
+                        v-trans-trip-title mt-8 mb-4
+                        font-bold uppercase text-5xl text-blue-500
+                    `}
+                    >
+                        {title}
+                    </h1>
+
+                    <div>
+                        <NavLink to="/" aria-label="Back to Home Page" viewTransition>
+                            Back
+                        </NavLink>
+                    </div>
+                </div>
 
                 <p
                     className={trim`
@@ -157,9 +174,6 @@ export default function TripDetailsPage() {
                  *  TODO: design back button, checkout following ticket:
                  *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/40
                  */}
-                <NavLink to="/" aria-label="Back to Home Page" viewTransition>
-                    Back
-                </NavLink>
 
                 {/**
                  *  TODO: creates next / previous trip button, checkout following ticket:
@@ -168,10 +182,14 @@ export default function TripDetailsPage() {
                 {/* <NavLink to={`/trips/${tripDetails.id + 1}`} aria-label='Next Trip'>Next Trip</NavLink> */}
             </div>
 
-            <div>
+            <h2 className='font-bold uppercase text-4xl text-blue-500 text-center my-[4rem]'>
+                Trip Main Route
+            </h2>
+
+            <div className='relative w-full z-1 flex flex-col'>
                 <div
                     style={{ height: '100vh', width: '100%' }}
-                    className='sticky top-0 left-0'
+                    className='sticky top-0 left-0 z-[-1]'
                 >
                     <Map
                         fallback={<>Loading...</>}
@@ -181,6 +199,71 @@ export default function TripDetailsPage() {
                         // routeCoordinates={routeCoordinates}
                     />
                 </div>
+                <div
+                    className={trim`
+                        absolute top-0 left-0 z-[-1] w-[10%] h-full
+                        bg-gradient-to-r from-white dark:from-gray-900 to-transparent
+                        pointer-events-none
+                    `}
+                />
+                <div
+                    className={trim`
+                        absolute top-0 right-0 z-[-1] w-[10%] h-full
+                        bg-gradient-to-l from-white dark:from-gray-900 to-transparent
+                        pointer-events-none
+                    `}
+                />
+
+
+                <div className='w-full h-full' />
+
+                {locations.map(({
+                    name,
+                    description,
+                    date
+                }) => {
+                    const formattedDate = {
+                        from: dateFormatter.format(new Date(date.from)),
+                        to: date.to ? dateFormatter.format(new Date(to)) : undefined,
+                    };
+
+                    return (
+                        <div className='mb-[100vh]' key={name}>
+                            <div className={trim`
+                                flex flex-col gap-y-[1rem]
+                                px-[1.5rem] py-[2rem] max-w-[40%]
+                                shadow-lg shadow-gray-100 dark:shadow-gray-900
+                                backdrop-blur-xs bg-white/50 dark:bg-gray-900/50
+                            `}>
+                                <h3 className='text-4xl uppercase font-bold'>
+                                    {name}
+                                </h3>
+                                
+                                <div className='text-sm'>
+                                    <time dateTime={from}>{formattedDate.from}</time>
+                                    <span aria-hidden="true"> ~ </span>
+                                    <time dateTime={to}>{formattedDate.to}</time>
+                                    <span className="sr-only">
+                                        from {formattedDate.from}
+                                        {formattedDate.to ? `to ${formattedDate.to}` : ''}
+                                    </span>
+                                </div>
+
+                                <p className='text-base font-light'>
+                                    {description}
+                                </p>
+
+                                <span className='self-end'>
+                                    <Button variant='secondary' size='xs'>
+                                        View Details (WIP)
+                                    </Button>
+                                </span>
+                            </div>
+                        </div>
+                    );
+                })}
+
+                <div className='pb-[10vh] w-full' />
             </div>
         </div>
     );

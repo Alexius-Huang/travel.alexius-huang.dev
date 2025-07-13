@@ -12,11 +12,14 @@ export interface TripDetails {
     map: {
         pmtilesName: string;
     } & Omit<maplibregl.MapOptions, 'style' | 'container'>;
-    mapPins: Array<{
-        name: string;
-        coord: [lat: number, lng: number];
-    }>;
     routeFileName: string;
+
+    locations: Array<{
+        name: string;
+        description: string;
+        coord: [lat: number, lng: number];
+        date: { from: DateFormat; to?: DateFormat };
+    }>;
 
     // TODO: Plan for cities data and associated attraction data
 }

@@ -68,6 +68,8 @@ export const Map: FC<MapProps> = ({ name, config = {}, mapPins = [], routeCoordi
         });
 
         mapInstance.current.on('load', () => {
+            config.center && mapInstance.current!.setCenter(config.center);
+
             mapPins.forEach(pin => {
                 new maplibregl.Marker()
                     .setLngLat(pin.coord)
