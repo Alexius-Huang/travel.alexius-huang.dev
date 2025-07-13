@@ -9,7 +9,8 @@
         "typecheck": "react-router typegen && tsc",
         "format": "pnpm exec prettier . --write",
         "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
+        "build-storybook": "storybook build",
+        "generate-map": "./bin/generate-map.js"
     },
     "dependencies": {
         "@conform-to/react": "^1.2.2",
@@ -33,6 +34,7 @@
         "zod": "^3.24.2"
     },
     "devDependencies": {
+        "@aws-sdk/client-s3": "^3.844.0",
         "@chromatic-com/storybook": "^4.0.1",
         "@react-router/dev": "7.1.5",
         "@storybook/addon-a11y": "^9.0.12",
@@ -47,6 +49,9 @@
         "@vitest/browser": "^3.2.4",
         "@vitest/coverage-v8": "^3.2.4",
         "autoprefixer": "^10.4.21",
+        "dotenv": "^17.2.0",
+        "execa": "^9.6.0",
+        "inquirer": "^12.7.0",
         "playwright": "^1.53.1",
         "postcss": "^8.5.6",
         "postcss-nesting": "^13.0.2",

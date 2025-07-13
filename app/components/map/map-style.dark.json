@@ -218,7 +218,7 @@
             "source": "protomaps",
             "source-layer": "water",
             "filter": ["==", "$type", "Polygon"],
-            "paint": { "fill-color": "rgba(43, 127, 255, 1)" }
+            "paint": { "fill-color": "rgb(0, 78, 215)" }
         },
         {
             "id": "water_stream",
@@ -237,7 +237,7 @@
             "minzoom": 9,
             "filter": ["in", "kind", "river"],
             "paint": {
-                "line-color": "rgba(43, 127, 255, 1)",
+                "line-color": "rgb(0, 78, 215)",
                 "line-width": [
                     "interpolate",
                     ["exponential", 1.6],
