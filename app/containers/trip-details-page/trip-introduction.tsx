@@ -1,22 +1,20 @@
-import { useLoaderData } from "react-router";
-import { trim } from "~/utils/trim"
-import type { LoaderData } from "./types";
-import { useMemo, type FC } from "react";
-import { NavLink } from "~/components/nav-link";
-import { CalendarDateRangeOutlineIcon } from "~/icons/outline/calendar-date-range";
-import { daysBetween } from "~/utils/date";
-import { dateFormatter } from "~/data-access/date";
-import { CountryFlagChip } from "~/ui/country-flag-chip";
-import { COUNTRY_INFO_MAP } from "~/data-access/country";
-import { TagList } from "~/components/tag-list";
+import { useLoaderData } from 'react-router';
+import { trim } from '~/utils/trim';
+import type { LoaderData } from './types';
+import { useMemo, type FC } from 'react';
+import { NavLink } from '~/components/nav-link';
+import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
+import { daysBetween } from '~/utils/date';
+import { dateFormatter } from '~/data-access/date';
+import { CountryFlagChip } from '~/ui/country-flag-chip';
+import { COUNTRY_INFO_MAP } from '~/data-access/country';
+import { TagList } from '~/components/tag-list';
 
 export interface TripIntroductionProps {
     className?: string;
 }
 
-export const TripIntroduction: FC<TripIntroductionProps> = ({
-    className
-}) => {
+export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
     const { tripDetails } = useLoaderData<LoaderData>();
     const {
         title,
@@ -24,7 +22,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
         description,
         tags,
         countryCodes,
-        date: { from, to }
+        date: { from, to },
     } = tripDetails;
 
     const daysPassed = useMemo(() => daysBetween(from, to), [from, to]);
@@ -38,7 +36,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
 
     return (
         <article className={className}>
-            <div className='flex justify-between items-center'>
+            <div className="flex justify-between items-center">
                 <h1
                     className={trim`
                     v-trans-trip-title mt-8 mb-4
@@ -48,13 +46,17 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                     {title}
                 </h1>
 
-                <div>                    
+                <div>
                     {/**
                      *  TODO: design back button, checkout following ticket:
                      *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/40
                      */}
 
-                    <NavLink to="/" aria-label="Back to Home Page" viewTransition>
+                    <NavLink
+                        to="/"
+                        aria-label="Back to Home Page"
+                        viewTransition
+                    >
                         Back
                     </NavLink>
 
@@ -128,6 +130,5 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({
                 />
             )}
         </article>
-
-    )
-}
+    );
+};

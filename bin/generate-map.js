@@ -90,7 +90,12 @@ const dateString = `${year}${month}${day}`;
 const pmtilesUrl = `https://build.protomaps.com/${dateString}.pmtiles`;
 const outputFile = `${pmtilesName}.pmtiles`;
 
-const pmtilesArgs = ['extract', pmtilesUrl, outputFile, `--bbox=${boundingBox}`];
+const pmtilesArgs = [
+    'extract',
+    pmtilesUrl,
+    outputFile,
+    `--bbox=${boundingBox}`,
+];
 
 if (minZoom) {
     pmtilesArgs.push(`--minzoom=${minZoom}`);
@@ -118,14 +123,23 @@ if (isDryRun) {
 
         // Upload to Cloudflare R2 using the new utility
         const uploadS3Args = [
-            '-f', outputFile,
-            '--upload-dir', process.env.UPLOAD_DIR || 'pmtiles',
-            '--cleanup', 'true'
+            '-f',
+            outputFile,
+            '--upload-dir',
+            process.env.UPLOAD_DIR || 'pmtiles',
+            '--cleanup',
+            'true',
         ];
 
-        console.log(`\n🚀 Uploading to Cloudflare R2 using upload-s3 utility...\n`);
-        console.log(`\n🚀 ⚡ Run: ${`pnpm run upload-s3 ${uploadS3Args.join(' ')}`} \n`);
-        await execa('pnpm', ['run', 'upload-s3', ...uploadS3Args], { stdio: 'inherit' });
+        console.log(
+            `\n🚀 Uploading to Cloudflare R2 using upload-s3 utility...\n`,
+        );
+        console.log(
+            `\n🚀 ⚡ Run: ${`pnpm run upload-s3 ${uploadS3Args.join(' ')}`} \n`,
+        );
+        await execa('pnpm', ['run', 'upload-s3', ...uploadS3Args], {
+            stdio: 'inherit',
+        });
     } catch (error) {
         console.error('\nAn error occurred:', error.message);
     }

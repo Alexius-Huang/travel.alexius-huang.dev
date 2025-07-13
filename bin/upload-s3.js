@@ -36,7 +36,9 @@ for (let i = 0; i < args.length; i++) {
 }
 
 if (!filePath || !uploadDir) {
-    console.error('Usage: upload-s3 --file <path-to-file> --upload-dir <r2-directory> [--cleanup <true|false>] [--dryRun|-d]');
+    console.error(
+        'Usage: upload-s3 --file <path-to-file> --upload-dir <r2-directory> [--cleanup <true|false>] [--dryRun|-d]',
+    );
     process.exit(1);
 }
 
@@ -46,10 +48,22 @@ if (!existsSync(filePath)) {
     process.exit(1);
 }
 
-const { CLOUDFLARE_ACCOUNT_ID, R2_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = process.env;
+const {
+    CLOUDFLARE_ACCOUNT_ID,
+    R2_BUCKET_NAME,
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY,
+} = process.env;
 
-if (!CLOUDFLARE_ACCOUNT_ID || !R2_BUCKET_NAME || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
-    console.error('\n❌ Cloudflare R2 credentials not set in environment variables. Please check your .env file.');
+if (
+    !CLOUDFLARE_ACCOUNT_ID ||
+    !R2_BUCKET_NAME ||
+    !AWS_ACCESS_KEY_ID ||
+    !AWS_SECRET_ACCESS_KEY
+) {
+    console.error(
+        '\n❌ Cloudflare R2 credentials not set in environment variables. Please check your .env file.',
+    );
     process.exit(1);
 }
 
@@ -66,18 +80,24 @@ try {
     const fileName = basename(filePath);
     const uploadKey = `${uploadDir}/${fileName}`;
 
-    console.log(`\n⚡ Attempting to upload ${filePath} to R2 bucket ${R2_BUCKET_NAME}/${uploadKey}...`);
+    console.log(
+        `\n⚡ Attempting to upload ${filePath} to R2 bucket ${R2_BUCKET_NAME}/${uploadKey}...`,
+    );
 
     if (isDryRun) {
         console.log('\n📢 Dry run: Skipping actual upload.');
     } else {
         const fileContent = readFileSync(filePath);
-        await s3.send(new PutObjectCommand({
-            Bucket: R2_BUCKET_NAME,
-            Key: uploadKey,
-            Body: fileContent,
-        }));
-        console.log(`\n🎉 Successfully uploaded ${filePath} to ${R2_BUCKET_NAME}/${uploadKey}`);
+        await s3.send(
+            new PutObjectCommand({
+                Bucket: R2_BUCKET_NAME,
+                Key: uploadKey,
+                Body: fileContent,
+            }),
+        );
+        console.log(
+            `\n🎉 Successfully uploaded ${filePath} to ${R2_BUCKET_NAME}/${uploadKey}`,
+        );
     }
 
     if (cleanup) {

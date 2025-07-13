@@ -1,4 +1,4 @@
-import type { TripDetails } from "~/data-access/trips";
+import type { TripDetails } from '~/data-access/trips';
 
 export interface LoaderData {
     tripDetails: TripDetails;
