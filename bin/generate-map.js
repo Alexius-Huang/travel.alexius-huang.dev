@@ -4,7 +4,7 @@ import inquirer from 'inquirer';
 import { execa } from 'execa';
 import { existsSync, createReadStream } from 'fs';
 import { unlink } from 'fs/promises';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -93,22 +93,12 @@ if (maxZoom) {
     args.push(`--maxzoom=${maxZoom}`);
 }
 
-console.log(`\n⚡ Run: pmtiles ${args.join(' ')}\n`);
-
 if (isDryRun) {
+    console.log(`\n⚡ Run: pmtiles ${args.join(' ')}\n`);
     console.log('\n📢 This is a dry run. No files will be created or uploaded \n');
 } else {
     try {
-        await execa('pmtiles', args, { stdio: 'inherit' });
-        console.log(`\n📢 File ${outputFile} created successfully.`);
-
-        if (!existsSync(outputFile)) {
-            throw new Error(`${outputFile} was not created.`);
-        }
-
-        console.log('\n🚀 Uploading to Cloudflare R2...');
-
-        const { CLOUDFLARE_ACCOUNT_ID, R2_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, UPLOAD_DIR } = process.env;
+        const { CLOUDFLARE_ACCOUNT_ID, R2_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, UPLOAD_DIR = 'pmtiles' } = process.env;
 
         if (!CLOUDFLARE_ACCOUNT_ID || !R2_BUCKET_NAME || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
             throw new Error('Cloudflare R2 credentials not set in environment variables.');
@@ -123,9 +113,42 @@ if (isDryRun) {
             },
         });
 
-        const fileStream = createReadStream(outputFile);
-
         const uploadFileLocation = `${UPLOAD_DIR}/${outputFile}`;
+
+        try {
+            await s3.send(new HeadObjectCommand({
+                Bucket: R2_BUCKET_NAME,
+                Key: uploadFileLocation,
+            }));
+            const { confirmOverwrite } = await inquirer.prompt({
+                type: 'confirm',
+                name: 'confirmOverwrite',
+                message: `File ${uploadFileLocation} already exists in R2. Do you want to overwrite it?`,
+                default: false,
+            });
+            if (!confirmOverwrite) {
+                console.log('\n❌ Operation cancelled by user.\n');
+                process.exit(1);
+            }
+        } catch (error) {
+            if (error.name !== 'NotFound') {
+                console.error('Error checking R2 file existence:', error.message);
+                throw error;
+            }
+        }
+
+        console.log(`\n⚡ Run: pmtiles ${args.join(' ')}\n`);
+
+        await execa('pmtiles', args, { stdio: 'inherit' });
+        console.log(`\n📢 File ${outputFile} created successfully.`);
+
+        if (!existsSync(outputFile)) {
+            throw new Error(`${outputFile} was not created.`);
+        }
+
+        console.log('\n🚀 Uploading to Cloudflare R2...');
+
+        const fileStream = createReadStream(outputFile);
 
         await s3.send(new PutObjectCommand({
             Bucket: R2_BUCKET_NAME,
@@ -134,23 +157,14 @@ if (isDryRun) {
         }));
 
         console.log(`\n🎉 ${uploadFileLocation} uploaded to R2 successfully!\n`);
-
-        try {
-            await unlink(outputFile);
-            console.log(`\n🗑️ ${outputFile} deleted successfully.`);
-        } catch (unlinkError) {
-            console.error(`\n⚠️ Error deleting ${outputFile}:`, unlinkError.message);
-        }
-
     } catch (error) {
         console.error('\nAn error occurred:', error.message);
-    } finally {
-        console.log('\n⚡ Cleaning up...');
-
-        if (existsSync(outputFile)) {
-            console.log(`\n⚡ Removing ${outputFile}...`);
-            await unlink(outputFile);
-        }        
-        console.log(`\n🎉 Clean up complete!\n`);
-    }
+    } finally {                                                                                             
+         console.log('\n⚡ Cleaning up...');                                                                  
+                                                                                                             
+         if (existsSync(outputFile)) {                                                                       
+             console.log(`\n⚡ Removing ${outputFile}...`);                                                   
+             await unlink(outputFile);
+         }
+    }  
 }
