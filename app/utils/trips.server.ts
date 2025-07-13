@@ -41,7 +41,8 @@ export const TRIPS: Array<TripDetails> = [
             maxZoom: 10,
             center: [-74.63632406560839, 39.7254668759974],
         },
-        mapPins
+        mapPins,
+        routeFileName: '2025-05-us'
     },
     {
         id: 2,
@@ -61,7 +62,8 @@ export const TRIPS: Array<TripDetails> = [
             maxZoom: 10,
             center: [-74.63632406560839, 39.7254668759974],
         },
-        mapPins
+        mapPins,
+        routeFileName: '2025-05-us'
     },
     {
         id: 3,
@@ -81,6 +83,7 @@ export const TRIPS: Array<TripDetails> = [
             maxZoom: 10,
             center: [-74.63632406560839, 39.7254668759974],
         },
-        mapPins
+        mapPins,
+        routeFileName: '2025-05-us'
     },
 ];

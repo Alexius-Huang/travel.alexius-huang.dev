@@ -16,6 +16,7 @@ export interface TripDetails {
         name: string;
         coord: [lat: number, lng: number];
     }>;
+    routeFileName: string;
 
     // TODO: Plan for cities data and associated attraction data
 }

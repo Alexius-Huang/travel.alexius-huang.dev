@@ -13,7 +13,7 @@ import { TagList } from '~/components/tag-list';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { trim } from '~/utils/trim';
 import loadable from '@loadable/component';
-import { readFile } from 'fs/promises';
+import fetch from 'node-fetch';
 
 const Map = loadable(() => import('~/components/map').then((m) => m.Map));
 
@@ -32,20 +32,18 @@ export function meta({ params }: Route.MetaArgs) {
 
 interface LoaderData {
     tripDetails: TripDetails;
-    routeCoordinates?: Array<[lat: number, lng: number]>;
+    routeCoordinates?: Array<Array<[lat: number, lng: number]>>;
 }
 export async function loader({ params }: Route.LoaderArgs) {
     const tripDetails = TRIPS.find((t) => String(t.id) === params.tripId);
 
     if (!tripDetails) throw Errors.NotFound();
 
-    let routeCoordinates: LoaderData['routeCoordinates'];
-    try {
-        const geojsonContent = await readFile('output.json', 'utf-8');
-        routeCoordinates = JSON.parse(geojsonContent);
-    } catch (error) {
-        console.warn('Could not read output.json or it is not valid JSON:', error);
-    }
+    const routeResponse = await fetch(
+        `https://images.alexius-huang.dev/routes/${tripDetails.routeFileName}.json`,
+    );
+
+    const routeCoordinates = await routeResponse.json() as LoaderData['routeCoordinates'];
 
     return json<LoaderData>({ tripDetails, routeCoordinates });
 }
@@ -180,7 +178,7 @@ export default function TripDetailsPage() {
                         name={mapOptions.pmtilesName}
                         config={{ ...mapOptions, interactive: false }}
                         mapPins={mapPins}
-                        routeCoordinates={routeCoordinates}
+                        // routeCoordinates={routeCoordinates}
                     />
                 </div>
             </div>

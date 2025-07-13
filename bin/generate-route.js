@@ -4,19 +4,20 @@ import inquirer from 'inquirer';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 import { writeFile } from 'fs/promises';
+import { execa } from 'execa';
 
 dotenv.config();
 
 const isDryRun = process.argv.includes('--dry-run') || process.argv.includes('-d');
 
-console.log('\n🗺️ Generating Route GeoJSON\n');
+console.log('\n⚡ Generating Route GeoJSON\n');
 
 const { routeFileName, coordinatesInput } = await inquirer.prompt([
     {
         type: 'input',
         name: 'routeFileName',
-        message: 'Please provide a name for the route GeoJSON file (e.g., `my-route.json`):',
-        default: 'output.json',
+        message: 'Please provide a name for the route GeoJSON file (e.g., `my-route`):',
+        default: 'output',
         validate: (input) => {
             if (input.trim() === '') {
                 return 'Please provide a valid file name.';
@@ -103,15 +104,28 @@ for (let i = 0; i < coordinates.length - 1; i++) {
     }
 }
 
+const outputFileName = `${routeFileName}.json`;
+
 if (isDryRun) {
-    console.log(`\n🎉 Combined Route GeoJSON saved to ${routeFileName}.json successfully!`);
-    console.log(`\n📢 (Dry run mode will not create file)\n`);
-    process.exit(0)
-};
+    console.log(`\n📢 Dry run: Would save GeoJSON to ${outputFileName} and upload to R2.`);
+    process.exit(0);
+}
 
 try {
-    await writeFile(`${routeFileName}.json`, JSON.stringify(allRouteCoordinates, null, 2));
-    console.log(`\n🎉 Combined Route GeoJSON saved to ${routeFileName}.json successfully!\n`);
+    await writeFile(outputFileName, JSON.stringify(allRouteCoordinates), { encoding: 'utf8' });
+    console.log(`\n🎉 Combined Route GeoJSON saved to ${outputFileName} successfully!\n`);
+
+    // Upload to Cloudflare R2 using the new utility
+    const uploadS3Args = [
+        '--file', outputFileName,
+        '--upload-dir', 'routes',
+        '--cleanup', 'true'
+    ];
+
+    console.log(`\n⚡ Uploading to Cloudflare R2 using upload-s3 utility...\n`);
+    console.log(`\n⚡ Run: ${`pnpm run upload-s3 ${uploadS3Args.join(' ')}`} \n`);
+    await execa('node', ['./bin/upload-s3.js', ...uploadS3Args], { stdio: 'inherit' });
 } catch (error) {
-    console.error('\nAn error occurred during file writing:', error.message);
+    console.error('\nAn error occurred during file writing or upload:', error.message);
+    process.exit(1);
 }

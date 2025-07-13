@@ -3,7 +3,6 @@
 import inquirer from 'inquirer';
 import { execa } from 'execa';
 import { existsSync } from 'fs';
-import { unlink } from 'fs/promises';
 import dotenv from 'dotenv';
 
 dotenv.config();
