@@ -11,11 +11,11 @@ export interface TripDetails {
 
     map: {
         pmtilesName: string;
-        bounds: maplibregl.LngLatBoundsLike;
-        minZoom?: number;
-        maxZoom?: number;
-        center?: maplibregl.LngLatLike;
-    };
+    } & Omit<maplibregl.MapOptions, 'style' | 'container'>;
+    mapPins: Array<{
+        name: string;
+        coord: [lat: number, lng: number];
+    }>;
 
     // TODO: Plan for cities data and associated attraction data
 }

@@ -13,10 +13,6 @@ import { TagList } from '~/components/tag-list';
 import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-range';
 import { trim } from '~/utils/trim';
 import loadable from '@loadable/component';
-import maplibre from 'maplibre-gl';
-import { map } from 'zod';
-
-const { LngLat, LngLatBounds } = maplibre;
 
 const Map = loadable(() => import('~/components/map').then((m) => m.Map));
 
@@ -54,6 +50,7 @@ export default function TripDetailsPage() {
         countryCodes,
         date: { from, to },
         map: mapOptions,
+        mapPins
     } = tripDetails;
 
     const daysPassed = useMemo(() => daysBetween(from, to), [from, to]);
@@ -164,16 +161,15 @@ export default function TripDetailsPage() {
             </div>
 
             <div>
-                <div style={{ height: '500px', width: '100%' }}>
+                <div
+                    style={{ height: '100vh', width: '100%' }}
+                    className='sticky top-0 left-0'
+                >
                     <Map
                         fallback={<>Loading...</>}
                         name={mapOptions.pmtilesName}
-                        config={{
-                            maxBounds: mapOptions.bounds,
-                            center: mapOptions.center,
-                            minZoom: mapOptions.minZoom,
-                            maxZoom: mapOptions.maxZoom,
-                        }}
+                        config={{ ...mapOptions, interactive: true }}
+                        mapPins={mapPins}
                     />
                 </div>
                 {/* <Map    

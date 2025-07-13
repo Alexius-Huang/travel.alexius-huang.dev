@@ -5,14 +5,21 @@ import { Protocol } from 'pmtiles';
 import mapStyle from './map-style.json';
 import mapStyleDark from './map-style.dark.json';
 
+export interface MapPin {
+    name: string;
+    coord: [lat: number, lng: number];
+}
+
 export interface MapProps extends HTMLProps<HTMLDivElement> {
     name: string;
     config?: Omit<maplibregl.MapOptions, 'style' | 'container'>;
+    mapPins?: MapPin[];
 }
 
-export const Map: FC<MapProps> = ({ name, config = {}, ...props }) => {
+export const Map: FC<MapProps> = ({ name, config = {}, mapPins = [] }) => {
     const mapContainer = useRef<HTMLDivElement>(null);
     const mapInstance = useRef<maplibregl.Map | null>(null);
+    const svgRef = useRef<SVGSVGElement>(null);
     const [theme] = useTheme();
 
     const sources = useMemo<maplibregl.StyleSpecification['sources']>(
@@ -40,11 +47,18 @@ export const Map: FC<MapProps> = ({ name, config = {}, ...props }) => {
             ...config,
         });
 
+        // Add map pins
+        mapPins.forEach(pin => {
+            new maplibregl.Marker()
+                .setLngLat(pin.coord)
+                .setPopup(new maplibregl.Popup({ offset: 25 }).setText(pin.name))
+                .addTo(mapInstance.current!);
+        });
+
         globalThis.maps ??= {};
         globalThis.maps[name] = mapInstance.current;
 
         const resizeObserver = new ResizeObserver(() => {
-            console.log('HELLO');
             mapInstance.current?.resize();
         });
 
@@ -69,5 +83,7 @@ export const Map: FC<MapProps> = ({ name, config = {}, ...props }) => {
         mapInstance.current.setStyle(newStyle);
     }, [theme]);
 
-    return <div ref={mapContainer} style={{ height: '100%', width: '100%' }} />;
+    return (
+        <div ref={mapContainer} style={{ height: '100%', width: '100%' }} />
+    );
 };
