@@ -28,7 +28,7 @@ const { pmtilesName, boundingBox, minZoom } = await inquirer.prompt([
             if (input.trim() === '') {
                 return 'Please provide a valid name.';
             }
-            if (!/^[a-zA-Z0-9_-]+$/.test(input)) {
+            if (!/^[a-zA-Z0-9\._-]+$/.test(input)) {
                 return 'The name can only include alphanumeral characters, underscores and dashes.';
             }
             return true;

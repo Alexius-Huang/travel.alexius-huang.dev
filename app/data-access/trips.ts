@@ -9,5 +9,13 @@ export interface TripDetails {
     countryCodes: Array<string>;
     date: { from: DateFormat; to: DateFormat };
 
+    map: {
+        pmtilesName: string;
+        bounds: maplibregl.LngLatBoundsLike;
+        minZoom?: number;
+        maxZoom?: number;
+        center?: maplibregl.LngLatLike;
+    };
+
     // TODO: Plan for cities data and associated attraction data
 }

@@ -14,6 +14,7 @@ import { CalendarDateRangeOutlineIcon } from '~/icons/outline/calendar-date-rang
 import { trim } from '~/utils/trim';
 import loadable from '@loadable/component';
 import maplibre from 'maplibre-gl';
+import { map } from 'zod';
 
 const { LngLat, LngLatBounds } = maplibre;
 
@@ -52,6 +53,7 @@ export default function TripDetailsPage() {
         tags,
         countryCodes,
         date: { from, to },
+        map: mapOptions
     } = tripDetails;
 
     const daysPassed = useMemo(() => daysBetween(from, to), [from, to]);
@@ -162,22 +164,20 @@ export default function TripDetailsPage() {
             </div>
 
             <div>
-                <Map
-                    fallback={<>Loading...</>}
-                    name="new-york"
-                    config={{
-                        maxBounds: new LngLatBounds([
-                            new LngLat(-74.176123, 40.653505),
-                            new LngLat(-73.771575, 40.868387),
-                        ]),
-                        center: new LngLat(
-                            -73.9854072101976,
-                            40.74200478200777,
-                        ),
-                        minZoom: 11,
-                        maxZoom: 16,
-                    }}
-                />
+                <div
+                    style={{ height: '500px', width: '100%' }}
+                >
+                    <Map
+                        fallback={<>Loading...</>}
+                        name={mapOptions.pmtilesName}
+                        config={{
+                            maxBounds: mapOptions.bounds,
+                            center: mapOptions.center,
+                            minZoom: mapOptions.minZoom,
+                            maxZoom: mapOptions.maxZoom,
+                        }}
+                    />
+                </div>
                 {/* <Map    
                     fallback={<>Loading...</>}
                     name="vancouver"

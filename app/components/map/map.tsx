@@ -1,16 +1,16 @@
-import { useEffect, useMemo, useRef, type FC } from 'react';
+import { useEffect, useMemo, useRef, type FC, type HTMLProps } from 'react';
 import { Theme, useTheme } from 'remix-themes';
 import maplibregl from 'maplibre-gl';
 import { Protocol } from 'pmtiles';
 import mapStyle from './map-style.json';
 import mapStyleDark from './map-style.dark.json';
 
-export interface MapProps {
+export interface MapProps extends HTMLProps<HTMLDivElement> {
     name: string;
     config?: Omit<maplibregl.MapOptions, 'style' | 'container'>;
 }
 
-export const Map: FC<MapProps> = ({ name, config = {} }) => {
+export const Map: FC<MapProps> = ({ name, config = {}, ...props }) => {
     const mapContainer = useRef<HTMLDivElement>(null);
     const mapInstance = useRef<maplibregl.Map | null>(null);
     const [theme] = useTheme();
@@ -43,10 +43,18 @@ export const Map: FC<MapProps> = ({ name, config = {} }) => {
         globalThis.maps ??= {};
         globalThis.maps[name] = mapInstance.current;
 
+        const resizeObserver = new ResizeObserver(() => {
+            console.log("HELLO");
+            mapInstance.current?.resize();
+        });
+    
+        resizeObserver.observe(mapContainer.current);      
+
         return () => {
             mapInstance.current?.remove();
             globalThis.maps && delete globalThis.maps[name];
             maplibregl.removeProtocol('pmtiles');
+            resizeObserver.disconnect();
         };
     }, []);
 
@@ -62,6 +70,9 @@ export const Map: FC<MapProps> = ({ name, config = {} }) => {
     }, [theme]);
 
     return (
-        <div ref={mapContainer} style={{ height: '500px', width: '100%' }} />
+        <div
+            ref={mapContainer}
+            style={{ height: '100%', width: '100%' }}
+        />
     );
 };
