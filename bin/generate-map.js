@@ -4,12 +4,17 @@ import inquirer from 'inquirer';
 import { execa } from 'execa';
 import { existsSync, createReadStream } from 'fs';
 import { unlink } from 'fs/promises';
-import { S3Client, PutObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
+import {
+    S3Client,
+    PutObjectCommand,
+    HeadObjectCommand,
+} from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const isDryRun = process.argv.includes('--dry-run') || process.argv.includes('-d');
+const isDryRun =
+    process.argv.includes('--dry-run') || process.argv.includes('-d');
 
 console.log('\n⚡ Generating PMTiles Map\n');
 
@@ -17,7 +22,8 @@ const { pmtilesName, boundingBox, minZoom } = await inquirer.prompt([
     {
         type: 'input',
         name: 'pmtilesName',
-        message: 'Please provide a name for the `pmtiles` file (e.g., `example` would create `example.pmtiles` file):',
+        message:
+            'Please provide a name for the `pmtiles` file (e.g., `example` would create `example.pmtiles` file):',
         validate: (input) => {
             if (input.trim() === '') {
                 return 'Please provide a valid name.';
@@ -26,12 +32,13 @@ const { pmtilesName, boundingBox, minZoom } = await inquirer.prompt([
                 return 'The name can only include alphanumeral characters, underscores and dashes.';
             }
             return true;
-        }
+        },
     },
     {
         type: 'input',
         name: 'boundingBox',
-        message: 'Please input the bounding box of the map to be extracted (e.g., minLon,minLat,maxLon,maxLat):',
+        message:
+            'Please input the bounding box of the map to be extracted (e.g., minLon,minLat,maxLon,maxLat):',
         validate: (input) => {
             const parts = input.split(',');
             if (parts.length !== 4) {
@@ -43,7 +50,7 @@ const { pmtilesName, boundingBox, minZoom } = await inquirer.prompt([
                 }
             }
             return true;
-        }
+        },
     },
     {
         type: 'input',
@@ -56,23 +63,29 @@ const { pmtilesName, boundingBox, minZoom } = await inquirer.prompt([
                 return 'Minimum zoom must be a number between 3 and 17.';
             }
             return true;
-        }
-    }
+        },
+    },
 ]);
 
-const { maxZoom } = await inquirer.prompt([{
-    type: 'input',
-    name: 'maxZoom',
-    message: 'Please specify the maximum zoom (Leave it empty to skip):',
-    validate: (input) => {
-        if (input === '') return true;
-        const maxZoomNum = Number(input);
-        if (isNaN(maxZoomNum) || maxZoomNum <= Number(minZoom) || maxZoomNum > 18) {
-            return `Maximum zoom must be a number greater than ${minZoom} and less than or equal to 18.`;
-        }
-        return true;
-    }
-}]);
+const { maxZoom } = await inquirer.prompt([
+    {
+        type: 'input',
+        name: 'maxZoom',
+        message: 'Please specify the maximum zoom (Leave it empty to skip):',
+        validate: (input) => {
+            if (input === '') return true;
+            const maxZoomNum = Number(input);
+            if (
+                isNaN(maxZoomNum) ||
+                maxZoomNum <= Number(minZoom) ||
+                maxZoomNum > 18
+            ) {
+                return `Maximum zoom must be a number greater than ${minZoom} and less than or equal to 18.`;
+            }
+            return true;
+        },
+    },
+]);
 
 const today = new Date();
 const year = today.getFullYear();
@@ -95,13 +108,28 @@ if (maxZoom) {
 
 if (isDryRun) {
     console.log(`\n⚡ Run: pmtiles ${args.join(' ')}\n`);
-    console.log('\n📢 This is a dry run. No files will be created or uploaded \n');
+    console.log(
+        '\n📢 This is a dry run. No files will be created or uploaded \n',
+    );
 } else {
     try {
-        const { CLOUDFLARE_ACCOUNT_ID, R2_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, UPLOAD_DIR = 'pmtiles' } = process.env;
+        const {
+            CLOUDFLARE_ACCOUNT_ID,
+            R2_BUCKET_NAME,
+            AWS_ACCESS_KEY_ID,
+            AWS_SECRET_ACCESS_KEY,
+            UPLOAD_DIR = 'pmtiles',
+        } = process.env;
 
-        if (!CLOUDFLARE_ACCOUNT_ID || !R2_BUCKET_NAME || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
-            throw new Error('Cloudflare R2 credentials not set in environment variables.');
+        if (
+            !CLOUDFLARE_ACCOUNT_ID ||
+            !R2_BUCKET_NAME ||
+            !AWS_ACCESS_KEY_ID ||
+            !AWS_SECRET_ACCESS_KEY
+        ) {
+            throw new Error(
+                'Cloudflare R2 credentials not set in environment variables.',
+            );
         }
 
         const s3 = new S3Client({
@@ -116,10 +144,12 @@ if (isDryRun) {
         const uploadFileLocation = `${UPLOAD_DIR}/${outputFile}`;
 
         try {
-            await s3.send(new HeadObjectCommand({
-                Bucket: R2_BUCKET_NAME,
-                Key: uploadFileLocation,
-            }));
+            await s3.send(
+                new HeadObjectCommand({
+                    Bucket: R2_BUCKET_NAME,
+                    Key: uploadFileLocation,
+                }),
+            );
             const { confirmOverwrite } = await inquirer.prompt({
                 type: 'confirm',
                 name: 'confirmOverwrite',
@@ -132,7 +162,10 @@ if (isDryRun) {
             }
         } catch (error) {
             if (error.name !== 'NotFound') {
-                console.error('Error checking R2 file existence:', error.message);
+                console.error(
+                    'Error checking R2 file existence:',
+                    error.message,
+                );
                 throw error;
             }
         }
@@ -150,21 +183,25 @@ if (isDryRun) {
 
         const fileStream = createReadStream(outputFile);
 
-        await s3.send(new PutObjectCommand({
-            Bucket: R2_BUCKET_NAME,
-            Key: uploadFileLocation,
-            Body: fileStream,
-        }));
+        await s3.send(
+            new PutObjectCommand({
+                Bucket: R2_BUCKET_NAME,
+                Key: uploadFileLocation,
+                Body: fileStream,
+            }),
+        );
 
-        console.log(`\n🎉 ${uploadFileLocation} uploaded to R2 successfully!\n`);
+        console.log(
+            `\n🎉 ${uploadFileLocation} uploaded to R2 successfully!\n`,
+        );
     } catch (error) {
         console.error('\nAn error occurred:', error.message);
-    } finally {                                                                                             
-         console.log('\n⚡ Cleaning up...');                                                                  
-                                                                                                             
-         if (existsSync(outputFile)) {                                                                       
-             console.log(`\n⚡ Removing ${outputFile}...`);                                                   
-             await unlink(outputFile);
-         }
-    }  
+    } finally {
+        console.log('\n⚡ Cleaning up...');
+
+        if (existsSync(outputFile)) {
+            console.log(`\n⚡ Removing ${outputFile}...`);
+            await unlink(outputFile);
+        }
+    }
 }
