@@ -9,7 +9,8 @@
         "typecheck": "react-router typegen && tsc",
         "format": "pnpm exec prettier . --write",
         "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
+        "build-storybook": "storybook build",
+        "generate-map": "./bin/generate-map.js"
     },
     "dependencies": {
         "@conform-to/react": "^1.2.2",
