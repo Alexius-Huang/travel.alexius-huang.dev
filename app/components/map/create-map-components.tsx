@@ -4,8 +4,9 @@ import {
     type FC,
     type PropsWithChildren,
 } from 'react';
-import { Map } from '~/components/map';
-import { MapPin } from '~/components/map/map-pin';
+import { Map } from './map';
+import { MapPin } from './map-pin';
+import { MapRoute } from './map-route';
 
 interface MapInstanceProviderProps {
     instance: maplibregl.Map | null;
@@ -40,5 +41,6 @@ export function createMapComponents() {
     return {
         Map: Map(MapInstanceProvider),
         MapPin: MapPin(useMapInstance),
+        MapRoute: MapRoute(useMapInstance)
     };
 }

@@ -116,7 +116,15 @@ export const Map: (
 
             const newStyle = {
                 ...(theme === Theme.DARK ? mapStyleDark : mapStyle),
-                sources,
+                sources: mapInstance.getStyle().sources,
+                layers: [
+                    ...(theme === Theme.DARK ? mapStyleDark : mapStyle).layers,
+
+                    // Any layers whose name starts with `$` means it is our
+                    // custom added layers, we need to apply this everytime when
+                    // the them changes to prevent from custom layer removal
+                    ...mapInstance.getStyle().layers.filter(l => l.id.startsWith('$'))
+                ]
             } as maplibregl.StyleSpecification;
             mapInstance.setStyle(newStyle);
         }, [theme, mapInstance]);

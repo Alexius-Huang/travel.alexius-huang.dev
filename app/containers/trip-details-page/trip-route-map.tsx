@@ -1,7 +1,7 @@
 import { useMemo, type FC } from 'react';
 import type { LoaderData } from './types';
 import { useLoaderData } from 'react-router';
-import { createMapComponents } from '~/components/map/create-map-components';
+import { createMapComponents } from '~/components/map';
 import { trim } from '~/utils/trim';
 import { dateFormatter } from '~/data-access/date';
 import { Button } from '~/components/button';
@@ -11,7 +11,7 @@ export interface TripRouteMapProps {
 }
 
 export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
-    const { tripDetails /* routeCoordinates */ } = useLoaderData<LoaderData>();
+    const { tripDetails, routeCoordinates } = useLoaderData<LoaderData>();
     const {
         date: { from, to },
         map: mapOptions,
@@ -27,7 +27,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         [locations],
     );
 
-    const { Map, MapPin } = useMemo(createMapComponents, []);
+    const { Map, MapPin, MapRoute } = useMemo(createMapComponents, []);
 
     return (
         <section className={`relative w-full z-1 flex flex-col ${className}`}>
@@ -38,10 +38,18 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 <Map
                     name={mapOptions.pmtilesName}
                     config={{ ...mapOptions, interactive: false }}
-                    // routeCoordinates={routeCoordinates}
+                    routeCoordinates={routeCoordinates?.[0]}
                 >
                     {mapPins.map((mp) => (
                         <MapPin key={mp.name} {...mp} />
+                    ))}
+
+                    {routeCoordinates?.map((coords, index) => (
+                        <MapRoute
+                            key={index}
+                            sourceName={`route-${index}`}
+                            coords={coords}
+                        />
                     ))}
                 </Map>
             </div>
