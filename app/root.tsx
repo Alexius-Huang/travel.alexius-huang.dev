@@ -103,6 +103,7 @@ export function App() {
                 />
 
                 <div
+                    id='main-container'
                     className="h-screen overflow-y-scroll overflow-x-hidden scrollbar scrollbar-w-1.5"
                     ref={containerRef}
                 >
