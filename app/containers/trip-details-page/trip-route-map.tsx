@@ -1,4 +1,4 @@
-import { useMemo, type FC } from 'react';
+import { useEffect, useMemo, useState, type FC } from 'react';
 import type { LoaderData } from './types';
 import { useLoaderData } from 'react-router';
 import { createMapComponents } from '~/components/map';
@@ -47,7 +47,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     {routeCoordinates?.map((coords, index) => (
                         <MapRoute
                             key={index}
-                            sourceName={`route-${index}`}
+                            sourceName={`${index}`}
                             coords={coords}
                         />
                     ))}

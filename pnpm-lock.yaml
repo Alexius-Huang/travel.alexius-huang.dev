@@ -35,6 +35,9 @@ importers:
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
+      culori:
+        specifier: ^4.0.2
+        version: 4.0.2
       isbot:
         specifier: 5.1.17
         version: 5.1.17
@@ -90,6 +93,9 @@ importers:
       '@tailwindcss/vite':
         specifier: 4.0.0
         version: 4.0.0(vite@5.4.11(@types/node@20.17.17)(lightningcss@1.30.1))
+      '@types/culori':
+        specifier: ^4.0.0
+        version: 4.0.0
       '@types/loadable__component':
         specifier: ^5.13.9
         version: 5.13.9
@@ -2520,6 +2526,9 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
+  '@types/culori@4.0.0':
+    resolution: {integrity: sha512-aFljQwjb++sl6TAyEXeHTiK/fk9epZOQ+nMmadjnAvzZFIvNoQ0x8XQYfcOaRTBwmDUPUlghhZCJ66MTcqQAsg==}
+
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
@@ -2923,6 +2932,10 @@ packages:
 
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+
+  culori@4.0.2:
+    resolution: {integrity: sha512-1+BhOB8ahCn4O0cep0Sh2l9KCOfOdY+BXJnKMHFFzDEouSr/el18QwXEMRlOj9UY5nCeA8UN3a/82rUWRBeyBw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   d3-color@3.1.0:
     resolution: {integrity: sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==}
@@ -8107,6 +8120,8 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
+  '@types/culori@4.0.0': {}
+
   '@types/deep-eql@4.0.2': {}
 
   '@types/doctrine@0.0.9': {}
@@ -8531,6 +8546,8 @@ snapshots:
   cssesc@3.0.0: {}
 
   csstype@3.1.3: {}
+
+  culori@4.0.2: {}
 
   d3-color@3.1.0: {}
 

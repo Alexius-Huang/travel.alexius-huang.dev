@@ -25,22 +25,6 @@ export interface MapProps extends HTMLProps<HTMLDivElement> {
 //     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 // }
 
-// function geojsomFromCoorindates(coordinates: Array<[lat: number, lng: number]>) {
-//     return {
-//         type: 'FeatureCollection',
-//         features: [
-//             {
-//                 type: 'Feature',
-//                 properties: {},
-//                 geometry: {
-//                     type: 'LineString',
-//                     coordinates,
-//                 },
-//             },
-//         ],
-//     } as GeoJSON.GeoJSON;
-// }
-
 export const Map: (
     Provider: MapInstanceProviderType,
 ) => FC<PropsWithChildren<MapProps>> =
@@ -123,102 +107,13 @@ export const Map: (
                     // Any layers whose name starts with `$` means it is our
                     // custom added layers, we need to apply this everytime when
                     // the them changes to prevent from custom layer removal
-                    ...mapInstance.getStyle().layers.filter(l => l.id.startsWith('$'))
-                ]
+                    ...mapInstance
+                        .getStyle()
+                        .layers.filter((l) => l.id.startsWith('$')),
+                ],
             } as maplibregl.StyleSpecification;
             mapInstance.setStyle(newStyle);
         }, [theme, mapInstance]);
-
-        // useEffect(() => {
-        //     if (!mapInstance.current || !routeCoordinates) return;
-        //     const map = mapInstance.current;
-
-        //     const animationDuration = 1000; // 1 second
-        //     let startTime: number | null = null;
-        //     let animationFrameId: number;
-
-        //     function animateRoute(timestamp: number) {
-        //         if (!mapInstance.current || !routeCoordinates) return;
-        //         const map = mapInstance.current;
-
-        //         if (!startTime) startTime = timestamp;
-        //         const elapsed = timestamp - startTime;
-        //         const progress = Math.min(elapsed / animationDuration, 1);
-        //         const easedProgress = easeInOutCubic(progress);
-
-        //         const numCoords = routeCoordinates.length;
-        //         const animatedCoords = routeCoordinates.slice(0, Math.floor(numCoords * easedProgress));
-
-        //         if (map.getSource('animated-route')) {
-        //             (map.getSource('animated-route') as maplibregl.GeoJSONSource).setData(
-        //                 geojsomFromCoorindates(animatedCoords)
-        //             );
-        //         } else {
-        //             map.addSource('animated-route', {
-        //                 type: 'geojson',
-        //                 data: geojsomFromCoorindates(animatedCoords),
-        //             });
-
-        //             map.addLayer({
-        //                 id: 'animated-route-line',
-        //                 type: 'line',
-        //                 source: 'animated-route',
-        //                 layout: {
-        //                     'line-join': 'round',
-        //                     'line-cap': 'round',
-        //                 },
-        //                 paint: {
-        //                     'line-color': '#FF0000', // Red color for the animated route
-        //                     'line-width': 3,
-        //                 },
-        //             });
-        //         }
-
-        //         if (progress < 1) {
-        //             animationFrameId = requestAnimationFrame(animateRoute);
-        //         } else {
-        //             // Animation complete, add the full GeoJSON as a static layer
-        //             if (map.getSource('route')) {
-        //                 (map.getSource('route') as maplibregl.GeoJSONSource).setData(
-        //                     geojsomFromCoorindates(routeCoordinates)
-        //                 );
-        //             } else {
-        //                 map.addSource('route', {
-        //                     type: 'geojson',
-        //                     data: geojsomFromCoorindates(routeCoordinates),
-        //                 });
-        //                 map.addLayer({
-        //                     id: 'route-line',
-        //                     type: 'line',
-        //                     source: 'route',
-        //                     layout: {
-        //                         'line-join': 'round',
-        //                         'line-cap': 'round',
-        //                     },
-        //                     paint: {
-        //                         'line-color': '#888', // Original color for the static route
-        //                         'line-width': 3,
-        //                     },
-        //                 });
-        //             }
-        //             // Remove animated layer after animation is complete
-        //             if (map.getLayer('animated-route-line')) {
-        //                 map.removeLayer('animated-route-line');
-        //             }
-        //             if (map.getSource('animated-route')) {
-        //                 map.removeSource('animated-route');
-        //             }
-        //         }
-        //     };
-
-        //     map.on('load', () => {
-        //         animationFrameId = requestAnimationFrame(animateRoute);
-        //     });
-
-        //     return () => {
-        //         cancelAnimationFrame(animationFrameId);
-        //     };
-        // }, []);
 
         return (
             <>

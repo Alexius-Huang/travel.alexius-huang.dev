@@ -41,6 +41,6 @@ export function createMapComponents() {
     return {
         Map: Map(MapInstanceProvider),
         MapPin: MapPin(useMapInstance),
-        MapRoute: MapRoute(useMapInstance)
+        MapRoute: MapRoute(useMapInstance),
     };
 }

@@ -1,4 +1,4 @@
-import { memo, type CSSProperties, type FC } from 'react';
+import { memo, useEffect, useState, type CSSProperties, type FC } from 'react';
 import { Theme, useTheme } from 'remix-themes';
 import { Button, type ButtonProps } from '~/components/button';
 import './button.css';
@@ -12,12 +12,24 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = memo((props) => {
     const [theme, setTheme] = useTheme();
     const isDarkMode = theme === Theme.DARK;
 
+    const [disabled, setDisabled] = useState(false);
+
+    useEffect(() => {
+        if (!disabled) return;
+
+        setTimeout(() => {
+            setDisabled(false);
+        }, 1000);
+    }, [disabled]);
+
     return (
         <Button
             onClick={() => {
                 setTheme(theme === Theme.DARK ? Theme.LIGHT : Theme.DARK);
+                setDisabled(true);
             }}
             {...props}
+            isDisabled={disabled}
             className={`${props.className} gap-2.5 rounded-full`}
         >
             {isDarkMode ? 'Dark' : 'Light'}
