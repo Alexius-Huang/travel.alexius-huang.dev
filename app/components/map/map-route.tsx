@@ -16,11 +16,17 @@ export interface MapRouteProps {
     lineProgressBgColor?: { [K in Theme]: string };
 
     /**
-     *  Accept number between 0 ~ 100 where it introduces line progress
+     *  Accepts number between 0 ~ 100 where it introduces line progress
      *  The progress would be colored through `lineColor` and the not-yet
      *  progressed part would be colored through `lineProgressBgColor`
      */
     lineProgress?: number;
+
+    /**
+     *  Accepts number between 0 ~ 100 where the progress is loading, it
+     *  will have amount of gradient transition
+     */
+    gradientTransitionAmount?: number;
 }
 
 function geojsomFromCoorindates(coordinates: Array<Coordinate>) {
@@ -56,6 +62,7 @@ export const MapRoute: (
             [Theme.LIGHT]: 'transparent',
         },
         lineProgress = 100,
+        gradientTransitionAmount = 10
     }) => {
         const mapInstance = useMapInstance();
         const [theme] = useTheme();
@@ -63,6 +70,7 @@ export const MapRoute: (
         lineProgress =
             (lineProgress < 0 ? 0 : lineProgress > 100 ? 100 : lineProgress) /
             100;
+        gradientTransitionAmount /= 100;
 
         const progressColor = useMemo(
             () => rgb(lineColor[theme ?? Theme.LIGHT]) as string,
@@ -81,7 +89,7 @@ export const MapRoute: (
                     ['line-progress'],
                 ];
 
-                if (lineProgress === 0) {
+                if (lineProgress < gradientTransitionAmount + .01) {
                     result.push(0, progressBgColor, 1, progressBgColor);
                     return result;
                 }
@@ -94,7 +102,7 @@ export const MapRoute: (
                 result.push(
                     0,
                     progressColor,
-                    lineProgress - 0.001,
+                    lineProgress - gradientTransitionAmount,
                     progressColor,
                     lineProgress,
                     progressBgColor,

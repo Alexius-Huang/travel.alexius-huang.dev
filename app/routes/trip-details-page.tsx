@@ -19,6 +19,9 @@ export function meta({ params }: Route.MetaArgs) {
     ];
 }
 
+// Pick every nth coordinate, this is a naive approach to reduce the number of coordinate being
+// sent to client; we do not need high accurate navigation level
+const SPARSITY = 20;
 export async function loader({ params }: Route.LoaderArgs) {
     const tripDetails = TRIPS.find((t) => String(t.id) === params.tripId);
 
@@ -28,8 +31,10 @@ export async function loader({ params }: Route.LoaderArgs) {
         `https://images.alexius-huang.dev/routes/${tripDetails.routeFileName}.json`,
     );
 
-    const routeCoordinates =
+    let routeCoordinates =
         (await routeResponse.json()) as LoaderData['routeCoordinates'];
+
+    routeCoordinates = routeCoordinates?.map(coords => coords.filter((_, i) => i % SPARSITY === 0));
 
     return json<LoaderData>({ tripDetails, routeCoordinates });
 }
