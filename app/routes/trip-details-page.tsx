@@ -34,7 +34,9 @@ export async function loader({ params }: Route.LoaderArgs) {
     let routeCoordinates =
         (await routeResponse.json()) as LoaderData['routeCoordinates'];
 
-    routeCoordinates = routeCoordinates?.map(coords => coords.filter((_, i) => i % SPARSITY === 0));
+    routeCoordinates = routeCoordinates?.map((coords) =>
+        coords.filter((_, i) => i % SPARSITY === 0),
+    );
 
     return json<LoaderData>({ tripDetails, routeCoordinates });
 }

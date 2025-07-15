@@ -77,7 +77,7 @@ for (let i = 0; i < coordinates.length - 1; i++) {
         'https://api.openrouteservice.org/v2/directions/driving-car/geojson';
     const requestBody = {
         coordinates: [startCoord, endCoord],
-        geometry_simplify: true
+        geometry_simplify: true,
     };
 
     console.log(`\n⚡ API Call for segment ${i + 1}: ${apiUrl}`);

@@ -37,7 +37,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const { Map, MapPin, MapRoute } = useMemo(createMapComponents, []);
 
     const [scrollProgresses, setScrollProgresses] = useState(
-        Array(locations.length).fill(0)
+        Array(locations.length).fill(0),
     );
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
             for (let i = locations.length - 1; i >= 0; i--) {
                 const el = locationRefs.current[i];
                 if (!el) continue;
-        
+
                 const rect = el.getBoundingClientRect();
 
                 /**
@@ -82,24 +82,28 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                  *  If the nth last element is visible, we calculate the current
                  *  element's progress and fill the rest with 100%
                  */
-                const progress = ((window.innerHeight - rect.top) / window.innerHeight) * 100;
+                const progress =
+                    ((window.innerHeight - rect.top) / window.innerHeight) *
+                    100;
                 progresses[i] = progress;
                 i !== 0 && progresses.fill(100, 0, i - 1);
                 break;
             }
 
             setScrollProgresses(progresses);
-        };
+        }
 
         /* Initial check on mount */
         handleScroll();
 
         const throttledHandleScroll = throttle(handleScroll, 1000 / 30);
-        const mainContainer = document.getElementById('main-container') as HTMLDivElement;
-        mainContainer.addEventListener('scroll', throttledHandleScroll);    
+        const mainContainer = document.getElementById(
+            'main-container',
+        ) as HTMLDivElement;
+        mainContainer.addEventListener('scroll', throttledHandleScroll);
         return () => {
             mainContainer.removeEventListener('scroll', throttledHandleScroll);
-        };    
+        };
     }, [isHydrated]);
 
     return (
@@ -158,7 +162,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     <div
                         key={name}
                         className="mt-[45vh] py-[25vh] mb-[5vh]"
-                        ref={el => {
+                        ref={(el) => {
                             if (!el) return;
                             locationRefs.current[index] = el;
                         }}

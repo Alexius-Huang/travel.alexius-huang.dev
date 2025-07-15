@@ -62,7 +62,7 @@ export const MapRoute: (
             [Theme.LIGHT]: 'transparent',
         },
         lineProgress = 100,
-        gradientTransitionAmount = 10
+        gradientTransitionAmount = 10,
     }) => {
         const mapInstance = useMapInstance();
         const [theme] = useTheme();
@@ -89,7 +89,7 @@ export const MapRoute: (
                     ['line-progress'],
                 ];
 
-                if (lineProgress < gradientTransitionAmount + .01) {
+                if (lineProgress < gradientTransitionAmount + 0.01) {
                     result.push(0, progressBgColor, 1, progressBgColor);
                     return result;
                 }
