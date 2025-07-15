@@ -92,7 +92,8 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                  *  TODO: Understand the code and handle the following case:
                  *        1. able to revert animation
                  *        2. when theme changes, the animated line color should be changing!
-                 *        3. Refactor
+                 *        3. do not retrigger animation when it is already animated, vice-versa
+                 *        3. refactor the code
                  *        4. [Optional] able to execute and then revert animation
                  */
                 animate: () => {
