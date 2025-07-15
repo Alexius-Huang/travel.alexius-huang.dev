@@ -1,5 +1,7 @@
 import {
+    forwardRef,
     useEffect,
+    useImperativeHandle,
     useMemo,
     useRef,
     useState,
@@ -25,16 +27,18 @@ export interface MapProps extends HTMLProps<HTMLDivElement> {
 //     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 // }
 
-export const Map: (
-    Provider: MapInstanceProviderType,
-) => FC<PropsWithChildren<MapProps>> =
-    (Provider) =>
-    ({
+export interface MapRef {
+    getMapInstance: () => maplibregl.Map | null;
+}
+
+export const Map =
+    (Provider: MapInstanceProviderType) =>
+    forwardRef<MapRef, MapProps>(({
         children,
         name,
         config = {},
         // routeCoordinates
-    }) => {
+    }, ref) => {
         const mapContainer = useRef<HTMLDivElement>(null);
         const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(
             null,
@@ -53,22 +57,26 @@ export const Map: (
             [name],
         );
 
+        useImperativeHandle(ref, () => ({
+            getMapInstance() { return mapInstance; }
+        }));
+
         useEffect(() => {
             if (!hydrated || !mapContainer.current) return;
 
             const protocol = new Protocol();
             maplibregl.addProtocol('pmtiles', protocol.tile);
 
-            setMapInstance(
-                new maplibregl.Map({
-                    container: mapContainer.current,
-                    style: {
-                        ...(theme === Theme.DARK ? mapStyleDark : mapStyle),
-                        sources,
-                    } as maplibregl.StyleSpecification,
-                    ...config,
-                }),
-            );
+            const mapInstance = new maplibregl.Map({
+                container: mapContainer.current,
+                style: {
+                    ...(theme === Theme.DARK ? mapStyleDark : mapStyle),
+                    sources,
+                } as maplibregl.StyleSpecification,
+                ...config,
+            });
+
+            setMapInstance(mapInstance);
         }, [hydrated]);
 
         useEffect(() => {
@@ -124,4 +132,4 @@ export const Map: (
                 <Provider instance={mapInstance}>{children}</Provider>
             </>
         );
-    };
+    });

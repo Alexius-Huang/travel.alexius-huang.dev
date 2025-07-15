@@ -7,6 +7,7 @@ import { dateFormatter } from '~/data-access/date';
 import { Button } from '~/components/button';
 import { useHydration } from '~/hooks/use-hydration';
 import { throttle } from '~/utils/throttle';
+import type { MapRef } from '~/components/map';
 
 export interface TripRouteMapProps {
     className?: string;
@@ -16,6 +17,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const { tripDetails, routeCoordinates = [] } = useLoaderData<LoaderData>();
     const containerRef = useRef<HTMLElement | null>(null);
     const locationRefs = useRef<Array<HTMLDivElement>>([]);
+    const mapRef = useRef<MapRef>(null);
     const isHydrated = useHydration();
     const {
         date: { from, to },
@@ -113,6 +115,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     name={mapOptions.pmtilesName}
                     config={{ ...mapOptions, interactive: false }}
                     routeCoordinates={routeCoordinates?.[0]}
+                    ref={mapRef}
                 >
                     {mapPins.map((mp) => (
                         <MapPin key={mp.name} {...mp} />
@@ -143,8 +146,6 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 `}
             />
 
-            <div className="w-full h-full" />
-
             {locations.map(({ name, description, date }, index) => {
                 const formattedDate = {
                     from: dateFormatter.format(new Date(date.from)),
@@ -154,12 +155,15 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 };
 
                 return (
-                    <div className="mb-[100vh]" key={name}>
+                    <div
+                        key={name}
+                        className="mt-[45vh] py-[25vh] mb-[5vh]"
+                        ref={el => {
+                            if (!el) return;
+                            locationRefs.current[index] = el;
+                        }}
+                    >
                         <div
-                            ref={el => {
-                                if (!el) return;
-                                locationRefs.current[index] = el;
-                            }}
                             className={trim`
                                 flex flex-col gap-y-[1rem]
                                 px-[1.5rem] py-[2rem] max-w-[40%]
