@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FC } from 'react';
 import type { LoaderData } from './types';
 import { useLoaderData } from 'react-router';
-import { createMapComponents } from '~/components/map';
+import { createMapComponents, type MapRouteRef } from '~/components/map';
 import { trim } from '~/utils/trim';
 import { dateFormatter } from '~/data-access/date';
 import { Button } from '~/components/button';
@@ -13,14 +13,16 @@ export interface TripRouteMapProps {
     className?: string;
 }
 
-const initZoom = 7;
-const cityZoom = 8;
+const INIT_ZOOM = 7;
+const LOCATION_FOCUS_ZOOM = 8;
+const LOCATION_FOCUS_DURATION = 1000;
 
 export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const { tripDetails, routeCoordinates = [] } = useLoaderData<LoaderData>();
     const containerRef = useRef<HTMLElement | null>(null);
     const locationRefs = useRef<Array<HTMLDivElement>>([]);
     const mapRef = useRef<MapRef>(null);
+    const mapRoutesRef = useRef<Array<MapRouteRef>>([]);
     const isHydrated = useHydration();
     const {
         date: { from, to },
@@ -28,9 +30,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         locations,
     } = tripDetails;
 
-    const {
-        center: mapOriginalCenter
-    } = mapOptions;
+    const { center: mapOriginalCenter } = mapOptions;
 
     const mapPins = useMemo(
         () =>
@@ -46,6 +46,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const [scrollProgresses, setScrollProgresses] = useState(
         Array(locations.length).fill(0),
     );
+    const mapFocusLocationIndexRef = useRef<number>(null);
 
     useEffect(() => {
         if (!isHydrated) return;
@@ -103,7 +104,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         /* Initial check on mount */
         handleScroll();
 
-        const throttledHandleScroll = throttle(handleScroll, 1000 / 30);
+        const throttledHandleScroll = throttle(handleScroll, 1000 / 120);
         const mainContainer = document.getElementById(
             'main-container',
         ) as HTMLDivElement;
@@ -114,64 +115,49 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     }, [isHydrated]);
 
     useEffect(() => {
-        const mapInstance = mapRef.current?.getMapInstance();
-        if (!mapInstance || scrollProgresses.every(p => p === 100) || scrollProgresses.every(p => p === 0)) return;
+        if (!isHydrated || !mapRef.current) return;
 
-        /**
-         *  TODO: Instead of continuous scroll, maybe we can use intersection observer to check if the city
-         *        is intersecting, then we animate that route directly without having laggy animation
-         */
+        const mapInstance = mapRef.current.getMapInstance();
+        if (!mapInstance) return;
 
-        /**
-         *  If the first location's scroll progress is not 100%, we need to animate both Zoom and location
-         **/
-        if (scrollProgresses[0] !== 100) {
-            const percentage = scrollProgresses[0] / 100;
+        const mapFocusLocationIndex = mapFocusLocationIndexRef.current;
 
-            const zoomDelta = (cityZoom - initZoom) * percentage;
-
-            const newPositionLng = (locations[0].coord[0] - mapOriginalCenter[0]) * percentage;
-            const newPositionLat = (locations[0].coord[1] - mapOriginalCenter[1]) * percentage;
-
-            const newPosition = [newPositionLng + mapOriginalCenter[0], newPositionLat + mapOriginalCenter[1]];
+        if (scrollProgresses[0] < 20) {
+            if (mapFocusLocationIndex === null) return;
 
             mapInstance.flyTo({
-                center: newPosition,
-                zoom: zoomDelta + initZoom,
-                duration: 1000 / 60
+                center: mapOriginalCenter,
+                zoom: INIT_ZOOM,
+                duration: LOCATION_FOCUS_DURATION,
             });
+            mapFocusLocationIndexRef.current = null;
             return;
         }
 
         /**
-         *  For nth location, we need to interpolate between (n - 1)th and nth location's coordinate 
+         *  TODO:
+         *      - Handle to cancel/revert animation when scroll back!
+         *      - Think about the case of scroll position being restored at the bottom of the page
          */
-        const n = scrollProgresses.slice(1).findIndex(p => p !== 100) + 1;
-        const destinationCoord = locations[n].coord;
-        const fromCoord = locations[n - 1].coord;
+        for (let i = 0; i < locations.length; i++) {
+            if (scrollProgresses[i] === 100) continue;
 
-        const percentage = scrollProgresses[n] / 100;
-        const newPositionLng = (destinationCoord[0] - fromCoord[0]) * percentage;
-        const newPositionLat = (destinationCoord[1] - fromCoord[1]) * percentage;
+            if (scrollProgresses[i] > 20) {
+                if (mapFocusLocationIndex === i) return;
 
-        // let zoom = cityZoom;
-        // if (n === 0) {
-        //     const zoomDelta = (cityZoom - initZoom) * percentage;
-        //     zoom = initZoom + zoomDelta;            
-        // }
+                /* Perform Route Animation */
+                i !== 0 && mapRoutesRef.current[i - 1].animate();
 
-        // mapInstance.setCenter([newPositionLng + mapOriginalCenter[0], newPositionLat + mapOriginalCenter[1]]);
-        const newPosition = [newPositionLng + fromCoord[0], newPositionLat + fromCoord[1]];
-        mapInstance.flyTo({
-            center: newPosition,
-            // zoom,
-            // zoom: zoomDelta + initZoom,
-            duration: 1000 / 60
-        });
-
-
-
-    }, [scrollProgresses, locations]);
+                mapInstance.flyTo({
+                    center: locations[i].coord,
+                    zoom: LOCATION_FOCUS_ZOOM,
+                    duration: LOCATION_FOCUS_DURATION,
+                });
+                mapFocusLocationIndexRef.current = i;
+                return;
+            }
+        }
+    }, [isHydrated, scrollProgresses]);
 
     return (
         <section
@@ -194,10 +180,14 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
 
                     {routeCoordinates?.map((coords, index) => (
                         <MapRoute
+                            ref={(ref) => {
+                                if (!ref) return;
+                                mapRoutesRef.current[index] = ref;
+                            }}
                             key={index}
                             sourceName={`${index}`}
                             coords={coords}
-                            lineProgress={scrollProgresses[index + 1] || 0}
+                            // lineProgress={scrollProgresses[index + 1] || 0}
                         />
                     ))}
                 </Map>
@@ -228,15 +218,17 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 return (
                     <div
                         key={name}
-                        className="mt-[45vh] py-[25vh] mb-[5vh]"
+                        className={trim`${index !== 0 ? 'mt-[30vh]' : 'mt-[-30vh]'} mb-[30vh]`}
+                        data-index={index}
                         ref={(el) => {
                             if (!el) return;
                             locationRefs.current[index] = el;
                         }}
                     >
+                        <div className="w-full h-[30vh]" />
                         <div
                             className={trim`
-                                flex flex-col gap-y-[1rem]
+                                flex flex-col gap-y-[1rem] mb-[-30vh]
                                 px-[1.5rem] py-[2rem] max-w-[40%]
                                 shadow-lg shadow-gray-100 dark:shadow-gray-900
                                 backdrop-blur-xs bg-white/50 dark:bg-gray-900/50
@@ -274,7 +266,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 );
             })}
 
-            <div className="pb-[10vh] w-full" />
+            <div className="w-full h-[50vh]" />
         </section>
     );
 };

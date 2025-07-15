@@ -9,15 +9,16 @@ export interface TripDetails {
     countryCodes: Array<string>;
     date: { from: DateFormat; to: DateFormat };
 
-    map: {
+    map: Omit<maplibregl.MapOptions, 'style' | 'container'> & {
         pmtilesName: string;
-    } & Omit<maplibregl.MapOptions, 'style' | 'container'>;
+        center: maplibregl.LngLatLike;
+    };
     routeFileName: string;
 
     locations: Array<{
         name: string;
         description: string;
-        coord: [lat: number, lng: number];
+        coord: [lng: number, lat: number];
         date: { from: DateFormat; to?: DateFormat };
     }>;
 
