@@ -13,6 +13,9 @@ export interface TripRouteMapProps {
     className?: string;
 }
 
+const initZoom = 7;
+const cityZoom = 8;
+
 export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const { tripDetails, routeCoordinates = [] } = useLoaderData<LoaderData>();
     const containerRef = useRef<HTMLElement | null>(null);
@@ -24,6 +27,10 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         map: mapOptions,
         locations,
     } = tripDetails;
+
+    const {
+        center: mapOriginalCenter
+    } = mapOptions;
 
     const mapPins = useMemo(
         () =>
@@ -85,7 +92,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 const progress =
                     ((window.innerHeight - rect.top) / window.innerHeight) *
                     100;
-                progresses[i] = progress;
+                progresses[i] = progress > 100 ? 100 : progress;
                 i !== 0 && progresses.fill(100, 0, i - 1);
                 break;
             }
@@ -105,6 +112,66 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
             mainContainer.removeEventListener('scroll', throttledHandleScroll);
         };
     }, [isHydrated]);
+
+    useEffect(() => {
+        const mapInstance = mapRef.current?.getMapInstance();
+        if (!mapInstance || scrollProgresses.every(p => p === 100) || scrollProgresses.every(p => p === 0)) return;
+
+        /**
+         *  TODO: Instead of continuous scroll, maybe we can use intersection observer to check if the city
+         *        is intersecting, then we animate that route directly without having laggy animation
+         */
+
+        /**
+         *  If the first location's scroll progress is not 100%, we need to animate both Zoom and location
+         **/
+        if (scrollProgresses[0] !== 100) {
+            const percentage = scrollProgresses[0] / 100;
+
+            const zoomDelta = (cityZoom - initZoom) * percentage;
+
+            const newPositionLng = (locations[0].coord[0] - mapOriginalCenter[0]) * percentage;
+            const newPositionLat = (locations[0].coord[1] - mapOriginalCenter[1]) * percentage;
+
+            const newPosition = [newPositionLng + mapOriginalCenter[0], newPositionLat + mapOriginalCenter[1]];
+
+            mapInstance.flyTo({
+                center: newPosition,
+                zoom: zoomDelta + initZoom,
+                duration: 1000 / 60
+            });
+            return;
+        }
+
+        /**
+         *  For nth location, we need to interpolate between (n - 1)th and nth location's coordinate 
+         */
+        const n = scrollProgresses.slice(1).findIndex(p => p !== 100) + 1;
+        const destinationCoord = locations[n].coord;
+        const fromCoord = locations[n - 1].coord;
+
+        const percentage = scrollProgresses[n] / 100;
+        const newPositionLng = (destinationCoord[0] - fromCoord[0]) * percentage;
+        const newPositionLat = (destinationCoord[1] - fromCoord[1]) * percentage;
+
+        // let zoom = cityZoom;
+        // if (n === 0) {
+        //     const zoomDelta = (cityZoom - initZoom) * percentage;
+        //     zoom = initZoom + zoomDelta;            
+        // }
+
+        // mapInstance.setCenter([newPositionLng + mapOriginalCenter[0], newPositionLat + mapOriginalCenter[1]]);
+        const newPosition = [newPositionLng + fromCoord[0], newPositionLat + fromCoord[1]];
+        mapInstance.flyTo({
+            center: newPosition,
+            // zoom,
+            // zoom: zoomDelta + initZoom,
+            duration: 1000 / 60
+        });
+
+
+
+    }, [scrollProgresses, locations]);
 
     return (
         <section
