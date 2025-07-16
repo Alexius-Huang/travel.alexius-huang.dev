@@ -14,6 +14,7 @@ import mapStyle from './map-style.json';
 import mapStyleDark from './map-style.dark.json';
 import type { MapInstanceProviderType } from '~/components/map/create-map-components';
 import { useHydration } from '~/hooks/use-hydration';
+import { waitForStyleLoaded } from './util';
 
 export interface MapProps extends HTMLProps<HTMLDivElement> {
     name: string;
@@ -111,23 +112,10 @@ export const Map = (Provider: MapInstanceProviderType) =>
                 let rejectFunc: (reason?: any) => void;
 
                 (async function updateStyleData() {
-                    function waitForStyleLoad(map: maplibregl.Map): Promise<void> {
-                        return new Promise((resolve, reject) => {
-                            rejectFunc = reject;
-
-                            const check = () => {
-                                if (map.isStyleLoaded()) {
-                                    resolve();
-                                } else {
-                                    requestAnimationFrame(check); // forces visual tick
-                                }
-                            };
-                            check();
-                        });
-                    }
-
                     try {
-                        await waitForStyleLoad(mapInstance);
+                        const [promise, stopFunc] = waitForStyleLoaded(mapInstance);
+                        rejectFunc = stopFunc;
+                        await promise;
 
                         const newStyle = {
                             ...(theme === Theme.DARK ? mapStyleDark : mapStyle),

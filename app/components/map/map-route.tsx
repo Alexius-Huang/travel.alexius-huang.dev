@@ -127,6 +127,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                     ]
                 ), [progressBgColor, progressColor, gradientTransitionAmount]);
 
+            const animateRejectFuncRef = useRef<(reason?: any) => void | null>(null);
             useImperativeHandle(ref, () => ({
                 /**
                  *  TODO: Understand the code and handle the following case:
@@ -134,8 +135,29 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                  *        3. refactor the code
                  *        4. [Optional] able to execute and then revert animation
                  */
-                animate: () => {
-                    if (!mapInstance || !mapInstance.getLayer(layerId)) return;
+                animate: async () => {
+                    if (!mapInstance) return;
+
+                    animateRejectFuncRef.current?.();
+
+                    function waitForLayerExist(map: maplibregl.Map): Promise<void> {
+                        return new Promise((resolve, reject) => {
+                            animateRejectFuncRef.current = reject;
+                            (function check() {
+                                if (map.getLayer(layerId)) {
+                                    resolve();
+                                } else {
+                                    requestAnimationFrame(check);
+                                }
+                            })();
+                        });
+                    };
+
+                    try {
+                        await waitForLayerExist(mapInstance);
+                    } catch {
+                        return;
+                    }
 
                     const isAnimated = isAnimatedRef.current;
                     if (isAnimated) return;

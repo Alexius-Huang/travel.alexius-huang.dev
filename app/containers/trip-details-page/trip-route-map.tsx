@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FC } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type FC } from 'react';
 import type { LoaderData } from './types';
 import { useLoaderData } from 'react-router';
 import { createMapComponents, type MapRouteRef } from '~/components/map';
@@ -8,6 +8,7 @@ import { Button } from '~/components/button';
 import { useHydration } from '~/hooks/use-hydration';
 import { throttle } from '~/utils/throttle';
 import type { MapRef } from '~/components/map';
+import { waitForStyleLoaded } from '~/components/map/util';
 
 export interface TripRouteMapProps {
     className?: string;
@@ -24,6 +25,14 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const mapRef = useRef<MapRef>(null);
     const mapRoutesRef = useRef<Array<MapRouteRef>>([]);
     const isHydrated = useHydration();
+
+    /**
+     *  Sometimes if the scroll restoration is restored in already scrolled
+     *  down position, we need to restore the animation also, this flag denotes
+     *  that whether the animation is restored or not 
+     */
+    const isAnimationRestoredRef = useRef(false);
+
     const {
         date: { from, to },
         map: mapOptions,
@@ -47,6 +56,30 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         Array(locations.length).fill(0),
     );
     const mapFocusLocationIndexRef = useRef<number>(null);
+
+    const flyToLocation = useCallback((index: number | 'origin') => {
+        const mapInstance = mapRef.current?.getMapInstance();
+        if (!mapInstance) {
+            console.warn('Map instance is not loaded yet, cannot execute fly to location task');
+            return;
+        }
+
+        if (index === 'origin') {
+            mapInstance.flyTo({
+                center: mapOriginalCenter,
+                zoom: INIT_ZOOM,
+                duration: LOCATION_FOCUS_DURATION,
+                essential: true
+            });
+        } else {
+            mapInstance.flyTo({
+                center: locations[index].coord,
+                zoom: LOCATION_FOCUS_ZOOM,
+                duration: LOCATION_FOCUS_DURATION,
+                essential: true
+            });    
+        }
+    }, [locations]);
 
     useEffect(() => {
         if (!isHydrated) return;
@@ -125,41 +158,40 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         if (scrollProgresses[0] < 20) {
             if (mapFocusLocationIndex === null) return;
 
-            mapInstance.flyTo({
-                center: mapOriginalCenter,
-                zoom: INIT_ZOOM,
-                duration: LOCATION_FOCUS_DURATION,
-            });
+            flyToLocation('origin');
             mapFocusLocationIndexRef.current = null;
             return;
         }
 
-        /**
-         *  TODO:
-         *      - Handle to cancel/revert animation when scroll back!
-         *      - Think about the case of scroll position being restored at the bottom of the page
-         */
-        for (let i = 0; i < locations.length; i++) {
-            if (scrollProgresses[i] === 100) continue;
+        const isAnimationRestored = isAnimationRestoredRef.current;
 
-            if (scrollProgresses[i] > 20) {
-                if (mapFocusLocationIndex === i) return;
+        (async function animateRoute() {
+            for (let i = locations.length - 1; i >= 0; i--) {
+                if (scrollProgresses[i] <= 20) continue;
+    
+                if (mapFocusLocationIndex === i && isAnimationRestored) return;
 
                 /* Perform Route Animation */
-                i !== 0 && mapRoutesRef.current[i - 1].animate();
+                for (let j = 0; j < i; j++) {
+                    mapRoutesRef.current[j].animate();
+                }
 
                 /* Revert animation of the next route if found */
                 mapRoutesRef.current[i]?.reverseAnimate();
 
-                mapInstance.flyTo({
-                    center: locations[i].coord,
-                    zoom: LOCATION_FOCUS_ZOOM,
-                    duration: LOCATION_FOCUS_DURATION,
-                });
+                if (!isAnimationRestored) {
+                    await (waitForStyleLoaded(mapInstance)[0]);
+                    setTimeout(() => flyToLocation(i), 250);
+                } else {
+                    flyToLocation(i);
+                }
+
                 mapFocusLocationIndexRef.current = i;
+
+                isAnimationRestoredRef.current = true;
                 return;
             }
-        }
+        })();
     }, [isHydrated, scrollProgresses]);
 
     return (
@@ -190,7 +222,6 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                             key={index}
                             sourceName={`${index}`}
                             coords={coords}
-                            // lineProgress={scrollProgresses[index + 1] || 0}
                         />
                     ))}
                 </Map>
