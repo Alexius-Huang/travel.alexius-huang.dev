@@ -4,8 +4,7 @@ import {
     useEffect,
     useImperativeHandle,
     useMemo,
-    useRef,
-    useState,
+    useRef
 } from 'react';
 import type { UseMapInstanceType } from './create-map-components';
 import { usePrevious } from '~/hooks/use-previous';
@@ -77,56 +76,60 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
 
             gradientTransitionAmount /= 100;
 
-            const progressColor = useMemo(
-                () => rgb(lineColor[theme ?? Theme.LIGHT]) as string,
-                [lineColor, theme],
-            );
-            const progressBgColor = useMemo(
-                () => rgb(lineProgressBgColor[theme ?? Theme.LIGHT]) as string,
-                [lineProgressBgColor, theme],
-            );
+            const progressColorRef = useRef<string>('');
+            const progressBgColorRef = useRef<string>('');
+
+            useEffect(() => {
+                progressColorRef.current = rgb(lineColor[theme ?? Theme.LIGHT]) as string;
+                progressBgColorRef.current = rgb(lineProgressBgColor[theme ?? Theme.LIGHT]) as string;
+            }, [theme, lineColor, lineProgressBgColor]);
 
             const animationRef = useRef<number | null>(null);
             const startTimeRef = useRef<number | null>(null);
-
             const isAnimatedRef = useRef(false);
+            const isAnimatingRef = useRef(false);
 
             const deriveGradientStyle = useCallback(
-                (progress: number) =>
-                    progress < 0.01
-                        ? [
-                              'interpolate',
-                              ['linear'],
-                              ['line-progress'],
-                              0,
-                              progressBgColor,
-                              1,
-                              progressBgColor,
-                          ]
-                        : progress > 1 - gradientTransitionAmount - 0.01
-                          ? [
-                                'interpolate',
-                                ['linear'],
-                                ['line-progress'],
-                                0,
-                                progressColor,
-                                1,
-                                progressColor,
-                            ]
-                          : [
-                                'interpolate',
-                                ['linear'],
-                                ['line-progress'],
-                                0,
-                                progressColor,
-                                progress,
-                                progressColor,
-                                progress + gradientTransitionAmount,
-                                progressBgColor,
-                                1,
-                                progressBgColor,
-                            ],
-                [progressBgColor, progressColor, gradientTransitionAmount],
+                (progress: number): maplibregl.ExpressionSpecification => {
+                    const progressColor = progressColorRef.current;
+                    const progressBgColor = progressBgColorRef.current;
+                    if (progress < 0.01) {
+                        return [
+                            'interpolate',
+                            ['linear'],
+                            ['line-progress'],
+                            0,
+                            progressBgColor,
+                            1,
+                            progressBgColor,
+                        ];
+                     } else if (progress > 1 - gradientTransitionAmount - 0.01) {
+                        return [
+                            'interpolate',
+                            ['linear'],
+                            ['line-progress'],
+                            0,
+                            progressColor,
+                            1,
+                            progressColor,
+                        ];
+                     } else {
+                        return [
+                            'interpolate',
+                            ['linear'],
+                            ['line-progress'],
+                            0,
+                            progressColor,
+                            progress,
+                            progressColor,
+                            progress + gradientTransitionAmount,
+                            progressBgColor,
+                            1,
+                            progressBgColor,
+                        ];
+                     }
+                },
+                [gradientTransitionAmount],
             );
 
             const animateRejectFuncRef =
@@ -173,6 +176,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
 
                     startTimeRef.current = null;
                     isAnimatedRef.current = true;
+                    isAnimatingRef.current = true;
 
                     const step = (timestamp: number) => {
                         if (!startTimeRef.current)
@@ -191,6 +195,8 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
 
                         if (progress < 1) {
                             animationRef.current = requestAnimationFrame(step);
+                        } else {
+                            isAnimatingRef.current = false;
                         }
                     };
 
@@ -209,6 +215,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
 
                     startTimeRef.current = null;
                     isAnimatedRef.current = false;
+                    isAnimatingRef.current = true;
 
                     const step = (timestamp: number) => {
                         if (!startTimeRef.current)
@@ -225,6 +232,8 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
 
                         if (progress > 0) {
                             animationRef.current = requestAnimationFrame(step);
+                        } else {
+                            isAnimatingRef.current = false;
                         }
                     };
 
@@ -266,15 +275,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                     },
                     paint: {
                         'line-width': lineWidth,
-                        'line-gradient': [
-                            'interpolate',
-                            ['linear'],
-                            ['line-progress'],
-                            0,
-                            progressBgColor,
-                            1,
-                            progressBgColor,
-                        ],
+                        'line-gradient': deriveGradientStyle(isAnimatedRef.current ? 100 : 0)
                     },
                 });
             }, [
@@ -283,14 +284,18 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                 mapInstance,
                 theme,
                 lineWidth,
-                lineColor,
-                progressBgColor,
+                lineColor
             ]);
 
             useEffect(() => {
                 if (!mapInstance) return;
                 mapInstance.on('load', renderLines);
             }, [mapInstance]);
+
+            useEffect(() => {
+                if (isAnimatingRef.current) return;
+                renderLines();
+            }, [theme]);
 
             useEffect(() => {
                 if (
