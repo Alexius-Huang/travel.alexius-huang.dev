@@ -5,6 +5,7 @@ import {
     useImperativeHandle,
     useMemo,
     useRef,
+    useState,
 } from 'react';
 import type { UseMapInstanceType } from './create-map-components';
 import { usePrevious } from '~/hooks/use-previous';
@@ -87,6 +88,44 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
             const animationRef = useRef<number | null>(null);
             const startTimeRef = useRef<number | null>(null);
 
+            const isAnimatedRef = useRef(false);
+
+            const deriveGradientStyle = useCallback((progress: number) => (
+                progress < 0.01
+                ? [
+                      'interpolate',
+                      ['linear'],
+                      ['line-progress'],
+                      0,
+                      progressBgColor,
+                      1,
+                      progressBgColor,
+                  ]
+                : progress > 1 - gradientTransitionAmount - 0.01
+                  ? [
+                        'interpolate',
+                        ['linear'],
+                        ['line-progress'],
+                        0,
+                        progressColor,
+                        1,
+                        progressColor,
+                    ]
+                  : [
+                        'interpolate',
+                        ['linear'],
+                        ['line-progress'],
+                        0,
+                        progressColor,
+                        progress,
+                        progressColor,
+                        progress + gradientTransitionAmount,
+                        progressBgColor,
+                        1,
+                        progressBgColor,
+                    ]
+                ), [progressBgColor, progressColor, gradientTransitionAmount]);
+
             useImperativeHandle(ref, () => ({
                 /**
                  *  TODO: Understand the code and handle the following case:
@@ -99,11 +138,15 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                 animate: () => {
                     if (!mapInstance || !mapInstance.getLayer(layerId)) return;
 
+                    const isAnimated = isAnimatedRef.current;
+                    if (isAnimated) return;
+
                     if (animationRef.current) {
                         cancelAnimationFrame(animationRef.current);
                     }
 
                     startTimeRef.current = null;
+                    isAnimatedRef.current = true;
 
                     const step = (timestamp: number) => {
                         if (!startTimeRef.current)
@@ -114,45 +157,10 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                             1,
                         );
 
-                        const gradient =
-                            progress < 0.01
-                                ? [
-                                      'interpolate',
-                                      ['linear'],
-                                      ['line-progress'],
-                                      0,
-                                      progressBgColor,
-                                      1,
-                                      progressBgColor,
-                                  ]
-                                : progress > 1 - gradientTransitionAmount - 0.01
-                                  ? [
-                                        'interpolate',
-                                        ['linear'],
-                                        ['line-progress'],
-                                        0,
-                                        progressColor,
-                                        1,
-                                        progressColor,
-                                    ]
-                                  : [
-                                        'interpolate',
-                                        ['linear'],
-                                        ['line-progress'],
-                                        0,
-                                        progressColor,
-                                        progress,
-                                        progressColor,
-                                        progress + gradientTransitionAmount,
-                                        progressBgColor,
-                                        1,
-                                        progressBgColor,
-                                    ];
-
                         mapInstance.setPaintProperty(
                             layerId,
                             'line-gradient',
-                            gradient,
+                            deriveGradientStyle(progress),
                         );
 
                         if (progress < 1) {
