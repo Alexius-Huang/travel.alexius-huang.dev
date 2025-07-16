@@ -148,6 +148,9 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 /* Perform Route Animation */
                 i !== 0 && mapRoutesRef.current[i - 1].animate();
 
+                /* Revert animation of the next route if found */
+                mapRoutesRef.current[i]?.reverseAnimate();
+
                 mapInstance.flyTo({
                     center: locations[i].coord,
                     zoom: LOCATION_FOCUS_ZOOM,

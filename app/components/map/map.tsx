@@ -5,9 +5,7 @@ import {
     useMemo,
     useRef,
     useState,
-    type FC,
     type HTMLProps,
-    type PropsWithChildren,
 } from 'react';
 import { Theme, useTheme } from 'remix-themes';
 import maplibregl from 'maplibre-gl';
@@ -108,24 +106,51 @@ export const Map = (Provider: MapInstanceProviderType) =>
             }, [mapInstance]);
 
             useEffect(() => {
-                if (!mapInstance || !mapInstance.isStyleLoaded()) return;
+                if (!mapInstance) return;
 
-                const newStyle = {
-                    ...(theme === Theme.DARK ? mapStyleDark : mapStyle),
-                    sources: mapInstance.getStyle().sources,
-                    layers: [
-                        ...(theme === Theme.DARK ? mapStyleDark : mapStyle)
-                            .layers,
+                let rejectFunc: (reason?: any) => void;
 
-                        // Any layers whose name starts with `$` means it is our
-                        // custom added layers, we need to apply this everytime when
-                        // the them changes to prevent from custom layer removal
-                        ...mapInstance
-                            .getStyle()
-                            .layers.filter((l) => l.id.startsWith('$')),
-                    ],
-                } as maplibregl.StyleSpecification;
-                mapInstance.setStyle(newStyle);
+                (async function updateStyleData() {
+                    function waitForStyleLoad(map: maplibregl.Map): Promise<void> {
+                        return new Promise((resolve, reject) => {
+                            rejectFunc = reject;
+
+                            const check = () => {
+                                if (map.isStyleLoaded()) {
+                                    resolve();
+                                } else {
+                                    requestAnimationFrame(check); // forces visual tick
+                                }
+                            };
+                            check();
+                        });
+                    }
+
+                    try {
+                        await waitForStyleLoad(mapInstance);
+
+                        const newStyle = {
+                            ...(theme === Theme.DARK ? mapStyleDark : mapStyle),
+                            sources: mapInstance.getStyle().sources,
+                            layers: [
+                                ...(theme === Theme.DARK ? mapStyleDark : mapStyle)
+                                    .layers,
+        
+                                // Any layers whose name starts with `$` means it is our
+                                // custom added layers, we need to apply this everytime when
+                                // the them changes to prevent from custom layer removal
+                                ...mapInstance
+                                    .getStyle()
+                                    .layers.filter((l) => l.id.startsWith('$')),
+                            ],
+                        } as maplibregl.StyleSpecification;
+                        mapInstance.setStyle(newStyle);    
+                    } catch {}
+                })();
+
+                return () => {
+                    rejectFunc?.();
+                };
             }, [theme, mapInstance]);
 
             return (

@@ -32,6 +32,7 @@ export interface MapRouteProps {
 
 export interface MapRouteRef {
     animate: () => void;
+    reverseAnimate: () => void;
 }
 
 const animationDuration = 1000;
@@ -129,9 +130,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
             useImperativeHandle(ref, () => ({
                 /**
                  *  TODO: Understand the code and handle the following case:
-                 *        1. able to revert animation
                  *        2. when theme changes, the animated line color should be changing!
-                 *        3. do not retrigger animation when it is already animated, vice-versa
                  *        3. refactor the code
                  *        4. [Optional] able to execute and then revert animation
                  */
@@ -164,6 +163,42 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                         );
 
                         if (progress < 1) {
+                            animationRef.current = requestAnimationFrame(step);
+                        }
+                    };
+
+                    animationRef.current = requestAnimationFrame(step);
+                },
+
+                reverseAnimate: () => {
+                    if (!mapInstance || !mapInstance.getLayer(layerId)) return;
+
+                    const isAnimated = isAnimatedRef.current;
+                    if (!isAnimated) return;
+
+                    if (animationRef.current) {
+                        cancelAnimationFrame(animationRef.current);
+                    }
+
+                    startTimeRef.current = null;
+                    isAnimatedRef.current = false;
+
+                    const step = (timestamp: number) => {
+                        if (!startTimeRef.current)
+                            startTimeRef.current = timestamp;
+                        const elapsed = timestamp - startTimeRef.current;
+                        const progress = 1 - Math.min(
+                            elapsed / animationDuration,
+                            1,
+                        );
+
+                        mapInstance.setPaintProperty(
+                            layerId,
+                            'line-gradient',
+                            deriveGradientStyle(progress),
+                        );
+
+                        if (progress > 0) {
                             animationRef.current = requestAnimationFrame(step);
                         }
                     };
