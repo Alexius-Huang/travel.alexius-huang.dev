@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type FC } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+    type FC,
+} from 'react';
 import type { LoaderData } from './types';
 import { useLoaderData } from 'react-router';
 import { createMapComponents, type MapRouteRef } from '~/components/map';
@@ -29,7 +36,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     /**
      *  Sometimes if the scroll restoration is restored in already scrolled
      *  down position, we need to restore the animation also, this flag denotes
-     *  that whether the animation is restored or not 
+     *  that whether the animation is restored or not
      */
     const isAnimationRestoredRef = useRef(false);
 
@@ -57,29 +64,34 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     );
     const mapFocusLocationIndexRef = useRef<number>(null);
 
-    const flyToLocation = useCallback((index: number | 'origin') => {
-        const mapInstance = mapRef.current?.getMapInstance();
-        if (!mapInstance) {
-            console.warn('Map instance is not loaded yet, cannot execute fly to location task');
-            return;
-        }
+    const flyToLocation = useCallback(
+        (index: number | 'origin') => {
+            const mapInstance = mapRef.current?.getMapInstance();
+            if (!mapInstance) {
+                console.warn(
+                    'Map instance is not loaded yet, cannot execute fly to location task',
+                );
+                return;
+            }
 
-        if (index === 'origin') {
-            mapInstance.flyTo({
-                center: mapOriginalCenter,
-                zoom: INIT_ZOOM,
-                duration: LOCATION_FOCUS_DURATION,
-                essential: true
-            });
-        } else {
-            mapInstance.flyTo({
-                center: locations[index].coord,
-                zoom: LOCATION_FOCUS_ZOOM,
-                duration: LOCATION_FOCUS_DURATION,
-                essential: true
-            });    
-        }
-    }, [locations]);
+            if (index === 'origin') {
+                mapInstance.flyTo({
+                    center: mapOriginalCenter,
+                    zoom: INIT_ZOOM,
+                    duration: LOCATION_FOCUS_DURATION,
+                    essential: true,
+                });
+            } else {
+                mapInstance.flyTo({
+                    center: locations[index].coord,
+                    zoom: LOCATION_FOCUS_ZOOM,
+                    duration: LOCATION_FOCUS_DURATION,
+                    essential: true,
+                });
+            }
+        },
+        [locations],
+    );
 
     useEffect(() => {
         if (!isHydrated) return;
@@ -168,7 +180,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         (async function animateRoute() {
             for (let i = locations.length - 1; i >= 0; i--) {
                 if (scrollProgresses[i] <= 20) continue;
-    
+
                 if (mapFocusLocationIndex === i && isAnimationRestored) return;
 
                 /* Perform Route Animation */
@@ -180,7 +192,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 mapRoutesRef.current[i]?.reverseAnimate();
 
                 if (!isAnimationRestored) {
-                    await (waitForStyleLoaded(mapInstance)[0]);
+                    await waitForStyleLoaded(mapInstance)[0];
                     setTimeout(() => flyToLocation(i), 250);
                 } else {
                     flyToLocation(i);

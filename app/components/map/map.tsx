@@ -113,7 +113,8 @@ export const Map = (Provider: MapInstanceProviderType) =>
 
                 (async function updateStyleData() {
                     try {
-                        const [promise, stopFunc] = waitForStyleLoaded(mapInstance);
+                        const [promise, stopFunc] =
+                            waitForStyleLoaded(mapInstance);
                         rejectFunc = stopFunc;
                         await promise;
 
@@ -121,9 +122,11 @@ export const Map = (Provider: MapInstanceProviderType) =>
                             ...(theme === Theme.DARK ? mapStyleDark : mapStyle),
                             sources: mapInstance.getStyle().sources,
                             layers: [
-                                ...(theme === Theme.DARK ? mapStyleDark : mapStyle)
-                                    .layers,
-        
+                                ...(theme === Theme.DARK
+                                    ? mapStyleDark
+                                    : mapStyle
+                                ).layers,
+
                                 // Any layers whose name starts with `$` means it is our
                                 // custom added layers, we need to apply this everytime when
                                 // the them changes to prevent from custom layer removal
@@ -132,7 +135,7 @@ export const Map = (Provider: MapInstanceProviderType) =>
                                     .layers.filter((l) => l.id.startsWith('$')),
                             ],
                         } as maplibregl.StyleSpecification;
-                        mapInstance.setStyle(newStyle);    
+                        mapInstance.setStyle(newStyle);
                     } catch {}
                 })();
 

@@ -91,43 +91,46 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
 
             const isAnimatedRef = useRef(false);
 
-            const deriveGradientStyle = useCallback((progress: number) => (
-                progress < 0.01
-                ? [
-                      'interpolate',
-                      ['linear'],
-                      ['line-progress'],
-                      0,
-                      progressBgColor,
-                      1,
-                      progressBgColor,
-                  ]
-                : progress > 1 - gradientTransitionAmount - 0.01
-                  ? [
-                        'interpolate',
-                        ['linear'],
-                        ['line-progress'],
-                        0,
-                        progressColor,
-                        1,
-                        progressColor,
-                    ]
-                  : [
-                        'interpolate',
-                        ['linear'],
-                        ['line-progress'],
-                        0,
-                        progressColor,
-                        progress,
-                        progressColor,
-                        progress + gradientTransitionAmount,
-                        progressBgColor,
-                        1,
-                        progressBgColor,
-                    ]
-                ), [progressBgColor, progressColor, gradientTransitionAmount]);
+            const deriveGradientStyle = useCallback(
+                (progress: number) =>
+                    progress < 0.01
+                        ? [
+                              'interpolate',
+                              ['linear'],
+                              ['line-progress'],
+                              0,
+                              progressBgColor,
+                              1,
+                              progressBgColor,
+                          ]
+                        : progress > 1 - gradientTransitionAmount - 0.01
+                          ? [
+                                'interpolate',
+                                ['linear'],
+                                ['line-progress'],
+                                0,
+                                progressColor,
+                                1,
+                                progressColor,
+                            ]
+                          : [
+                                'interpolate',
+                                ['linear'],
+                                ['line-progress'],
+                                0,
+                                progressColor,
+                                progress,
+                                progressColor,
+                                progress + gradientTransitionAmount,
+                                progressBgColor,
+                                1,
+                                progressBgColor,
+                            ],
+                [progressBgColor, progressColor, gradientTransitionAmount],
+            );
 
-            const animateRejectFuncRef = useRef<(reason?: any) => void | null>(null);
+            const animateRejectFuncRef =
+                useRef<(reason?: any) => void | null>(null);
             useImperativeHandle(ref, () => ({
                 /**
                  *  TODO: Understand the code and handle the following case:
@@ -140,7 +143,9 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
 
                     animateRejectFuncRef.current?.();
 
-                    function waitForLayerExist(map: maplibregl.Map): Promise<void> {
+                    function waitForLayerExist(
+                        map: maplibregl.Map,
+                    ): Promise<void> {
                         return new Promise((resolve, reject) => {
                             animateRejectFuncRef.current = reject;
                             (function check() {
@@ -151,7 +156,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                                 }
                             })();
                         });
-                    };
+                    }
 
                     try {
                         await waitForLayerExist(mapInstance);
@@ -209,10 +214,8 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                         if (!startTimeRef.current)
                             startTimeRef.current = timestamp;
                         const elapsed = timestamp - startTimeRef.current;
-                        const progress = 1 - Math.min(
-                            elapsed / animationDuration,
-                            1,
-                        );
+                        const progress =
+                            1 - Math.min(elapsed / animationDuration, 1);
 
                         mapInstance.setPaintProperty(
                             layerId,

@@ -1,4 +1,6 @@
-export function waitForStyleLoaded(map: maplibregl.Map): [promise: Promise<void>, stopFunc: (reason?: any) => void] {
+export function waitForStyleLoaded(
+    map: maplibregl.Map,
+): [promise: Promise<void>, stopFunc: (reason?: any) => void] {
     let stopFunc: (reason?: any) => void;
 
     const promise = ((map: maplibregl.Map): Promise<void> =>
@@ -13,8 +15,7 @@ export function waitForStyleLoaded(map: maplibregl.Map): [promise: Promise<void>
                 }
             };
             check();
-        })
-    )(map);
+        }))(map);
 
     return [promise, stopFunc!];
 }
