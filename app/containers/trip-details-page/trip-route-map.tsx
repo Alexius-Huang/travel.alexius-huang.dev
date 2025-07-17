@@ -10,12 +10,13 @@ import type { LoaderData } from './types';
 import { useLoaderData } from 'react-router';
 import { createMapComponents, type MapRouteRef } from '~/components/map';
 import { trim } from '~/utils/trim';
-import { dateFormatter } from '~/data-access/date';
-import { Button } from '~/components/button';
 import { useHydration } from '~/hooks/use-hydration';
 import { throttle } from '~/utils/throttle';
 import type { MapRef } from '~/components/map';
 import { waitForStyleLoaded } from '~/components/map/util';
+import { IconedMapMarker } from '~/components/iconed-map-marker';
+import { TripRouteLocationDetail } from './trip-route-location-detail';
+import './trip-route-map.css';
 
 export interface TripRouteMapProps {
     className?: string;
@@ -81,14 +82,23 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     duration: LOCATION_FOCUS_DURATION,
                     essential: true,
                 });
-            } else {
-                mapInstance.flyTo({
-                    center: locations[index].coord,
-                    zoom: LOCATION_FOCUS_ZOOM,
-                    duration: LOCATION_FOCUS_DURATION,
-                    essential: true,
-                });
+                return;
             }
+
+            /**
+             *   The -.5 offset is an estimate to offset the center so that
+             *   it is visually balanced when showing the location on the map
+             *   on slightly righter side
+             **/
+            mapInstance.flyTo({
+                center: [
+                    locations[index].coord[0] - 0.5,
+                    locations[index].coord[1],
+                ],
+                zoom: LOCATION_FOCUS_ZOOM,
+                duration: LOCATION_FOCUS_DURATION,
+                essential: true,
+            });
         },
         [locations],
     );
@@ -222,7 +232,13 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     ref={mapRef}
                 >
                     {mapPins.map((mp) => (
-                        <MapPin key={mp.name} {...mp} />
+                        <MapPin key={mp.name} {...mp}>
+                            <IconedMapMarker
+                                size={48}
+                                iconUrl="https://placehold.co/48x48"
+                                iconAlt="TODO: replace this placeholder"
+                            />
+                        </MapPin>
                     ))}
 
                     {routeCoordinates?.map((coords, index) => (
@@ -238,79 +254,44 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     ))}
                 </Map>
             </div>
+
             <div
                 className={trim`
-                    absolute top-0 left-0 z-[-1] w-[10%] h-full
-                    bg-gradient-to-r from-white dark:from-gray-900 to-transparent
-                    pointer-events-none
+                    trip-route-map__edge-gradient
+                    top-0 left-0 w-full h-[150px] bg-gradient-to-b
                 `}
             />
             <div
                 className={trim`
-                    absolute top-0 right-0 z-[-1] w-[10%] h-full
-                    bg-gradient-to-l from-white dark:from-gray-900 to-transparent
-                    pointer-events-none
+                    trip-route-map__edge-gradient
+                    bottom-0 left-0 w-full h-[150px] bg-gradient-to-t
+                `}
+            />
+            <div
+                className={trim`
+                    trip-route-map__edge-gradient
+                    atop-0 left-0 w-[10%] h-full bg-gradient-to-r
+                `}
+            />
+            <div
+                className={trim`
+                    trip-route-map__edge-gradient
+                    top-0 right-0 w-[10%] h-full bg-gradient-to-l
                 `}
             />
 
-            {locations.map(({ name, description, date }, index) => {
-                const formattedDate = {
-                    from: dateFormatter.format(new Date(date.from)),
-                    to: date.to
-                        ? dateFormatter.format(new Date(to))
-                        : undefined,
-                };
-
-                return (
-                    <div
-                        key={name}
-                        className={trim`${index !== 0 ? 'mt-[30vh]' : 'mt-[-30vh]'} mb-[30vh]`}
-                        data-index={index}
-                        ref={(el) => {
-                            if (!el) return;
-                            locationRefs.current[index] = el;
-                        }}
-                    >
-                        <div className="w-full h-[30vh]" />
-                        <div
-                            className={trim`
-                                flex flex-col gap-y-[1rem] mb-[-30vh]
-                                px-[1.5rem] py-[2rem] max-w-[40%]
-                                shadow-lg shadow-gray-100 dark:shadow-gray-900
-                                backdrop-blur-xs bg-white/50 dark:bg-gray-900/50
-                            `}
-                        >
-                            <h3 className="text-4xl uppercase font-bold">
-                                {name}
-                            </h3>
-
-                            <div className="text-sm">
-                                <time dateTime={from}>
-                                    {formattedDate.from}
-                                </time>
-                                <span aria-hidden="true"> ~ </span>
-                                <time dateTime={to}>{formattedDate.to}</time>
-                                <span className="sr-only">
-                                    from {formattedDate.from}
-                                    {formattedDate.to
-                                        ? `to ${formattedDate.to}`
-                                        : ''}
-                                </span>
-                            </div>
-
-                            <p className="text-base font-light">
-                                {description}
-                            </p>
-
-                            <span className="self-end">
-                                <Button variant="secondary" size="xs">
-                                    View Details (WIP)
-                                </Button>
-                            </span>
-                        </div>
-                    </div>
-                );
-            })}
+            {locations.map((location, index) => (
+                <TripRouteLocationDetail
+                    key={location.name}
+                    className={trim`${index !== 0 ? 'mt-[30vh]' : ''} mb-[30vh] max-w-[40%]`}
+                    data-index={index}
+                    ref={(el) => {
+                        if (!el) return;
+                        locationRefs.current[index] = el;
+                    }}
+                    location={location}
+                />
+            ))}
 
             <div className="w-full h-[50vh]" />
         </section>

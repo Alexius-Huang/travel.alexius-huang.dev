@@ -1,5 +1,12 @@
 import type { DateFormat } from './date';
 
+export interface TripLocation {
+    name: string;
+    description: string;
+    coord: [lng: number, lat: number];
+    date: { from: DateFormat; to?: DateFormat };
+}
+
 export interface TripDetails {
     id: number;
     title: string;
@@ -15,12 +22,7 @@ export interface TripDetails {
     };
     routeFileName: string;
 
-    locations: Array<{
-        name: string;
-        description: string;
-        coord: [lng: number, lat: number];
-        date: { from: DateFormat; to?: DateFormat };
-    }>;
+    locations: Array<TripLocation>;
 
     // TODO: Plan for cities data and associated attraction data
 }

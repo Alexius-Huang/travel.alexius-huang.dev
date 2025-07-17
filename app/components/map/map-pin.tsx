@@ -1,29 +1,39 @@
-import { useEffect, type FC } from 'react';
+import { useEffect, useRef, type FC, type PropsWithChildren } from 'react';
 import type { UseMapInstanceType } from '~/components/map/create-map-components';
 import maplibregl from 'maplibre-gl';
+import { useHydration } from '~/hooks/use-hydration';
 
 export interface MapPinProps {
     coord: maplibregl.LngLatLike;
-    name: string;
+    name?: string;
 }
 
-export const MapPin: (useMapInstance: UseMapInstanceType) => FC<MapPinProps> =
+export const MapPin: (
+    useMapInstance: UseMapInstanceType,
+) => FC<PropsWithChildren<MapPinProps>> =
     (useMapInstance) =>
-    ({ coord, name }) => {
+    ({ coord, children }) => {
         const mapInstance = useMapInstance();
+        const markerRef = useRef<maplibregl.Marker>(null);
+        const markerElementRef = useRef<HTMLDivElement>(null);
+        const isHydrated = useHydration();
 
         useEffect(() => {
-            if (!mapInstance) return;
+            if (!isHydrated || !mapInstance) return;
+
+            const el = markerElementRef.current;
 
             mapInstance.on('load', () => {
-                new maplibregl.Marker()
+                markerRef.current = new maplibregl.Marker({
+                    element: el ?? undefined,
+                })
                     .setLngLat(coord)
-                    .setPopup(
-                        new maplibregl.Popup({ offset: 25 }).setText(name),
-                    )
-                    .addTo(mapInstance!);
+                    // .setPopup(
+                    //     new maplibregl.Popup({ offset: 25 }).setText(name),
+                    // )
+                    .addTo(mapInstance);
             });
-        }, [mapInstance]);
+        }, [mapInstance, isHydrated]);
 
-        return <></>;
+        return <div ref={markerElementRef}>{children}</div>;
     };
