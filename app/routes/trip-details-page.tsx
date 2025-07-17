@@ -2,7 +2,6 @@ import type { Route } from './+types/trip-details-page';
 import { Errors, json } from '~/utils/response.server';
 import { TRIPS } from '~/utils/trips.server';
 import type { LoaderData } from '~/containers/trip-details-page/types';
-import fetch from 'node-fetch';
 import { TripIntroduction } from '~/containers/trip-details-page/trip-introduction';
 import { TripRouteMap } from '~/containers/trip-details-page/trip-route-map';
 
