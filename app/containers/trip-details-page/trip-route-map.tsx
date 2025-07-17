@@ -16,6 +16,7 @@ import { useHydration } from '~/hooks/use-hydration';
 import { throttle } from '~/utils/throttle';
 import type { MapRef } from '~/components/map';
 import { waitForStyleLoaded } from '~/components/map/util';
+import { IconedMapMarker } from '~/components/iconed-map-marker';
 
 export interface TripRouteMapProps {
     className?: string;
@@ -81,14 +82,23 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     duration: LOCATION_FOCUS_DURATION,
                     essential: true,
                 });
-            } else {
-                mapInstance.flyTo({
-                    center: locations[index].coord,
-                    zoom: LOCATION_FOCUS_ZOOM,
-                    duration: LOCATION_FOCUS_DURATION,
-                    essential: true,
-                });
+                return;
             }
+
+            /**
+             *   The -.5 offset is an estimate to offset the center so that
+             *   it is visually balanced when showing the location on the map
+             *   on slightly righter side
+             **/
+            mapInstance.flyTo({
+                center: [
+                    locations[index].coord[0] - .5,
+                    locations[index].coord[1]
+                ],
+                zoom: LOCATION_FOCUS_ZOOM,
+                duration: LOCATION_FOCUS_DURATION,
+                essential: true,
+            });
         },
         [locations],
     );
@@ -222,7 +232,13 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     ref={mapRef}
                 >
                     {mapPins.map((mp) => (
-                        <MapPin key={mp.name} {...mp} />
+                        <MapPin key={mp.name} {...mp}>
+                            <IconedMapMarker
+                                size={48}
+                                iconUrl='https://placehold.co/48x48'
+                                iconAlt='TODO: replace this placeholder'
+                            />
+                        </MapPin>
                     ))}
 
                     {routeCoordinates?.map((coords, index) => (
@@ -264,7 +280,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 return (
                     <div
                         key={name}
-                        className={trim`${index !== 0 ? 'mt-[30vh]' : 'mt-[-30vh]'} mb-[30vh]`}
+                        className={trim`${index !== 0 ? 'mt-[30vh]' : ''} mb-[30vh] max-w-[40%]`}
                         data-index={index}
                         ref={(el) => {
                             if (!el) return;
@@ -275,7 +291,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                         <div
                             className={trim`
                                 flex flex-col gap-y-[1rem] mb-[-30vh]
-                                px-[1.5rem] py-[2rem] max-w-[40%]
+                                px-[1.5rem] py-[2rem] w-full
                                 shadow-lg shadow-gray-100 dark:shadow-gray-900
                                 backdrop-blur-xs bg-white/50 dark:bg-gray-900/50
                             `}
