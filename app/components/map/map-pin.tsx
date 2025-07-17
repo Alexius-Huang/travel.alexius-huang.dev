@@ -8,7 +8,9 @@ export interface MapPinProps {
     name?: string;
 }
 
-export const MapPin: (useMapInstance: UseMapInstanceType) => FC<PropsWithChildren<MapPinProps>> =
+export const MapPin: (
+    useMapInstance: UseMapInstanceType,
+) => FC<PropsWithChildren<MapPinProps>> =
     (useMapInstance) =>
     ({ coord, children }) => {
         const mapInstance = useMapInstance();
@@ -22,7 +24,9 @@ export const MapPin: (useMapInstance: UseMapInstanceType) => FC<PropsWithChildre
             const el = markerElementRef.current;
 
             mapInstance.on('load', () => {
-                markerRef.current = new maplibregl.Marker({ element: el ?? undefined })
+                markerRef.current = new maplibregl.Marker({
+                    element: el ?? undefined,
+                })
                     .setLngLat(coord)
                     // .setPopup(
                     //     new maplibregl.Popup({ offset: 25 }).setText(name),
@@ -31,9 +35,5 @@ export const MapPin: (useMapInstance: UseMapInstanceType) => FC<PropsWithChildre
             });
         }, [mapInstance, isHydrated]);
 
-        return (
-            <div ref={markerElementRef}>
-                {children}
-            </div>
-        );
+        return <div ref={markerElementRef}>{children}</div>;
     };

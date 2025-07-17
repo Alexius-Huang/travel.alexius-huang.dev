@@ -1,28 +1,23 @@
-import { forwardRef, type HTMLProps } from "react";
-import { Button } from "~/components/button";
-import { dateFormatter } from "~/data-access/date";
-import type { TripLocation } from "~/data-access/trips";
-import { trim } from "~/utils/trim";
+import { forwardRef, type HTMLProps } from 'react';
+import { Button } from '~/components/button';
+import { dateFormatter } from '~/data-access/date';
+import type { TripLocation } from '~/data-access/trips';
+import { trim } from '~/utils/trim';
 
-export interface TripRouteLocationDetailProps extends HTMLProps<HTMLDivElement> {
-    location: TripLocation   
+export interface TripRouteLocationDetailProps
+    extends HTMLProps<HTMLDivElement> {
+    location: TripLocation;
 }
 
-export const TripRouteLocationDetail = forwardRef<HTMLDivElement, TripRouteLocationDetailProps>(({
-    location,
-    ...props
-}, ref) => {
-    const {
-        name,
-        description,
-        date
-    } = location;
+export const TripRouteLocationDetail = forwardRef<
+    HTMLDivElement,
+    TripRouteLocationDetailProps
+>(({ location, ...props }, ref) => {
+    const { name, description, date } = location;
 
     const formattedDate = {
         from: dateFormatter.format(new Date(date.from)),
-        to: date.to
-            ? dateFormatter.format(new Date(date.to))
-            : undefined,
+        to: date.to ? dateFormatter.format(new Date(date.to)) : undefined,
     };
 
     return (
@@ -36,9 +31,7 @@ export const TripRouteLocationDetail = forwardRef<HTMLDivElement, TripRouteLocat
                     backdrop-blur-xs bg-white/50 dark:bg-gray-900/50
                 `}
             >
-                <h3 className="text-4xl uppercase font-bold">
-                    {name}
-                </h3>
+                <h3 className="text-4xl uppercase font-bold">{name}</h3>
 
                 <div className="text-sm">
                     <time dateTime={formattedDate.from}>
@@ -48,15 +41,11 @@ export const TripRouteLocationDetail = forwardRef<HTMLDivElement, TripRouteLocat
                     <time dateTime={formattedDate.to}>{formattedDate.to}</time>
                     <span className="sr-only">
                         from {formattedDate.from}
-                        {formattedDate.to
-                            ? `to ${formattedDate.to}`
-                            : ''}
+                        {formattedDate.to ? `to ${formattedDate.to}` : ''}
                     </span>
                 </div>
 
-                <p className="text-base font-light">
-                    {description}
-                </p>
+                <p className="text-base font-light">{description}</p>
 
                 <span className="self-end">
                     <Button variant="secondary" size="xs">
@@ -65,5 +54,5 @@ export const TripRouteLocationDetail = forwardRef<HTMLDivElement, TripRouteLocat
                 </span>
             </div>
         </div>
-    )
+    );
 });

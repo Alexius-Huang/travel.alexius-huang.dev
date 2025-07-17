@@ -1,5 +1,5 @@
-import type { FC, HTMLProps } from "react";
-import { trim } from "~/utils/trim";
+import type { FC, HTMLProps } from 'react';
+import { trim } from '~/utils/trim';
 
 export interface IconedMapMarkerProps extends HTMLProps<HTMLDivElement> {
     size: number;
@@ -29,11 +29,11 @@ export const IconedMapMarker: FC<IconedMapMarkerProps> = ({
                 className={`relative rounded-[50%] bg-yellow-300 dark:bg-blue-500`}
                 style={{
                     width: size + 8,
-                    height: size + 8
+                    height: size + 8,
                 }}
             >
                 <img
-                    className='absolute z-1 left-0 right-0 top-0 bottom-0 m-auto rounded-[50%]'
+                    className="absolute z-1 left-0 right-0 top-0 bottom-0 m-auto rounded-[50%]"
                     width={size}
                     height={size}
                     src={iconUrl}

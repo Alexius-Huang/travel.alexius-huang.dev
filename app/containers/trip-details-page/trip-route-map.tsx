@@ -92,8 +92,8 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
              **/
             mapInstance.flyTo({
                 center: [
-                    locations[index].coord[0] - .5,
-                    locations[index].coord[1]
+                    locations[index].coord[0] - 0.5,
+                    locations[index].coord[1],
                 ],
                 zoom: LOCATION_FOCUS_ZOOM,
                 duration: LOCATION_FOCUS_DURATION,
@@ -235,8 +235,8 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                         <MapPin key={mp.name} {...mp}>
                             <IconedMapMarker
                                 size={48}
-                                iconUrl='https://placehold.co/48x48'
-                                iconAlt='TODO: replace this placeholder'
+                                iconUrl="https://placehold.co/48x48"
+                                iconAlt="TODO: replace this placeholder"
                             />
                         </MapPin>
                     ))}

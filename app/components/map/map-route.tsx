@@ -4,7 +4,7 @@ import {
     useEffect,
     useImperativeHandle,
     useMemo,
-    useRef
+    useRef,
 } from 'react';
 import type { UseMapInstanceType } from './create-map-components';
 import { usePrevious } from '~/hooks/use-previous';
@@ -80,8 +80,12 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
             const progressBgColorRef = useRef<string>('');
 
             useEffect(() => {
-                progressColorRef.current = rgb(lineColor[theme ?? Theme.LIGHT]) as string;
-                progressBgColorRef.current = rgb(lineProgressBgColor[theme ?? Theme.LIGHT]) as string;
+                progressColorRef.current = rgb(
+                    lineColor[theme ?? Theme.LIGHT],
+                ) as string;
+                progressBgColorRef.current = rgb(
+                    lineProgressBgColor[theme ?? Theme.LIGHT],
+                ) as string;
             }, [theme, lineColor, lineProgressBgColor]);
 
             const animationRef = useRef<number | null>(null);
@@ -103,7 +107,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                             1,
                             progressBgColor,
                         ];
-                     } else if (progress > 1 - gradientTransitionAmount - 0.01) {
+                    } else if (progress > 1 - gradientTransitionAmount - 0.01) {
                         return [
                             'interpolate',
                             ['linear'],
@@ -113,7 +117,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                             1,
                             progressColor,
                         ];
-                     } else {
+                    } else {
                         return [
                             'interpolate',
                             ['linear'],
@@ -127,7 +131,7 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                             1,
                             progressBgColor,
                         ];
-                     }
+                    }
                 },
                 [gradientTransitionAmount],
             );
@@ -275,17 +279,12 @@ export const MapRoute = (useMapInstance: UseMapInstanceType) =>
                     },
                     paint: {
                         'line-width': lineWidth,
-                        'line-gradient': deriveGradientStyle(isAnimatedRef.current ? 100 : 0)
+                        'line-gradient': deriveGradientStyle(
+                            isAnimatedRef.current ? 100 : 0,
+                        ),
                     },
                 });
-            }, [
-                layerId,
-                coords,
-                mapInstance,
-                theme,
-                lineWidth,
-                lineColor
-            ]);
+            }, [layerId, coords, mapInstance, theme, lineWidth, lineColor]);
 
             useEffect(() => {
                 if (!mapInstance) return;
