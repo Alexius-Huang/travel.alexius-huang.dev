@@ -93,7 +93,7 @@ export function App() {
                 <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
                 <Links />
             </head>
-            <body>
+            <body className="overflow-hidden">
                 <ThemeSwitch
                     size="xs"
                     variant="tertiary"
@@ -103,6 +103,7 @@ export function App() {
                 />
 
                 <div
+                    id="main-container"
                     className="h-screen overflow-y-scroll overflow-x-hidden scrollbar scrollbar-w-1.5"
                     ref={containerRef}
                 >

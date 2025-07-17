@@ -9,5 +9,18 @@ export interface TripDetails {
     countryCodes: Array<string>;
     date: { from: DateFormat; to: DateFormat };
 
+    map: Omit<maplibregl.MapOptions, 'style' | 'container'> & {
+        pmtilesName: string;
+        center: maplibregl.LngLatLike;
+    };
+    routeFileName: string;
+
+    locations: Array<{
+        name: string;
+        description: string;
+        coord: [lng: number, lat: number];
+        date: { from: DateFormat; to?: DateFormat };
+    }>;
+
     // TODO: Plan for cities data and associated attraction data
 }

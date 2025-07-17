@@ -2,13 +2,7 @@
 
 import inquirer from 'inquirer';
 import { execa } from 'execa';
-import { existsSync, createReadStream } from 'fs';
-import { unlink } from 'fs/promises';
-import {
-    S3Client,
-    PutObjectCommand,
-    HeadObjectCommand,
-} from '@aws-sdk/client-s3';
+import { existsSync } from 'fs';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -28,7 +22,7 @@ const { pmtilesName, boundingBox, minZoom } = await inquirer.prompt([
             if (input.trim() === '') {
                 return 'Please provide a valid name.';
             }
-            if (!/^[a-zA-Z0-9_-]+$/.test(input)) {
+            if (!/^[a-zA-Z0-9\._-]+$/.test(input)) {
                 return 'The name can only include alphanumeral characters, underscores and dashes.';
             }
             return true;
@@ -96,112 +90,57 @@ const dateString = `${year}${month}${day}`;
 const pmtilesUrl = `https://build.protomaps.com/${dateString}.pmtiles`;
 const outputFile = `${pmtilesName}.pmtiles`;
 
-const args = ['extract', pmtilesUrl, outputFile, `--bbox=${boundingBox}`];
+const pmtilesArgs = [
+    'extract',
+    pmtilesUrl,
+    outputFile,
+    `--bbox=${boundingBox}`,
+];
 
 if (minZoom) {
-    args.push(`--minzoom=${minZoom}`);
+    pmtilesArgs.push(`--minzoom=${minZoom}`);
 }
 
 if (maxZoom) {
-    args.push(`--maxzoom=${maxZoom}`);
+    pmtilesArgs.push(`--maxzoom=${maxZoom}`);
 }
 
+console.log(`\n⚡ Run: pmtiles ${pmtilesArgs.join(' ')}\n`);
+
 if (isDryRun) {
-    console.log(`\n⚡ Run: pmtiles ${args.join(' ')}\n`);
     console.log(
         '\n📢 This is a dry run. No files will be created or uploaded \n',
     );
 } else {
     try {
-        const {
-            CLOUDFLARE_ACCOUNT_ID,
-            R2_BUCKET_NAME,
-            AWS_ACCESS_KEY_ID,
-            AWS_SECRET_ACCESS_KEY,
-            UPLOAD_DIR = 'pmtiles',
-        } = process.env;
-
-        if (
-            !CLOUDFLARE_ACCOUNT_ID ||
-            !R2_BUCKET_NAME ||
-            !AWS_ACCESS_KEY_ID ||
-            !AWS_SECRET_ACCESS_KEY
-        ) {
-            throw new Error(
-                'Cloudflare R2 credentials not set in environment variables.',
-            );
-        }
-
-        const s3 = new S3Client({
-            region: 'auto',
-            endpoint: `https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-            credentials: {
-                accessKeyId: AWS_ACCESS_KEY_ID,
-                secretAccessKey: AWS_SECRET_ACCESS_KEY,
-            },
-        });
-
-        const uploadFileLocation = `${UPLOAD_DIR}/${outputFile}`;
-
-        try {
-            await s3.send(
-                new HeadObjectCommand({
-                    Bucket: R2_BUCKET_NAME,
-                    Key: uploadFileLocation,
-                }),
-            );
-            const { confirmOverwrite } = await inquirer.prompt({
-                type: 'confirm',
-                name: 'confirmOverwrite',
-                message: `File ${uploadFileLocation} already exists in R2. Do you want to overwrite it?`,
-                default: false,
-            });
-            if (!confirmOverwrite) {
-                console.log('\n❌ Operation cancelled by user.\n');
-                process.exit(1);
-            }
-        } catch (error) {
-            if (error.name !== 'NotFound') {
-                console.error(
-                    'Error checking R2 file existence:',
-                    error.message,
-                );
-                throw error;
-            }
-        }
-
-        console.log(`\n⚡ Run: pmtiles ${args.join(' ')}\n`);
-
-        await execa('pmtiles', args, { stdio: 'inherit' });
+        // Execute pmtiles command
+        await execa('pmtiles', pmtilesArgs, { stdio: 'inherit' });
         console.log(`\n📢 File ${outputFile} created successfully.`);
 
         if (!existsSync(outputFile)) {
             throw new Error(`${outputFile} was not created.`);
         }
 
-        console.log('\n🚀 Uploading to Cloudflare R2...');
-
-        const fileStream = createReadStream(outputFile);
-
-        await s3.send(
-            new PutObjectCommand({
-                Bucket: R2_BUCKET_NAME,
-                Key: uploadFileLocation,
-                Body: fileStream,
-            }),
-        );
+        // Upload to Cloudflare R2 using the new utility
+        const uploadS3Args = [
+            '-f',
+            outputFile,
+            '--upload-dir',
+            process.env.UPLOAD_DIR || 'pmtiles',
+            '--cleanup',
+            'true',
+        ];
 
         console.log(
-            `\n🎉 ${uploadFileLocation} uploaded to R2 successfully!\n`,
+            `\n🚀 Uploading to Cloudflare R2 using upload-s3 utility...\n`,
         );
+        console.log(
+            `\n🚀 ⚡ Run: ${`pnpm run upload-s3 ${uploadS3Args.join(' ')}`} \n`,
+        );
+        await execa('pnpm', ['run', 'upload-s3', ...uploadS3Args], {
+            stdio: 'inherit',
+        });
     } catch (error) {
         console.error('\nAn error occurred:', error.message);
-    } finally {
-        console.log('\n⚡ Cleaning up...');
-
-        if (existsSync(outputFile)) {
-            console.log(`\n⚡ Removing ${outputFile}...`);
-            await unlink(outputFile);
-        }
     }
 }

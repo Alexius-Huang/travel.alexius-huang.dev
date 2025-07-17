@@ -42,12 +42,12 @@ h4,
 h5,
 h6 {
     font-family: var(--font-header);
-    @apply text-balance;
+    @apply text-balance tracking-wider;
 }
 
 p,
 span {
-    @apply text-balance;
+    @apply text-balance tracking-wider;
 }
 
 .mobile-only-block {
