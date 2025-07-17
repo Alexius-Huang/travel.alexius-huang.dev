@@ -9,7 +9,11 @@
         "typecheck": "react-router typegen && tsc",
         "format": "pnpm exec prettier . --write",
         "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
+        "build-storybook": "storybook build",
+        "generate-map": "./bin/generate-map.js",
+        "generate-route": "./bin/generate-route.js",
+        "remove-map": "./bin/remove-map.js",
+        "upload-s3": "./bin/upload-s3.js"
     },
     "dependencies": {
         "@conform-to/react": "^1.2.2",
@@ -21,6 +25,7 @@
         "@react-router/node": "7.1.5",
         "@react-router/serve": "7.1.5",
         "classnames": "^2.5.1",
+        "culori": "^4.0.2",
         "isbot": "5.1.17",
         "maplibre-gl": "^5.6.1",
         "pmtiles": "^4.3.0",
@@ -33,6 +38,7 @@
         "zod": "^3.24.2"
     },
     "devDependencies": {
+        "@aws-sdk/client-s3": "^3.844.0",
         "@chromatic-com/storybook": "^4.0.1",
         "@react-router/dev": "7.1.5",
         "@storybook/addon-a11y": "^9.0.12",
@@ -40,6 +46,7 @@
         "@storybook/addon-vitest": "^9.0.12",
         "@storybook/react-vite": "^9.0.12",
         "@tailwindcss/vite": "4.0.0",
+        "@types/culori": "^4.0.0",
         "@types/loadable__component": "^5.13.9",
         "@types/node": "20",
         "@types/react": "19.0.1",
@@ -47,6 +54,10 @@
         "@vitest/browser": "^3.2.4",
         "@vitest/coverage-v8": "^3.2.4",
         "autoprefixer": "^10.4.21",
+        "dotenv": "^17.2.0",
+        "execa": "^9.6.0",
+        "inquirer": "^12.7.0",
+        "node-fetch": "^3.3.2",
         "playwright": "^1.53.1",
         "postcss": "^8.5.6",
         "postcss-nesting": "^13.0.2",
