@@ -1,5 +1,5 @@
 import { forwardRef, type HTMLProps } from 'react';
-import { Button } from '~/components/button';
+import { NavLink } from '~/components/nav-link';
 import { dateFormatter } from '~/data-access/date';
 import type { TripLocation } from '~/data-access/trips';
 import { trim } from '~/utils/trim';
@@ -22,7 +22,7 @@ export const TripRouteLocationDetail = forwardRef<
 
     return (
         <div {...props} ref={ref}>
-            <div className="w-full h-[30vh]" />
+            <div className="w-full h-[30vh] pointer-events-none" />
             <div
                 className={trim`
                     flex flex-col gap-y-[1rem] mb-[-30vh]
@@ -48,9 +48,14 @@ export const TripRouteLocationDetail = forwardRef<
                 <p className="text-base font-light">{description}</p>
 
                 <span className="self-end">
-                    <Button variant="secondary" size="xs">
-                        View Details (WIP)
-                    </Button>
+                    <NavLink
+                        variant="secondary"
+                        size="xs"
+                        to={`/location/${location.nameId}`}
+                        aria-label={`View more details of ${location.name}`}
+                    >
+                        View Details
+                    </NavLink>
                 </span>
             </div>
         </div>

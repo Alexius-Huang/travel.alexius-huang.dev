@@ -1,16 +1,14 @@
 import { useCallback, useEffect, useRef, useState, type FC } from 'react';
 import { trim } from '~/utils/trim';
 import { throttle } from '~/utils/throttle';
+import type { TripDetails } from '~/data-access/trips';
+import { Link } from 'react-router';
 
 interface LocationsSwimlaneProps {
     className?: string;
     width: string | number;
     height: string | number;
-    locations: Array<{
-        url: string;
-        name: string;
-        countryCode: string;
-    }>;
+    locations: TripDetails['locations'];
 }
 
 export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
@@ -87,7 +85,7 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
                 `}
             >
                 <ul className="inline-flex gap-[1rem] px-3 py-4">
-                    {locations.map(({ url, name, countryCode }) => (
+                    {locations.map(({ name, nameId }) => (
                         /**
                          *  flex: 0 0 auto means:
                          *  - flex-shrink: 0
@@ -98,7 +96,7 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
                         <li key={name} className="flex-[0_0_auto]">
                             <div
                                 className={trim`
-                                    relative rounded overflow-hidden
+                                    relative rounded
                                     bg-cover bg-center bg-no-repeat
                                     shadow-sm shadow-gray-400 dark:shadow-blue-500
                                     transition-all duration-200 hover:scale-105
@@ -106,7 +104,10 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
                                     cursor-pointer
                                 `}
                                 style={{
-                                    backgroundImage: `url(${url})`,
+                                    /**
+                                     *  TODO: Use the real image data
+                                     */
+                                    backgroundImage: `url(https://placehold.co/200x200?text=${name.split(' ').join('-')})`,
                                     width,
                                     height,
                                 }}
@@ -123,6 +124,16 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
                                 >
                                     {name}
                                 </p>
+
+                                <Link
+                                    aria-label={`View more details about ${name}`}
+                                    className={trim`
+                                        absolute inline-block w-full h-full left-0 top-0 rounded
+                                        focus:ring-4 focus:ring-offset-4 focus:ring-blue-500
+                                        focus:ring-offset-white dark:focus:ring-offset-gray-900
+                                    `}
+                                    to={`/location/${nameId}`}
+                                />
                             </div>
                         </li>
                     ))}

@@ -59,23 +59,7 @@ export const TripTimelineNode: FC<TripTimelineNodeProps> = ({
                 className="mb-8"
                 width={150}
                 height={200}
-                locations={[
-                    {
-                        url: 'https://placehold.co/200x200?text=City+1',
-                        name: 'New York City',
-                        countryCode: 'us',
-                    },
-                    {
-                        url: 'https://placehold.co/200x200?text=City+2',
-                        name: 'Philadelphia',
-                        countryCode: 'us',
-                    },
-                    {
-                        url: 'https://placehold.co/200x200?text=City+3',
-                        name: 'Washington D.C.',
-                        countryCode: 'us',
-                    },
-                ]}
+                locations={tripDetails.locations}
             />
 
             <TripIntroduction {...tripDetails} />
