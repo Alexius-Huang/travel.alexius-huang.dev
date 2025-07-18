@@ -22,7 +22,7 @@ export const TripRouteLocationDetail = forwardRef<
 
     return (
         <div {...props} ref={ref}>
-            <div className="w-full h-[30vh]" />
+            <div className="w-full h-[30vh] pointer-events-none" />
             <div
                 className={trim`
                     flex flex-col gap-y-[1rem] mb-[-30vh]

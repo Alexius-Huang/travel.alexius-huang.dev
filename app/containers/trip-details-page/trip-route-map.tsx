@@ -7,7 +7,7 @@ import {
     type FC,
 } from 'react';
 import type { LoaderData } from './types';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import { createMapComponents, type MapRouteRef } from '~/components/map';
 import { trim } from '~/utils/trim';
 import { useHydration } from '~/hooks/use-hydration';
@@ -43,6 +43,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const mapRef = useRef<MapRef>(null);
     const mapRoutesRef = useRef<Array<MapRouteRef>>([]);
     const isHydrated = useHydration();
+    const navigate = useNavigate();
 
     /**
      *  Sometimes if the scroll restoration is restored in already scrolled
@@ -222,6 +223,34 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         })();
     }, [isHydrated, scrollProgresses]);
 
+    const handleMapPinClick = (index: number) => {
+        const mapFocusLocationIndex = mapFocusLocationIndexRef.current;
+
+        if (mapFocusLocationIndex === index) {
+            navigate(`/location/${locations[index].nameId}`);
+            return;
+        }
+
+        const mainContainer = document.getElementById(
+            'main-container',
+        ) as HTMLDivElement;
+        if (!mainContainer) return;
+
+        const target = locationRefs.current[index];
+        if (!target) return;
+
+        const targetContainer =
+            target.querySelector<HTMLDivElement>('div:nth-child(2)');
+        if (!targetContainer) return;
+        console.log(targetContainer);
+
+        const rect = targetContainer.getBoundingClientRect();
+        const scrollTop =
+            targetContainer.offsetTop + (rect.height + window.innerHeight) / 2;
+
+        mainContainer.scrollTo({ top: scrollTop, behavior: 'smooth' });
+    };
+
     return (
         <section
             className={`relative w-full z-1 flex flex-col ${className}`}
@@ -237,9 +266,12 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                     routeCoordinates={routeCoordinates?.[0]}
                     ref={mapRef}
                 >
-                    {mapPins.map((mp) => (
+                    {mapPins.map((mp, index) => (
                         <MapPin key={mp.name} {...mp}>
                             <IconedMapMarker
+                                onClick={() => {
+                                    handleMapPinClick(index);
+                                }}
                                 size={48}
                                 iconUrl="https://placehold.co/48x48"
                                 iconAlt="TODO: replace this placeholder"
@@ -289,7 +321,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
             {locations.map((location, index) => (
                 <TripRouteLocationDetail
                     key={location.name}
-                    className={trim`${index !== 0 ? 'mt-[30vh]' : ''} mb-[30vh] max-w-[40%]`}
+                    className="mt-[30vh] mb-[30vh] max-w-[40%]"
                     data-index={index}
                     ref={(el) => {
                         if (!el) return;
