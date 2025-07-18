@@ -22,8 +22,18 @@ export interface TripRouteMapProps {
     className?: string;
 }
 
-const INIT_ZOOM = 7;
-const LOCATION_FOCUS_ZOOM = 8;
+/**
+ *   The offset is an estimate to offset the center so that it
+ *   is visually balanced when showing the location on the map
+ *   on slightly righter side
+ **/
+const zoomLevelFocusOffset: Record<number, number> = {
+    12: 0.035,
+    11: 0.1,
+    10: 0.15,
+    8: 0.5,
+};
+
 const LOCATION_FOCUS_DURATION = 1000;
 
 export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
@@ -42,12 +52,12 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const isAnimationRestoredRef = useRef(false);
 
     const {
-        date: { from, to },
+        // date: { from, to },
         map: mapOptions,
         locations,
     } = tripDetails;
 
-    const { center: mapOriginalCenter } = mapOptions;
+    const { center: mapOriginalCenter, zoomLevel } = mapOptions;
 
     const mapPins = useMemo(
         () =>
@@ -78,24 +88,20 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
             if (index === 'origin') {
                 mapInstance.flyTo({
                     center: mapOriginalCenter,
-                    zoom: INIT_ZOOM,
+                    zoom: zoomLevel.init,
                     duration: LOCATION_FOCUS_DURATION,
                     essential: true,
                 });
                 return;
             }
 
-            /**
-             *   The -.5 offset is an estimate to offset the center so that
-             *   it is visually balanced when showing the location on the map
-             *   on slightly righter side
-             **/
+            const zoomLevelOffset = zoomLevelFocusOffset[zoomLevel.focus] ?? 0;
             mapInstance.flyTo({
                 center: [
-                    locations[index].coord[0] - 0.5,
+                    locations[index].coord[0] - zoomLevelOffset,
                     locations[index].coord[1],
                 ],
-                zoom: LOCATION_FOCUS_ZOOM,
+                zoom: zoomLevel.focus,
                 duration: LOCATION_FOCUS_DURATION,
                 essential: true,
             });

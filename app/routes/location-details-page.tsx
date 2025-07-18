@@ -20,9 +20,14 @@ export default function TripDetailsPage() {
     return (
         <div className="centered-max-width-1280">
             <h1
-                className='uppercase text-center text-6xl text-blue-500 font-bold'
-                style={{ height: `calc(100vh - ${FOOTER_HEIGHT}px)`, lineHeight: `calc(100vh - ${FOOTER_HEIGHT}px)` }}
-            >Under Construction</h1>
+                className="uppercase text-center text-6xl text-blue-500 font-bold"
+                style={{
+                    height: `calc(100vh - ${FOOTER_HEIGHT}px)`,
+                    lineHeight: `calc(100vh - ${FOOTER_HEIGHT}px)`,
+                }}
+            >
+                Under Construction
+            </h1>
         </div>
     );
 }

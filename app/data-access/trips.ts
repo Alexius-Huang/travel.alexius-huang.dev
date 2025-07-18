@@ -2,6 +2,7 @@ import type { DateFormat } from './date';
 
 export interface TripLocation {
     name: string;
+    nameId: string;
     description: string;
     coord: [lng: number, lat: number];
     date: { from: DateFormat; to?: DateFormat };
@@ -19,6 +20,10 @@ export interface TripDetails {
     map: Omit<maplibregl.MapOptions, 'style' | 'container'> & {
         pmtilesName: string;
         center: maplibregl.LngLatLike;
+        zoomLevel: {
+            init: number;
+            focus: number;
+        };
     };
     routeFileName: string;
 

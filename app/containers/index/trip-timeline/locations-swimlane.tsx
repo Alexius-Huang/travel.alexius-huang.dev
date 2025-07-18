@@ -1,16 +1,13 @@
 import { useCallback, useEffect, useRef, useState, type FC } from 'react';
 import { trim } from '~/utils/trim';
 import { throttle } from '~/utils/throttle';
+import type { TripDetails } from '~/data-access/trips';
 
 interface LocationsSwimlaneProps {
     className?: string;
     width: string | number;
     height: string | number;
-    locations: Array<{
-        url: string;
-        name: string;
-        countryCode: string;
-    }>;
+    locations: TripDetails['locations'];
 }
 
 export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
@@ -87,7 +84,7 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
                 `}
             >
                 <ul className="inline-flex gap-[1rem] px-3 py-4">
-                    {locations.map(({ url, name, countryCode }) => (
+                    {locations.map(({ name }) => (
                         /**
                          *  flex: 0 0 auto means:
                          *  - flex-shrink: 0
@@ -106,7 +103,10 @@ export const LocationsSwimlane: FC<LocationsSwimlaneProps> = ({
                                     cursor-pointer
                                 `}
                                 style={{
-                                    backgroundImage: `url(${url})`,
+                                    /**
+                                     *  TODO: Use the real image data
+                                     */
+                                    backgroundImage: `url(https://placehold.co/200x200?text=${name.split(' ').join('-')})`,
                                     width,
                                     height,
                                 }}

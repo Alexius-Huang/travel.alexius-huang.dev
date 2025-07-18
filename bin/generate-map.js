@@ -87,6 +87,10 @@ const month = String(today.getMonth() + 1).padStart(2, '0');
 const day = String(today.getDate()).padStart(2, '0');
 const dateString = `${year}${month}${day}`;
 
+/**
+ *  TODO: If the request failed, it might be due to the archive for the map
+ *        is not geneerated on that day
+ */
 const pmtilesUrl = `https://build.protomaps.com/${dateString}.pmtiles`;
 const outputFile = `${pmtilesName}.pmtiles`;
 
