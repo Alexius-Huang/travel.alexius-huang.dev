@@ -3,14 +3,16 @@ import {
     useCallback,
     useEffect,
     useImperativeHandle,
-    useMemo,
     useRef,
 } from 'react';
 import type { UseMapInstanceType } from './create-map-components';
 import { usePrevious } from '~/hooks/use-previous';
 import { Theme, useTheme } from 'remix-themes';
-import colors from 'tailwindcss/colors';
 import { formatRgb as rgb } from 'culori';
+
+// TODO: check if we could reduce bundle size by avoiding importing
+//       stuff from tailwindcss and instead populate the color in code
+import colors from 'tailwindcss/colors';
 
 type Coordinate = [lat: number, lng: number];
 

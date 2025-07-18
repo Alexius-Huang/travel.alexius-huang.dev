@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import inquirer from 'inquirer';
-import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 import { writeFile } from 'fs/promises';
 import { execa } from 'execa';
