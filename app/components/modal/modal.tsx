@@ -50,8 +50,6 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
                 className={`modal-overlay ${overlayClassName}`}
             >
                 <div className="modal-linear-gradient" />
-                <div className="modal-g1" />
-                <div className="modal-g2" />
 
                 <RAModal className="modal">
                     <Dialog>
