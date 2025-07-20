@@ -15,6 +15,7 @@ export interface ModalProps {
     trigger: JSX.Element;
     renderCloseButton?: boolean;
     isDismissable?: boolean;
+    overlayClassName?: string;
 }
 
 const CloseButton: FC = () => {
@@ -38,6 +39,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
     trigger,
     renderCloseButton = true,
     isDismissable = true,
+    overlayClassName = '',
     children,
 }) => {
     return (
@@ -45,7 +47,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
             {trigger}
             <ModalOverlay
                 isDismissable={isDismissable}
-                className="modal-overlay"
+                className={`modal-overlay ${overlayClassName}`}
             >
                 <div className="modal-linear-gradient" />
                 <div className="modal-g1" />

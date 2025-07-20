@@ -7,19 +7,23 @@ import { trim } from '~/utils/trim';
 
 interface TravelledCountriesModalProps {
     countries: Array<Pick<CountryInfo, 'countryCode' | 'name'>>;
+    regionName: string;
 }
 
 export const TravelledCountriesModal: FC<TravelledCountriesModalProps> = ({
     countries,
+    regionName
 }) => {
     return (
         <Modal
+            overlayClassName='sm:hidden'
             trigger={
                 countries.length > 5 ? (
                     <Button
                         variant="secondary"
                         size="xs"
                         className="sm:hidden mt-4"
+                        aria-label={`View all ${regionName}`}
                     >
                         View All
                     </Button>
@@ -28,6 +32,7 @@ export const TravelledCountriesModal: FC<TravelledCountriesModalProps> = ({
                         variant="secondary"
                         size="xs"
                         className="xs:hidden mt-4"
+                        aria-label={`View all ${regionName}`}
                     >
                         View All
                     </Button>
@@ -36,12 +41,12 @@ export const TravelledCountriesModal: FC<TravelledCountriesModalProps> = ({
                 )
             }
         >
-            <h3 className="flex flex-col gap-1 text-center h-[200px] justify-center">
+            <h3 className="flex flex-col gap-1 text-center h-[200px] justify-center px-[1.5rem]">
                 <span className="text-8xl font-bold text-blue-500 dark:text-white">
                     {countries.length}
                 </span>
                 <span className="uppercase font-semibold">
-                    Travelled Countries
+                    Travelled {regionName} Countries
                 </span>
             </h3>
 

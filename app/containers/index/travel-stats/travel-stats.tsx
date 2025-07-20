@@ -83,6 +83,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                     countries={
                         TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries
                     }
+                    regionName='Central North American'
                 />
             </RegionBackgroundWrapper>
 
@@ -105,6 +106,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                 />
                 <TravelledCountriesModal
                     countries={travelledAsianCountries.countries}
+                    regionName='Asian'
                 />
             </RegionBackgroundWrapper>
 
@@ -128,6 +130,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                 />
                 <TravelledCountriesModal
                     countries={travelledNorthCentralAmericanCountries.countries}
+                    regionName='Central North American'
                 />
             </RegionBackgroundWrapper>
 
@@ -154,6 +157,7 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                     countries={
                         TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries
                     }
+                    regionName='African'
                 />
             </RegionBackgroundWrapper>
         </section>
