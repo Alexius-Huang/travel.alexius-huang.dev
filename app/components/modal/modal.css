@@ -1,0 +1,63 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+.modal-overlay {
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    inset: 0;
+    backdrop-filter: blur(10px);
+    z-index: 0;
+
+    &[data-entering] {
+        animation: modal-blur 500ms ease-in-out;
+    }
+
+    &[data-exiting] {
+        animation: modal-blur 500ms reverse ease-in-out;
+    }
+}
+
+.modal-linear-gradient {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 500vw;
+    height: 100vh;
+    background: linear-gradient(
+        to left top,
+        rgb(from theme(--color-cyan-300) r g b / 0.2) 0,
+        rgb(from theme(--color-green-300) r g b / 0.2) 25%,
+        rgb(from theme(--color-yellow-300) r g b / 0.2) 50%,
+        rgb(from theme(--color-orange-300) r g b / 0.2) 75%,
+        rgb(from theme(--color-pink-300) r g b / 0.2) 100%
+    ) no-repeat;
+    z-index: -1;
+
+    transform-origin: center center;
+    animation: move-linear-gradient-bg 10s ease infinite;
+}
+
+@keyframes modal-blur {
+    from {
+        backdrop-filter: blur(0);
+        opacity: 0;
+    }
+
+    to {
+        backdrop-filter: blur(10px);
+        opacity: 1;
+    }
+}
+
+@keyframes move-linear-gradient-bg {
+    0% {
+        transform: translateX(0%);
+    }
+    50% {
+        transform: translateX(-400vw);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
