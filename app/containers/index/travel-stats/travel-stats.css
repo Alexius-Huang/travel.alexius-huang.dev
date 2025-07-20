@@ -9,6 +9,13 @@
 }
 
 .travel-stats__country-flag-list {
+    @apply inline-grid gap-x-3.5 gap-y-2.5
+        grid-cols-3
+        xs:grid-cols-5
+        sm:grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
+        md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
+        lg:grid-cols-[repeat(auto-fill,minmax(40px,1fr))];
+
     & > li:nth-child(n + 4) {
         @apply hidden xs:block;
     }

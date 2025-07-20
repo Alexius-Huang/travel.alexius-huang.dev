@@ -10,6 +10,7 @@ import { TravelledCountriesCounter } from './travelled-countries-counter';
 import { CountryFlagList } from './travelled-countries-flag-list';
 import { RegionBackgroundWrapper } from './region-background-wrapper';
 import './travel-stats.css';
+import { TravelledCountriesModal } from './travelled-countries-modal';
 
 export interface TravelStatsProps {
     className?: string;
@@ -78,6 +79,11 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                         TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries
                     }
                 />
+                <TravelledCountriesModal
+                    countries={
+                        TRAVELLED_COUNTRY_COUNT_BY_REGION['Europe'].countries
+                    }
+                />
             </RegionBackgroundWrapper>
 
             <RegionBackgroundWrapper
@@ -95,7 +101,10 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                 />
                 <CountryFlagList
                     countries={travelledAsianCountries.countries}
-                    className="direction-rtl"
+                    className="direction-rtl travel-stats__country-flag-list"
+                />
+                <TravelledCountriesModal
+                    countries={travelledAsianCountries.countries}
                 />
             </RegionBackgroundWrapper>
 
@@ -114,6 +123,10 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                     }
                 />
                 <CountryFlagList
+                    className="travel-stats__country-flag-list"
+                    countries={travelledNorthCentralAmericanCountries.countries}
+                />
+                <TravelledCountriesModal
                     countries={travelledNorthCentralAmericanCountries.countries}
                 />
             </RegionBackgroundWrapper>
@@ -135,7 +148,12 @@ export const TravelStats: FC<TravelStatsProps> = ({ className }) => {
                     countries={
                         TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries
                     }
-                    className="direction-rtl"
+                    className="direction-rtl travel-stats__country-flag-list"
+                />
+                <TravelledCountriesModal
+                    countries={
+                        TRAVELLED_COUNTRY_COUNT_BY_REGION['Africa'].countries
+                    }
                 />
             </RegionBackgroundWrapper>
         </section>

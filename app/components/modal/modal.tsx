@@ -1,5 +1,11 @@
 import { useContext, type FC, type JSX, type PropsWithChildren } from 'react';
-import { Modal as RAModal, ModalOverlay, DialogTrigger, Dialog, OverlayTriggerStateContext } from 'react-aria-components';
+import {
+    Modal as RAModal,
+    ModalOverlay,
+    DialogTrigger,
+    Dialog,
+    OverlayTriggerStateContext,
+} from 'react-aria-components';
 import { Button } from '~/components/button';
 import { XMarkOutlineIcon } from '~/icons/outline/x-mark';
 import { trim } from '~/utils/trim';
@@ -16,37 +22,38 @@ const CloseButton: FC = () => {
     return (
         <Button
             onPress={() => state.close()}
-            variant='secondary'
+            variant="secondary"
             className={trim`
                 absolute right-4 top-4 rounded-[50%]
                 !p-2 m-0 text-center !border-1
             `}
-            aria-label='Close the current modal'
+            aria-label="Close the current modal"
         >
-            <XMarkOutlineIcon className='text-blue-500 dark:text-white' />
+            <XMarkOutlineIcon className="text-blue-500 dark:text-white" />
         </Button>
     );
-}
+};
 
 export const Modal: FC<PropsWithChildren<ModalProps>> = ({
     trigger,
     renderCloseButton = true,
     isDismissable = true,
-    children
+    children,
 }) => {
     return (
         <DialogTrigger>
             {trigger}
-            <ModalOverlay isDismissable={isDismissable} className='modal-overlay'>
-                <div className='modal-linear-gradient' />
-                <div className='modal-g1' />
-                <div className='modal-g2' />
+            <ModalOverlay
+                isDismissable={isDismissable}
+                className="modal-overlay"
+            >
+                <div className="modal-linear-gradient" />
+                <div className="modal-g1" />
+                <div className="modal-g2" />
 
-                <RAModal className='modal'>
+                <RAModal className="modal">
                     <Dialog>
-                        {renderCloseButton && (
-                            <CloseButton />
-                        )}
+                        {renderCloseButton && <CloseButton />}
 
                         {children}
                     </Dialog>

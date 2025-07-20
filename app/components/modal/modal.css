@@ -25,13 +25,14 @@
     width: 500vw;
     height: 100vh;
     background: linear-gradient(
-        to left top,
-        rgb(from theme(--color-cyan-300) r g b / 0.2) 0,
-        rgb(from theme(--color-green-300) r g b / 0.2) 25%,
-        rgb(from theme(--color-yellow-300) r g b / 0.2) 50%,
-        rgb(from theme(--color-orange-300) r g b / 0.2) 75%,
-        rgb(from theme(--color-pink-300) r g b / 0.2) 100%
-    ) no-repeat;
+            to left top,
+            rgb(from theme(--color-cyan-300) r g b / 0.2) 0,
+            rgb(from theme(--color-green-300) r g b / 0.2) 25%,
+            rgb(from theme(--color-yellow-300) r g b / 0.2) 50%,
+            rgb(from theme(--color-orange-300) r g b / 0.2) 75%,
+            rgb(from theme(--color-pink-300) r g b / 0.2) 100%
+        )
+        no-repeat;
     z-index: -1;
 
     transform-origin: center center;

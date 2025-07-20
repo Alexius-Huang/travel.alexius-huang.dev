@@ -14,6 +14,10 @@ export const XMarkOutlineIcon: FC<IconProps> = ({
         stroke="currentColor"
         className={`${sizeMapping[size]} ${className}`}
     >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+        />
     </svg>
 );
