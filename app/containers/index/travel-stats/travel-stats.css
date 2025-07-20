@@ -8,32 +8,20 @@
     --text-12xl: '14rem';
 }
 
-.travel-stats__country-list {
-    @apply grid gap-x-4 gap-y-8;
+.travel-stats__country-flag-list {
+    @apply inline-grid gap-x-3.5 gap-y-2.5
+        grid-cols-3
+        xs:grid-cols-5
+        sm:grid-cols-[repeat(auto-fill,minmax(24px,1fr))]
+        md:grid-cols-[repeat(auto-fill,minmax(32px,1fr))]
+        lg:grid-cols-[repeat(auto-fill,minmax(40px,1fr))];
 
-    @apply grid-cols-[repeat(auto-fit,minmax(100px,1fr))];
-    @apply md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))];
-    @apply pb-6;
-
-    & > li:nth-child(n + 7) {
-        @apply hidden xs:inline-block;
+    & > li:nth-child(n + 4) {
+        @apply hidden xs:block;
     }
 
-    & > li:nth-child(n + 9) {
-        @apply hidden sm:inline-block;
-    }
-
-    & > li:nth-child(n + 11) {
-        @apply hidden md:inline-block;
-    }
-
-    & + button {
-        @apply md:hidden;
-    }
-}
-.travel-stats__country-list--expanded {
-    & > li:nth-child(n + 7) {
-        @apply inline-block;
+    & > li:nth-child(n + 6) {
+        @apply hidden sm:block;
     }
 }
 
