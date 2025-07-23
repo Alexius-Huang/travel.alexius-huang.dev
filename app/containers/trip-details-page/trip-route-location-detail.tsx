@@ -31,13 +31,17 @@ export const TripRouteLocationDetail = forwardRef<
                     backdrop-blur-xs bg-white/50 dark:bg-gray-900/50
                 `}
             >
-                <h3 className="text-4xl uppercase font-bold">{name}</h3>
+                <h3 className="text-2xl sm:text-4xl uppercase font-bold">
+                    {name}
+                </h3>
 
                 <div className="text-sm">
                     <time dateTime={formattedDate.from}>
                         {formattedDate.from}
                     </time>
-                    <span aria-hidden="true"> ~ </span>
+                    {Boolean(formattedDate.to) && (
+                        <span aria-hidden="true"> ~ </span>
+                    )}
                     <time dateTime={formattedDate.to}>{formattedDate.to}</time>
                     <span className="sr-only">
                         from {formattedDate.from}
@@ -45,7 +49,7 @@ export const TripRouteLocationDetail = forwardRef<
                     </span>
                 </div>
 
-                <p className="text-base font-light">{description}</p>
+                <p className="text-sm sm:text-base font-light">{description}</p>
 
                 <span className="self-end">
                     <NavLink

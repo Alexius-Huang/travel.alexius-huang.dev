@@ -76,11 +76,11 @@ export const TRIPS: Array<TripDetails> = [
         map: {
             pmtilesName: '2025-04-de',
             maxBounds: [9.486131, 51.7356, 11.528907, 52.712054],
-            maxZoom: 11,
+            maxZoom: 10,
             center: [10.523213, 52.264457],
             zoomLevel: {
-                init: 10,
-                focus: 11,
+                init: 9,
+                focus: 10,
             },
         },
         locations: [

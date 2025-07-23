@@ -16,6 +16,7 @@ import type { MapRef } from '~/components/map';
 import { waitForStyleLoaded } from '~/components/map/util';
 import { IconedMapMarker } from '~/components/iconed-map-marker';
 import { TripRouteLocationDetail } from './trip-route-location-detail';
+import { Breakpoint, useBreakpoint } from '~/hooks/use-breakpoint';
 import './trip-route-map.css';
 
 export interface TripRouteMapProps {
@@ -27,11 +28,25 @@ export interface TripRouteMapProps {
  *   is visually balanced when showing the location on the map
  *   on slightly righter side
  **/
-const zoomLevelFocusOffset: Record<number, number> = {
-    12: 0.035,
+const zoomLevelXFocusOffset: Record<number, number> = {
+    12: 0.045,
+    11: 0.075,
+    10: 0.2,
+    8: 0.65,
+};
+
+const zoomLevelXFocusOffsetLG: Record<number, number> = {
+    12: 0.04,
     11: 0.1,
-    10: 0.15,
-    8: 0.5,
+    10: 0.2,
+    8: 0.55,
+};
+
+const zoomLevelYFocusOffset: Record<number, number> = {
+    12: 0.015,
+    11: 0.025,
+    10: 0.05,
+    8: 0.15,
 };
 
 const LOCATION_FOCUS_DURATION = 1000;
@@ -44,6 +59,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
     const mapRoutesRef = useRef<Array<MapRouteRef>>([]);
     const isHydrated = useHydration();
     const navigate = useNavigate();
+    const breakpoint = useBreakpoint();
 
     /**
      *  Sometimes if the scroll restoration is restored in already scrolled
@@ -96,18 +112,33 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 return;
             }
 
-            const zoomLevelOffset = zoomLevelFocusOffset[zoomLevel.focus] ?? 0;
+            // When the screen width is large, we display partial width of location
+            // info, hence we want to move our focused location a bit right offset
+            const zoomLevelXOffset =
+                breakpoint >= Breakpoint.LG
+                    ? (zoomLevelXFocusOffsetLG[zoomLevel.focus] ?? 0)
+                    : breakpoint >= Breakpoint.MD
+                      ? (zoomLevelXFocusOffset[zoomLevel.focus] ?? 0)
+                      : 0;
+
+            // When the screen width is small, we display full width of location
+            // info, hence we want to move our focused location a bit higher
+            const zoomLevelYOffset =
+                breakpoint >= Breakpoint.MD
+                    ? 0
+                    : (zoomLevelYFocusOffset[zoomLevel.focus] ?? 0);
+
             mapInstance.flyTo({
                 center: [
-                    locations[index].coord[0] - zoomLevelOffset,
-                    locations[index].coord[1],
+                    locations[index].coord[0] - zoomLevelXOffset,
+                    locations[index].coord[1] - zoomLevelYOffset,
                 ],
                 zoom: zoomLevel.focus,
                 duration: LOCATION_FOCUS_DURATION,
                 essential: true,
             });
         },
-        [locations],
+        [locations, breakpoint],
     );
 
     useEffect(() => {
@@ -242,7 +273,6 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
         const targetContainer =
             target.querySelector<HTMLDivElement>('div:nth-child(2)');
         if (!targetContainer) return;
-        console.log(targetContainer);
 
         const rect = targetContainer.getBoundingClientRect();
         const scrollTop =
@@ -321,7 +351,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
             {locations.map((location, index) => (
                 <TripRouteLocationDetail
                     key={location.name}
-                    className="mt-[30vh] mb-[30vh] max-w-[40%]"
+                    className="mt-[30vh] mb-[30vh] max-w-full md:max-w-[60%] lg:max-w-[50%]"
                     data-index={index}
                     ref={(el) => {
                         if (!el) return;
@@ -331,7 +361,7 @@ export const TripRouteMap: FC<TripRouteMapProps> = ({ className }) => {
                 />
             ))}
 
-            <div className="w-full h-[50vh]" />
+            <div className="w-full h-0 md:h-[50vh]" />
         </section>
     );
 };
