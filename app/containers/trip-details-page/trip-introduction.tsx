@@ -9,6 +9,8 @@ import { dateFormatter } from '~/data-access/date';
 import { CountryFlagChip } from '~/ui/country-flag-chip';
 import { COUNTRY_INFO_MAP } from '~/data-access/country';
 import { TagList } from '~/components/tag-list';
+import './trip-introduction.css';
+import { Breakpoint, useBreakpoint } from '~/hooks/use-breakpoint';
 
 export interface TripIntroductionProps {
     className?: string;
@@ -33,14 +35,17 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
         }),
         [from, to],
     );
+    const breakpoint = useBreakpoint();
 
     return (
         <article className={className}>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-8 mb-4">
                 <h1
                     className={trim`
-                    v-trans-trip-title mt-8 mb-4
-                    font-bold uppercase text-5xl text-blue-500
+                    v-trans-trip-title
+                    font-bold uppercase text-blue-500
+                    text-2xl
+                    xs:text-3xl sm:text-4xl md:text-5xl
                 `}
                 >
                     {title}
@@ -56,10 +61,10 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
                         to="/"
                         aria-label="Back to Home Page"
                         viewTransition
+                        size={breakpoint >= Breakpoint.MD ? 'md' : 'sm'}
                     >
                         Back
                     </NavLink>
-
                     {/**
                      *  TODO: creates next / previous trip button, checkout following ticket:
                      *        https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/41
@@ -71,18 +76,27 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
             <p
                 className={trim`
                 v-trans-trip-subtitle my-3
-                font-medium text-xl tracking-wide text-gray-500 dark:text-gray-300
+                font-normal tracking-wide text-gray-500 dark:text-gray-300
+                text-base sm:text-lg md:text-xl
             `}
             >
                 {subtitle}
             </p>
 
-            <div className="flex flex-row gap-x-[1rem] items-center my-2">
+            <div
+                className={trim`
+                flex flex-col sm:flex-row
+                gap-[1rem]
+                sm:items-center my-2
+            `}
+            >
                 <div
                     className={trim`
                     flex items-center gap-x-1.5
-                    text-base font-normal text-blue-500 dark:text-yellow-300
+                    text-blue-500 dark:text-yellow-300
                     v-trans-trip-date-range
+                    font-normal
+                    text-xs sm:text-base 
                 `}
                 >
                     <CalendarDateRangeOutlineIcon size="sm" />
@@ -99,7 +113,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
 
                 <span
                     aria-hidden="true"
-                    className="text-xs font-extrabold mb-1 dark:text-gray-500 text-gray-400"
+                    className="hidden sm:inline text-xs font-extrabold mb-1 dark:text-gray-500 text-gray-400"
                 >
                     @
                 </span>
@@ -118,7 +132,12 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
                 </div>
             </div>
 
-            <p className="text-lg tracking-wide font-light my-6 v-trans-trip-description">
+            <p
+                className={trim`
+                text-normal sm:text-lg
+                tracking-wide font-light my-6 v-trans-trip-description
+            `}
+            >
                 {description}
             </p>
 
@@ -126,7 +145,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
                 <TagList
                     tags={tags}
                     className="v-trans-trip-tags"
-                    tagClassName="!text-lg"
+                    tagClassName="text-sm sm:!text-lg"
                 />
             )}
         </article>
