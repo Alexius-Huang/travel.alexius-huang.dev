@@ -41,33 +41,30 @@ export function useBreakpoint() {
             );
 
             for (const [name, value] of sortedBreakpoints) {
-                if (width >= value) {
-                    // Map string name to enum value
-                    switch (name as BreakpointName) {
-                        case 'xs':
-                            newBreakpointValue = Breakpoint.XS;
-                            break;
-                        case 'sm':
-                            newBreakpointValue = Breakpoint.SM;
-                            break;
-                        case 'md':
-                            newBreakpointValue = Breakpoint.MD;
-                            break;
-                        case 'lg':
-                            newBreakpointValue = Breakpoint.LG;
-                            break;
-                        case 'xl':
-                            newBreakpointValue = Breakpoint.XL;
-                            break;
-                        case '2xl':
-                            newBreakpointValue = Breakpoint.XXL;
-                            break;
-                        default:
-                            newBreakpointValue = Breakpoint.BASE;
-                            break;
-                    }
-                } else {
-                    break;
+                if (width < value) break;
+
+                switch (name as BreakpointName) {
+                    case 'xs':
+                        newBreakpointValue = Breakpoint.XS;
+                        break;
+                    case 'sm':
+                        newBreakpointValue = Breakpoint.SM;
+                        break;
+                    case 'md':
+                        newBreakpointValue = Breakpoint.MD;
+                        break;
+                    case 'lg':
+                        newBreakpointValue = Breakpoint.LG;
+                        break;
+                    case 'xl':
+                        newBreakpointValue = Breakpoint.XL;
+                        break;
+                    case '2xl':
+                        newBreakpointValue = Breakpoint.XXL;
+                        break;
+                    default:
+                        newBreakpointValue = Breakpoint.BASE;
+                        break;
                 }
             }
             setCurrentBreakpoint(newBreakpointValue);
@@ -76,14 +73,11 @@ export function useBreakpoint() {
         // Initial set
         updateBreakpoint(window.innerWidth);
 
-        const throttledUpdate = throttle((width: number) => {
-            updateBreakpoint(width);
-        }, 200); // Throttle for 200ms
+        const throttledUpdate = throttle(updateBreakpoint, 200); // Throttle for 200ms
 
         const resizeObserver = new ResizeObserver((entries) => {
-            if (entries[0]) {
-                throttledUpdate(entries[0].contentRect.width);
-            }
+            if (!entries[0]) return;
+            throttledUpdate(entries[0].contentRect.width);
         });
 
         resizeObserver.observe(document.body);
