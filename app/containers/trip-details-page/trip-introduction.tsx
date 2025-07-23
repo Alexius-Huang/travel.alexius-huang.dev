@@ -10,6 +10,7 @@ import { CountryFlagChip } from '~/ui/country-flag-chip';
 import { COUNTRY_INFO_MAP } from '~/data-access/country';
 import { TagList } from '~/components/tag-list';
 import './trip-introduction.css';
+import { Breakpoint, useBreakpoint } from '~/hooks/use-breakpoint';
 
 export interface TripIntroductionProps {
     className?: string;
@@ -34,6 +35,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
         }),
         [from, to],
     );
+    const breakpoint = useBreakpoint();
 
     return (
         <article className={className}>
@@ -59,7 +61,7 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
                         to="/"
                         aria-label="Back to Home Page"
                         viewTransition
-                        size='lg'
+                        size={breakpoint >= Breakpoint.MD ? 'md' : 'sm'}
                     >
                         Back
                     </NavLink>
@@ -81,11 +83,13 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
                 {subtitle}
             </p>
 
-            <div className={trim`
+            <div
+                className={trim`
                 flex flex-col sm:flex-row
                 gap-[1rem]
                 sm:items-center my-2
-            `}>
+            `}
+            >
                 <div
                     className={trim`
                     flex items-center gap-x-1.5
@@ -128,10 +132,12 @@ export const TripIntroduction: FC<TripIntroductionProps> = ({ className }) => {
                 </div>
             </div>
 
-            <p className={trim`
+            <p
+                className={trim`
                 text-normal sm:text-lg
                 tracking-wide font-light my-6 v-trans-trip-description
-            `}>
+            `}
+            >
                 {description}
             </p>
 

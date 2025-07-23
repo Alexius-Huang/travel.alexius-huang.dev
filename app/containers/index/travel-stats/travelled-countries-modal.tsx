@@ -12,11 +12,11 @@ interface TravelledCountriesModalProps {
 
 export const TravelledCountriesModal: FC<TravelledCountriesModalProps> = ({
     countries,
-    regionName
+    regionName,
 }) => {
     return (
         <Modal
-            overlayClassName='sm:hidden'
+            overlayClassName="sm:hidden"
             trigger={
                 countries.length > 5 ? (
                     <Button
