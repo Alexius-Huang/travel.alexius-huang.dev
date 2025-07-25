@@ -1,20 +1,19 @@
 import { FOOTER_HEIGHT } from '~/containers/footer';
 import type { Route } from './+types/location-details-page';
 
-/**
- *  TODO: we need to populate correct information on meta tag, checkout:
- *      https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/44
- */
-export function meta({ params }: Route.MetaArgs) {
+// export async function loader({ params }: Route.LoaderArgs) {
+//     return json<LoaderData>({ tripDetails, routeCoordinates });
+// }
+
+export function meta({ matches }: Route.MetaArgs) {
+    // const matched = matches.find(m => m && m.id === 'routes/location-details-page');
+    // const { tripDetails } = matched?.data as LoaderData;
+
     return [
         { title: `Travel | TO BE UPDATED` },
         { name: 'description', content: `Details of "TO BE UPDATED"` },
     ];
 }
-
-// export async function loader({ params }: Route.LoaderArgs) {
-//     return json<LoaderData>({ tripDetails, routeCoordinates });
-// }
 
 export default function TripDetailsPage() {
     return (
