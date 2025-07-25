@@ -5,19 +5,6 @@ import type { LoaderData } from '~/containers/trip-details-page/types';
 import { TripIntroduction } from '~/containers/trip-details-page/trip-introduction';
 import { TripRouteMap } from '~/containers/trip-details-page/trip-route-map';
 
-/**
- *  TODO: we need to populate correct information on meta tag, checkout:
- *      https://github.com/Alexius-Huang/travel.alexius-huang.dev/issues/44
- */
-export function meta({ params }: Route.MetaArgs) {
-    // const tripDetails = TRIPS.find(t => String(t.id) === params.tripId);
-
-    return [
-        { title: `Travel | TO BE UPDATED` },
-        { name: 'description', content: `Details of "TO BE UPDATED"` },
-    ];
-}
-
 // Pick every nth coordinate, this is a naive approach to reduce the number of coordinate being
 // sent to client; we do not need high accurate navigation level
 const SPARSITY = 10;
@@ -38,6 +25,16 @@ export async function loader({ params }: Route.LoaderArgs) {
     );
 
     return json<LoaderData>({ tripDetails, routeCoordinates });
+}
+
+export function meta({ matches }: Route.MetaArgs) {
+    const matched = matches.find(m => m && m.id === 'routes/trip-details-page');
+    const { tripDetails } = matched?.data as LoaderData;
+
+    return [
+        { title: `Trip Details | ${tripDetails.title}` },
+        { name: 'description', content: `Expore the trip details: ${tripDetails.title}` },
+    ];
 }
 
 export default function TripDetailsPage() {
